@@ -1,0 +1,23 @@
+{
+  		com.badlogic.gdx.graphics.Color: {
+  			black: { r: 0, g: 0, b: 0, a: 1 }
+  			green: { r: 0, g: 1, b: 0, a: 1 }
+            yellow: {r: 1, g: 0.75, b: 0, a: 1}
+  		},
+  		com.badlogic.gdx.graphics.g2d.BitmapFont: {
+  			default-font: { file: fonts/fontGoT.fnt }
+  		},
+  		com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+  			default: {
+  				font: default-font, fontColor: green
+  			}
+  			groc: {
+  			  	font: default-font, fontColor: yellow
+  			}
+  		},
+  		com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+                default: {
+                    font: default-font
+                }
+        }
+}
