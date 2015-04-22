@@ -25,6 +25,7 @@ public class Personatge {
     private boolean moureDreta;
     private boolean ferSalt;
     private boolean personatgeCaraDreta;
+    private float velocitat;
 
     private World world;                // Referència al mon on està definit el personatge
     private Body cos;                   // per definir les propietats del cos
@@ -37,6 +38,7 @@ public class Personatge {
 
     public Personatge(World world) {
         moureEsquerra = moureDreta = ferSalt = false;
+        this.velocitat = 0.1f;
         this.world = world;
         carregarTextures();
         carregarSons();
@@ -125,17 +127,21 @@ public class Personatge {
      */
     public void moure() {
         if (moureDreta) {
-            cos.applyLinearImpulse(new Vector2(0.1f, 0.0f),
-                    cos.getWorldCenter(), true);
+                if (cos.getLinearVelocity().x < 0.5f) {
+                    cos.applyLinearImpulse(0.1f,0, cos.getWorldCenter().x,
+                            cos.getWorldCenter().y, true);
+                }
             spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
 
             if (!personatgeCaraDreta) {
                 spritePersonatge.flip(true, false);
             }
             personatgeCaraDreta = true;
-        } else if (moureEsquerra) {
-            cos.applyLinearImpulse(new Vector2(-0.1f, 0.0f),
-                    cos.getWorldCenter(), true);
+        } else if (moureEsquerra) {  System.out.println(velocitat);
+            if (cos.getLinearVelocity().x > -0.5f) {
+                cos.applyLinearImpulse(-0.1f,0, cos.getWorldCenter().x,
+                        cos.getWorldCenter().y, true);
+            }
             spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
             if (personatgeCaraDreta) {
                 spritePersonatge.flip(true, false);
@@ -144,8 +150,10 @@ public class Personatge {
         }
 
         if (ferSalt && Math.abs(cos.getLinearVelocity().y) < 1e-9) {
-            cos.applyLinearImpulse(new Vector2(0.0f, 2.0f),
-                    cos.getWorldCenter(), true);
+            if (cos.getLinearVelocity().x < 0.f) {
+                cos.applyLinearImpulse(0.1f,0, cos.getWorldCenter().x,
+                        cos.getWorldCenter().y, true);
+            }
             long id = soSalt.play();
         }
     }
