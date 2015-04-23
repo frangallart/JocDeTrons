@@ -31,7 +31,8 @@ public class Barra {
     private AnimatedSprite spriteAnimat;// animació de l'sprite
     private Texture stoppedTexture;     // la seva textura
     private Texture animatedTexture;
-    public Barra(){
+
+    public Barra(World world){
         moureEsquerra = moureDreta = false;
         this.world = world;
         carregarTextures();
