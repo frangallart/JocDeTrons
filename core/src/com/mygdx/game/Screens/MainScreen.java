@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.mygdx.game.Barra;
 import com.mygdx.game.GestorContactes;
 import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.MapBodyManager;
@@ -39,6 +40,8 @@ public class MainScreen extends AbstractScreen {
 	// objecte que gestiona el protagonista del joc
 	// ---->private PersonatgeBackup personatge;
     Personatge personatge;
+
+	Barra barra;
 	/**
 	 * Objecte que cont� tots els cossos del joc als quals els aplica la
 	 * simulaci�
@@ -100,7 +103,9 @@ public class MainScreen extends AbstractScreen {
 		// crear el personatge
         personatge = new Personatge(world);
         // objecte que permet debugar les col·lisions
-		//debugRenderer = new Box2DDebugRenderer();
+		debugRenderer = new Box2DDebugRenderer();
+
+		barra = new Barra(world);
 	}
 
     /**
@@ -110,8 +115,11 @@ public class MainScreen extends AbstractScreen {
 		// Posicionem la camera centran-la on hi hagi l'sprite del protagonista
 		tiledMapHelper.getCamera().position.x = JocDeTrons.PIXELS_PER_METRE
 				* personatge.getPositionBody().x;
+		//Centrem la camara verticalment al personatge, permetent que la camara es mogui en vertical
+ 		tiledMapHelper.getCamera().position.y = JocDeTrons.PIXELS_PER_METRE
+				* personatge.getPositionBody().y;
 
-		// Assegurar que la camera nomes mostra el mapa i res mes
+ 		// Assegurar que la camera nomes mostra el mapa i res mes
 		if (tiledMapHelper.getCamera().position.x <  joc.getScreenWidth() / 2) {
 			tiledMapHelper.getCamera().position.x =  joc.getScreenWidth()/ 2;
 		}
@@ -129,7 +137,6 @@ public class MainScreen extends AbstractScreen {
 			tiledMapHelper.getCamera().position.y = tiledMapHelper.getHeight()
 					- joc.getScreenHeight() / 2;
 		}
-
 		// actualitzar els nous valors de la càmera
 		tiledMapHelper.getCamera().update();
 	}
@@ -262,6 +269,7 @@ public class MainScreen extends AbstractScreen {
 	     personatge.moure();
          personatge.updatePosition();
 
+		barra.updatePosition();
 
         /**
          * Cal actualitzar les posicions i velocitats de tots els objectes. El
@@ -294,7 +302,8 @@ public class MainScreen extends AbstractScreen {
 		batch.setProjectionMatrix(tiledMapHelper.getCamera().combined);
 		// iniciar el lot
 		batch.begin();
-    		personatge.dibuixar(batch);
+    	personatge.dibuixar(batch);
+		barra.dibuixar(batch);
 	    	// finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
 		    // s'ha indicat entre begin i end
 		batch.end();
@@ -303,9 +312,9 @@ public class MainScreen extends AbstractScreen {
         stage.act();
         stage.draw();
 
-        //debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
-		//		JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
-		//		JocDeTrons.PIXELS_PER_METRE));
+        debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
+				JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
+				JocDeTrons.PIXELS_PER_METRE));
 	}
 
 	@Override
