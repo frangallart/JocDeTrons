@@ -56,7 +56,8 @@ public class Barra {
         // Definir el tipus de cos i la seva posició
         BodyDef defCos = new BodyDef();
         defCos.type = BodyDef.BodyType.DynamicBody;
-        defCos.position.set(1.0f, 3.0f);
+        defCos.gravityScale = 0;
+        defCos.position.set(14.3f, 1.0f);
 
         cos = world.createBody(defCos);
         cos.setUserData("Personatge");
