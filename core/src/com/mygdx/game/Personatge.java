@@ -126,38 +126,40 @@ public class Personatge {
      * Els impulsos s'apliquen des del centre del protagonista
      */
     public void moure() {
-        if (moureDreta) {
-                if (cos.getLinearVelocity().x < 1.5f) {
-                    cos.applyLinearImpulse(velocitat,0, cos.getWorldCenter().x,
-                            cos.getWorldCenter().y, true);
-                    velocitat += 0.1f;
-                }else{
+        if (moureDreta && cos.getLinearVelocity().x < 2.0f) {
+                    cos.applyLinearImpulse(new Vector2(0.1f, 0.0f),
+                            cos.getWorldCenter(), true);
 
-                }
+        } else if (moureEsquerra) {  System.out.println(velocitat);
+            if (cos.getLinearVelocity().x > -2.0f) {
+                cos.applyLinearImpulse(new Vector2(-0.1f, 0.0f),
+                        cos.getWorldCenter(), true);
+            }
+        }
+
+        if (ferSalt && Math.abs(cos.getLinearVelocity().y) < 1e-9) {
+                cos.applyLinearImpulse(new Vector2(0.0f, 2.0f),
+                        cos.getWorldCenter(), true);
+
+            long id = soSalt.play();
+        }
+
+        if (moureDreta) {
             spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
 
             if (!personatgeCaraDreta) {
                 spritePersonatge.flip(true, false);
+                System.out.println("hola");
             }
             personatgeCaraDreta = true;
-        } else if (moureEsquerra) {  System.out.println(velocitat);
-            if (cos.getLinearVelocity().x > -0.5f) {
-                cos.applyLinearImpulse(-0.5f,0, cos.getWorldCenter().x,
-                        cos.getWorldCenter().y, true);
-            }
+        }else if (moureEsquerra){
             spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
             if (personatgeCaraDreta) {
                 spritePersonatge.flip(true, false);
             }
             personatgeCaraDreta = false;
-        }
-
-        if (ferSalt && Math.abs(cos.getLinearVelocity().y) < 1e-9) {
-
-                cos.applyLinearImpulse(0.1f,2.0f, cos.getWorldCenter().x,
-                        cos.getWorldCenter().y, true);
-
-            long id = soSalt.play();
+        }else{
+            spritePersonatge.flip(true, false);
         }
     }
 
