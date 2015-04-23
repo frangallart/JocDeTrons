@@ -127,9 +127,12 @@ public class Personatge {
      */
     public void moure() {
         if (moureDreta) {
-                if (cos.getLinearVelocity().x < 0.5f) {
-                    cos.applyLinearImpulse(0.1f,0, cos.getWorldCenter().x,
+                if (cos.getLinearVelocity().x < 1.5f) {
+                    cos.applyLinearImpulse(velocitat,0, cos.getWorldCenter().x,
                             cos.getWorldCenter().y, true);
+                    velocitat += 0.1f;
+                }else{
+
                 }
             spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
 
@@ -139,7 +142,7 @@ public class Personatge {
             personatgeCaraDreta = true;
         } else if (moureEsquerra) {  System.out.println(velocitat);
             if (cos.getLinearVelocity().x > -0.5f) {
-                cos.applyLinearImpulse(-0.1f,0, cos.getWorldCenter().x,
+                cos.applyLinearImpulse(-0.5f,0, cos.getWorldCenter().x,
                         cos.getWorldCenter().y, true);
             }
             spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
@@ -150,10 +153,10 @@ public class Personatge {
         }
 
         if (ferSalt && Math.abs(cos.getLinearVelocity().y) < 1e-9) {
-            if (cos.getLinearVelocity().x < 0.f) {
-                cos.applyLinearImpulse(0.1f,0, cos.getWorldCenter().x,
+
+                cos.applyLinearImpulse(0.1f,2.0f, cos.getWorldCenter().x,
                         cos.getWorldCenter().y, true);
-            }
+
             long id = soSalt.play();
         }
     }
