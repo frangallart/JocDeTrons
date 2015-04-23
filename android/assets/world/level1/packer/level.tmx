@@ -1,121 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="20" tilewidth="32" tileheight="32" nextobjectid="20">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="300" height="30" tilewidth="32" tileheight="32" nextobjectid="53">
  <tileset firstgid="1" name="imatges" tilewidth="32" tileheight="32">
-  <image source="ocdcollage444.png" width="416" height="288"/>
+  <image source="ocdcollage444.png" width="480" height="1024"/>
  </tileset>
- <imagelayer name="prova">
-  <image source="background_sky.png"/>
- </imagelayer>
- <layer name="recorregut" width="200" height="20">
+ <layer name="background" width="300" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlk2KwzAMRgPNGQqznFUvMgfoObJp77+aDkwYYyRFstVm6rwHH4H4T5L9OZkmAAAAAAAAAAAAAAAAGIHb3gEA/GPwB2hcHvr4fR6RWyGAmkv13OL+rEB2IuqPuRCMT8Qf90Ij8bl3AInMgqx+R0erg7eOJaP5Y837NOWeFamu0Vq3chJk9cviXb+rWh28dSwZyR+rLyL5e9Hm9KzVe868OUVz3vJ3dg1fRaY/frgmxfUKpG9k+c3w5N9y77f6Y95o98SX5Y/ovEfwh3We6n8RTRat/xiZ96klaV1vjaQ1rXjW+bUzKOH1eYY/ovO+uz+suyxTkTu7xhqXkX/rnkfHev0RPdfRvbDAH39IeT3LH71717LXFr0x9fiqJ57eXPbyx/LQV6FFeKe9XyrVbVbfcozWVvdZnyP449yhUfwRGd/rD2stq691vlsU8c9Wm9bP649vGbkxXQ==
+   eJztwwGRQQEAQMGvAAlcAhKQgAQnAQlIQAISkMAlOA000EADcryZ3ZmdDMMwUQ38UY2cq0YuVSPXqpEb1cidauRBNfKkGnlRjbypRv6pRj5UI5+qkS/VyLdq5Ec1cjxSbZyqRs5UIxeqkSvVyF/VyK1q5F418qgaeVaNvKpG3lUj/1UjvyFCwgE=
+  </data>
+ </layer>
+ <layer name="decorat" width="300" height="30" opacity="0.8">
+  <data encoding="base64" compression="zlib">
+   eJzt2ksOgjAUQFES3BHL1B26EKeGGSF8ira2fZ6TvBFg7ICbogwDAAAAAAAAAAAAAAAAAAAAAAAA0KJxMQAt0yvoy301/0SvoC+31URy1iO9gr6MQ9z7Vq8glqi9Wq9ra23R1gzR9dKrx8Xz9QpieQ599Opqq2ZbvRp3jgNtO7ufc5oKfW6qo14B7ftVr6bFAORScr9RoldR38MA6irRqx5+ewPqmbvwyTumuXuV43n26NqjY/Z19OCVOFHtNaLG3ubb73F2bep/i/Z2tCi1VbV79Qa2jRt3
+  </data>
+ </layer>
+ <layer name="decoratMuntanya" width="300" height="30" opacity="0.8">
+  <data encoding="base64" compression="zlib">
+   eJztmkGO2zAMRTPOIgfy/e/WxdQoy5LUpy1P7OY9gAjgiKK84AMV5PEAAAAAAAAAAAAAAAD4PF7vPoDh9Zh7nlcSAHA/1B6e1efVHrO9krkKZwHcD6V/Z/W6kjvTKyNX4S2A+1H17sweH+Vvz79+h+o3pd6XC9wFcG3U+Sl6vprY09cjN0ReWYrzVH6N1ntf4S2A66LONlGsj9hXak937mWLCVujs8fIgx1n4S4Andl3sO69z7uq66toxhn5yq5T3kN9t8pZir8AIMe7odMzmQuiPVVXPR+6s/xe9o63BN/7+Uqdezphz7DHWwCQE7llFfIiH2weOOqryFmeyBGbJ57J+ewZR76qnFfleWfaWoq3ACDGe2U1n5Wzol7enlnfdJ31DEKZZbwfMl95h/h7YbY2qqnMWVG9yl34CiDH+mCbi2xUebaPvauewRrvpsp1NjLveU9Fud43I39kc5Z348hZWR3FWQDwL9YnW79H97Eor+OrbA6Lejtzjs/3d78sZvgqu+Nl3lJchbMAdLwLfN9XM5Z3QeWbbI2t23WO4qnRGSpvdOcl75qOrzJnAcAffC9n97DKV5ELRr7o5Clz0hnOUn47r/bo+srm4SuAv4n6OOvzyFmRC1RXKM9V56iu8uccuWOvq474yu8BAN9kHqicleUeja539rqq4ys75xx1z94AgH3eONNX74p3eQhnAejsmVvWQe5d490+wlcANUfmq5/yiHru0Tt1fWW5gqdwFnwyRxyS/ff8f/TVVeYq5iz4ZM7y1awama9G6/bui68ArssZvjpSIzujuqf6fcZdfIWz4NM4Y+7p1Oics9pzCfbcU1P1xFKsx1cA53AHX0VrradsqPfBjK6vspyf8hXOgk9hhquUe9ws3/lnUU+rvspqV564Clc/H/T4Bbf0JVc=
+  </data>
+ </layer>
+ <layer name="recorregut" width="300" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztmz1uFEEQhXvWRqQOiIg3gRQiJ1yBAzjBtyCyU2TAziw54R5wCzJug1q4Rbmpqn79M7Nt/D7paa2dmd7advc3NUaEQAghhBBCCCGEkFl5xzwIIWRODu2GWUMImQtrnx7aFbkz1nYQfUXI3JT26BYe8cZAax7VL9FZhMwJsjd7+5Pe3mnkZ9W4h84iZB5q9jS6b3vdUeOIUb0aAn1FyOEo7W3vfGTcnj6nxlVIHeiYhJDxPBdpYURvg4w/4pnMG3+r6wghh6HmGavnM9ZylRy/py5CCEms4SlCCFkDuoqQp8G1CCGEzMyxCCHE5sR4JRgXhy6AkCfEiRKCg/jqSoQQ0sdbEYJzIeLB5z1CxhE99TLQV7WgviLkMfDx0AWAsL+q50LJKPjvhWRroqvOwuNw1uy+ujx0ARny71Evwvi/S/H5keR8ddJLclXK7M6a2VeXIjPwIzz0yVEY75Ujkdm4VuKdR9qRTjp20kNy1fvsdU1nnd+nleip14G+KpFcdZTlVDn3SgmK5SvEE2uD7pfR/WHv//keXYd3rKVWrVfK74tWejlTMproluioD1nOQ7136Ku/aJ5JsdbNqXK9tq+9sSXWWmy5r472G+JqeR5KycVx7y8V461FrKHHV9YznfY7jXPreSplCX1zkxz1KqzjK+mpHOmtlkRnPcvSgrc3S8lJ89far9Rc4/XdyP3NOxft6a2x8/Vb4tr5jBJflOS1eTWUjlv71ap1Jl+V6khO03xVWlsSxFdL8Guy7gPf7xOxfPXJCYLnqZxWZ43qsby9WUrupbOg9yw5Xl+E7lnkfhazC+1rrOQ8zwfWMeueXeqDIp+VWE5Feit5noV3L9DGjftx54y3FUgdyVeaQ2rWAXK+5ivpJ2ueTwfGcgnqqsib8Gde5b5aKxo942lzjKxppC+y+AbWvQv/zmvvd/euR4+1fm/kWjnf6Jilc9JaR9eT5YmtHZZ+9x7SIfm5ad3cBOy7e/e/RUkEeSYY6Stvn6A98WP2VSnWfb3U23hz9+v+dSmMkfvKoue7tPiqZb4SSE+I1KbVU/u5lgvi+3vl/b3x/lrsQ9lXaZ9avoq5Cbqzclr79Zr1t4azpK9+LliSs9b8vtaa3PrzEqX70a2SRRxLP2vX75R4ddR4QIIeL12LzJes11vTaG1IjV69JV/diexF7jYK6itrjcj3/ydf5XWmfYS6SvpqbWdp/Ab3kDHj
   </data>
  </layer>
  <objectgroup name="Box2D">
-  <object id="4" name="paretEsquerra" x="0" y="0">
+  <properties>
+   <property name="body" value="environment"/>
+   <property name="material" value="ground"/>
+  </properties>
+  <object id="27" name="paretEsquerra" x="0" y="-4">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 0,640"/>
+   <polyline points="0,0 0,964"/>
   </object>
-  <object id="5" name="block1" x="8" y="512">
+  <object id="34" name="terra1" x="1" y="831">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 536,0 536,32 760,32 760,0 888,0 888,64 856,64 856,128 -8,128 -8,0"/>
+   <polyline points="0,0 479,1 479,33 671,33 671,1 799,1"/>
   </object>
-  <object id="6" name="block2" x="1052" y="636">
+  <object id="35" name="terra2" x="928" y="864">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 4,-60 -28,-60 -28,-92 164,-92 164,-124 228,-124 228,-92 196,-92 196,4 4,4"/>
+   <polyline points="0,0 192,0 192,-32 288,-32"/>
   </object>
-  <object id="7" name="block3" x="1724" y="632">
+  <object id="36" name="terra3" x="1473" y="801">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 4,-24 -28,-24 -28,-120 -60,-120 -60,-152 164,-152 164,-184 196,-184 196,-216 324,-216 324,8 4,8"/>
+   <polyline points="0,0 223,-1 223,-33 255,-33 255,-65 287,-65 287,-97 447,-97"/>
   </object>
-  <object id="8" name="block4" x="2204" y="640">
+  <object id="37" name="terra4" x="1986" y="800">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 4,-64 -28,-64 -28,-128 4,-128 4,-160 132,-160 132,-128 324,-128 324,-64 292,-64 292,0 4,0"/>
+   <polyline points="0,0 62,0 62,-32 222,-32 222,0 446,0"/>
   </object>
-  <object id="9" name="block5" x="2336" y="356">
+  <object id="39" name="terra5" x="2146" y="576">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 0,28 96,28 96,-4 0,-4"/>
+   <polyline points="0,0 94,0"/>
   </object>
-  <object id="10" name="block6" x="2624" y="636">
+  <object id="40" name="terra6" x="2400" y="479">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 0,-220 128,-220 128,-188 96,-188 96,-124 64,-124 64,4 0,4"/>
+   <polyline points="0,0 96,1"/>
   </object>
-  <object id="11" name="block7" x="2848" y="640">
+  <object id="41" name="terra7" x="2657" y="320">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 0,-128 -32,-128 -32,-192 -64,-192 -64,-224 64,-224 64,-64 96,-64 96,-128 224,-128 224,-160 256,-160 256,-192 352,-192 352,-160 320,-160 320,0 0,0"/>
+   <polyline points="0,0 95,0"/>
   </object>
-  <object id="13" name="block8" x="3359" y="639">
+  <object id="42" name="terra8" x="2529" y="673">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 1,-31 -31,-31 -31,-127 129,-127 129,-159 257,-159 257,-255 417,-255 417,-191 385,-191 385,-95 353,-95 353,1 1,1"/>
+   <polyline points="0,0 95,-1"/>
   </object>
-  <object id="14" name="block9" x="3936" y="640">
+  <object id="43" name="terra9" x="2721" y="767">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 0,-256 64,-256 64,0 0,0"/>
+   <polyline points="0,0 127,1"/>
   </object>
-  <object id="15" name="block10" x="4223" y="641">
+  <object id="44" name="terra10" x="2944" y="864">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 1,-33 -31,-33 -31,-161 97,-161 97,-193 225,-193 225,-33 193,-33 193,-1 1,-1"/>
+   <polyline points="0,0 160,0 160,-32 192,-32 192,-64 288,-64"/>
   </object>
-  <object id="16" name="block11" x="4576" y="640">
+  <object id="45" name="terra11" x="3423" y="864">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 0,-224 96,-224 96,-192 64,-192 64,0 0,0"/>
+   <polyline points="0,0 161,0 161,-32 321,-32"/>
   </object>
-  <object id="17" name="block12" x="6078" y="638">
+  <object id="46" name="terra12" x="3776" y="735">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 2,-94 -30,-94 -30,-254 34,-254 34,-126 66,-126 66,-94 98,-94 98,2 2,2"/>
+   <polyline points="0,0 160,1"/>
   </object>
-  <object id="18" name="block13" x="6239" y="638">
+  <object id="47" name="terra13" x="4097" y="736">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 1,-254 161,-254 161,2 1,2"/>
+   <polyline points="0,0 63,0"/>
   </object>
-  <object id="19" name="paretDreta" x="6398" y="1">
+  <object id="48" name="terra14" x="4355" y="832">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
-   <polyline points="0,0 2,639"/>
+   <polyline points="0,0 125,0 125,-32 253,-32"/>
+  </object>
+  <object id="49" name="terra15" x="4736" y="736">
+   <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 96,0"/>
+  </object>
+  <object id="50" name="terra16" x="5825" y="736">
+   <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 63,0"/>
+  </object>
+  <object id="51" name="terra17" x="6047" y="735">
+   <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 161,1"/>
   </object>
  </objectgroup>
 </map>
