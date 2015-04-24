@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * Classe que implementa el protagonista del joc
  */
 public class Personatge {
-    public static final int FRAME_COLS = 9;
+    public static final int FRAME_COLS = 8;
     public static final int FRAME_ROWS = 2;
     /**
      * Detectar el moviment
@@ -47,10 +47,10 @@ public class Personatge {
 
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/warriorSpriteSheet.png"));
+        animatedTexture = new Texture(Gdx.files.internal("imatges/heroineSpriteSheet.png"));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        stoppedTexture = new Texture(Gdx.files.internal("imatges/warrior.png"));
+        stoppedTexture = new Texture(Gdx.files.internal("imatges/heroine.png"));
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
