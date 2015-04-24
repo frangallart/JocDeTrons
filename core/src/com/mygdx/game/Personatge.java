@@ -47,10 +47,10 @@ public class Personatge {
 
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/heroiSpriteSheet.png"));
+        animatedTexture = new Texture(Gdx.files.internal("imatges/heroinaSpriteSheet.png"));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        stoppedTexture = new Texture(Gdx.files.internal("imatges/heroi.png"));
+        stoppedTexture = new Texture(Gdx.files.internal("imatges/heroina.png"));
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
