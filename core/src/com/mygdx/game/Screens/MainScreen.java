@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -16,6 +15,7 @@ import com.mygdx.game.Barra;
 import com.mygdx.game.GestorContactes;
 import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.MapBodyManager;
+import com.mygdx.game.Monstre;
 import com.mygdx.game.Personatge;
 import com.mygdx.game.TiledMapHelper;
 
@@ -31,7 +31,9 @@ public class MainScreen extends AbstractScreen {
      * Estils
      */
     private final Skin skin;
-    /**
+	private Table table2 = new Table();
+
+	/**
 	 * Variable d'instancia que permet gestionar i pintar el mapa a partir d'un
 	 * TiledMap (TMX)
 	 */
@@ -39,9 +41,11 @@ public class MainScreen extends AbstractScreen {
 
 	// objecte que gestiona el protagonista del joc
 	// ---->private PersonatgeBackup personatge;
-    Personatge personatge;
+    private Personatge personatge;
 
-	Barra barra;
+	private Barra barra;
+	private Monstre monstre;
+
 	/**
 	 * Objecte que cont� tots els cossos del joc als quals els aplica la
 	 * simulaci�
@@ -70,21 +74,26 @@ public class MainScreen extends AbstractScreen {
      * Per mostrar el títol
      */
     private Label title;
+	private Label title2;
     private Table table = new Table();
 
-    /**
+	private int vides;
+
+	/**
      * per indicar quins cossos s'han de destruir
      * @param joc
      */
     //private ArrayList<Body> bodyDestroyList;
 	
 
-	public MainScreen(JocDeTrons joc) {
+	public MainScreen(JocDeTrons joc, int vides) {
 		super(joc);
 
         // carregar el fitxer d'skins
         skin = new Skin(Gdx.files.internal("skins/skin.json"));
         title = new Label(joc.getTitol(),skin, "groc");
+		title2 = new Label("",skin, "groc");
+
 		/*
 		 * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
 		 * perquè indica cap avall
@@ -98,17 +107,26 @@ public class MainScreen extends AbstractScreen {
         // --- si es volen destruir objectes, descomentar ---
 		//bodyDestroyList= new ArrayList<Body>();
 		//world.setContactListener(new GestorContactes(bodyDestroyList));
-		world.setContactListener(new GestorContactes());
 
 		// crear el personatge
         personatge = new Personatge(world);
+
+		personatge.setVides(vides);
+		world.setContactListener(new GestorContactes(personatge, this));
+
+		this.vides = vides;
+
+
         // objecte que permet debugar les col·lisions
 		debugRenderer = new Box2DDebugRenderer();
 
 		barra = new Barra(world);
+		monstre = new Monstre(world, 4.0f, 2.0f);
+
 	}
 
-    /**
+
+	/**
      * Moure la càmera en funció de la posició del personatge
      */
 	private void moureCamera() {
@@ -229,7 +247,7 @@ public class MainScreen extends AbstractScreen {
 	/**
 	 * Carrega el mapa del joc a partir d'un fitxer TMX
 	 */
-	private void carregarMapa() {
+	public void carregarMapa() {
 		tiledMapHelper = new TiledMapHelper();
 		tiledMapHelper.setPackerDirectory("world/level1/packer");
 		tiledMapHelper.loadMap("world/level1/packer/level.tmx");
@@ -251,7 +269,7 @@ public class MainScreen extends AbstractScreen {
 	/**
 	 * Càrrega dels objectes que defineixen les col·lisions
 	 */
-	private void carregarObjectes() {
+	public void carregarObjectes() {
 		MapBodyManager mapBodyManager = new MapBodyManager(world,
 				JocDeTrons.PIXELS_PER_METRE,
 				Gdx.files.internal("world/level1/materials.json"), 1);
@@ -261,7 +279,8 @@ public class MainScreen extends AbstractScreen {
 	// ----------------------------------------------------------------------------------
 	// MÈTODES SOBREESCRITS DE AbstractScreen
 	// ----------------------------------------------------------------------------------
-	
+
+	boolean tocat = false;
 	@Override
 	public void render(float delta) {
 		 personatge.inicialitzarMoviments();
@@ -270,6 +289,8 @@ public class MainScreen extends AbstractScreen {
          personatge.updatePosition();
 
 		barra.updatePosition();
+		monstre.updatePosition();
+		monstre.moure();
 
         /**
          * Cal actualitzar les posicions i velocitats de tots els objectes. El
@@ -295,6 +316,8 @@ public class MainScreen extends AbstractScreen {
 		// Color de fons marro
 		Gdx.gl.glClearColor(185f / 255f, 122f / 255f, 87f / 255f, 0);
 
+		title2.setText("Vides: " +(String.valueOf(personatge.getVides())));
+
 		moureCamera();
 		// pintar el mapa
 		tiledMapHelper.render();
@@ -304,6 +327,7 @@ public class MainScreen extends AbstractScreen {
 		batch.begin();
     	personatge.dibuixar(batch);
 		barra.dibuixar(batch);
+		monstre.dibuixar(batch);
 	    	// finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
 		    // s'ha indicat entre begin i end
 		batch.end();
@@ -315,6 +339,14 @@ public class MainScreen extends AbstractScreen {
         debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
 				JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
 				JocDeTrons.PIXELS_PER_METRE));
+
+		if (personatge.getVides() == 0){
+			joc.setScreen(new MainMenuScreen(joc));
+		}
+		else if (personatge.getVides() != vides){
+			vides = personatge.getVides();
+			joc.setScreen(new MainScreen(joc, vides));
+		}
 	}
 
 	@Override
@@ -328,9 +360,16 @@ public class MainScreen extends AbstractScreen {
     public void show() {
         // Els elements es mostren en l'ordre que s'afegeixen.
         // El primer apareix a la part superior, el darrer a la part inferior.
+
+		table2.center().top().right();
         table.center().top();
-        Cell cell = table.add(title).padTop(5);
+        table.add(title).padTop(5);
+		table2.add(title2).padTop(5).padRight(5);
+
+		//cell2 = table.add(title2).padTop(5);
         table.setFillParent(true);
+		table2.setFillParent(true);
         stage.addActor(table);
+		stage.addActor(table2);
     }
 }

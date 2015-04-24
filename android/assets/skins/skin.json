@@ -5,7 +5,7 @@
             yellow: {r: 1, g: 0.75, b: 0, a: 1}
   		},
   		com.badlogic.gdx.graphics.g2d.BitmapFont: {
-  			default-font: { file: fonts/fontGoT.fnt }
+  			default-font: { file: fonts/font.fnt }
   		},
   		com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
   			default: {

@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,9 +12,10 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
- * Classe que implementa el protagonista del joc
+ * Created by Arnau on 23/04/2015.
  */
-public class Personatge {
+public class Monstre {
+
     public static final int FRAME_COLS = 9;
     public static final int FRAME_ROWS = 2;
     /**
@@ -23,30 +23,26 @@ public class Personatge {
      */
     private boolean moureEsquerra;
     private boolean moureDreta;
-    private boolean ferSalt;
     private boolean personatgeCaraDreta;
-    private float velocitat;
-    private int vides;
+    private float posX;
+    private float posY;
 
-    private World world;                // Refer√®ncia al mon on est√† definit el personatge
+    private World world;                // ReferËncia al mon on est‡ definit el personatge
     private Body cos;                   // per definir les propietats del cos
     private Sprite spritePersonatge;    // sprite associat al personatge
-    private AnimatedSprite spriteAnimat;// animaci√≥ de l'sprite
+    private AnimatedSprite spriteAnimat;// animaciÛ de l'sprite
     private Texture stoppedTexture;     // la seva textura
-    private Sound soSalt;               // el so que reprodueix en saltar
     private Texture animatedTexture;
 
-    public Personatge(World world) {
-        moureEsquerra = moureDreta = ferSalt = false;
-        this.velocitat = 0.1f;
+    public Monstre(World world, float posX, float posY){
+        moureEsquerra = false;
+        moureDreta = true;
         this.world = world;
-        this.vides = 3;
+        this.posX = posX;
+        this.posY = posY;
         carregarTextures();
-        carregarSons();
         crearProtagonista();
-
     }
-
 
     private void carregarTextures() {
         animatedTexture = new Texture(Gdx.files.internal("imatges/warriorSpriteSheet.png"));
@@ -56,24 +52,19 @@ public class Personatge {
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
-    /**
-     * Carregar els arxius de so
-     */
-    private void carregarSons() {
-        soSalt = Gdx.audio.newSound(Gdx.files.internal("sons/salt.mp3"));
-    }
 
-    public void crearProtagonista() {
+
+    private void crearProtagonista() {
         spritePersonatge = new Sprite(animatedTexture);
         spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS, stoppedTexture);
 
-        // Definir el tipus de cos i la seva posici√≥
+        // Definir el tipus de cos i la seva posiciÛ
         BodyDef defCos = new BodyDef();
         defCos.type = BodyDef.BodyType.DynamicBody;
-        defCos.position.set(1.0f, 3.0f);
+        defCos.position.set(posX, posY);
 
         cos = world.createBody(defCos);
-        cos.setUserData("personatge");
+        cos.setUserData("monstre");
         /**
          * Definir les vores de l'sprite
          */
@@ -82,8 +73,8 @@ public class Personatge {
                 (spritePersonatge.getHeight() / FRAME_ROWS) / (2 * JocDeTrons.PIXELS_PER_METRE));
 
         /**
-         * La densitat i fricci√≥ del protagonista. Si es modifiquen aquests
-         * valor anir√† m√©s r√†pid o m√©s lent.
+         * La densitat i fricciÛ del protagonista. Si es modifiquen aquests
+         * valor anir‡ mÈs r‡pid o mÈs lent.
          */
         FixtureDef propietats = new FixtureDef();
         propietats.shape = requadre;
@@ -98,12 +89,11 @@ public class Personatge {
     public void inicialitzarMoviments() {
         setMoureDreta(false);
         setMoureEsquerra(false);
-        setFerSalt(false);
         spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
     }
 
     /**
-     * Actualitza la posici√≥ de l'sprite
+     * Actualitza la posiciÛ de l'sprite
      */
     public void updatePosition() {
         spritePersonatge.setPosition(
@@ -121,45 +111,31 @@ public class Personatge {
     /**
      * Fer que el personatge es mogui
      * <p/>
-     * Canvia la posici√≥ del protagonista
-     * Es tracta de forma separada el salt perqu√® es vol que es pugui moure si salta
+     * Canvia la posiciÛ del protagonista
+     * Es tracta de forma separada el salt perquË es vol que es pugui moure si salta
      * al mateix temps..
      * <p/>
      * Els impulsos s'apliquen des del centre del protagonista
      */
+
     public void moure() {
-        if (moureDreta && cos.getLinearVelocity().x < 4.0f) {
-                    cos.applyLinearImpulse(new Vector2(0.1f, 0.0f),
-                            cos.getWorldCenter(), true);
-
-        } else if (moureEsquerra) {
-            if (cos.getLinearVelocity().x > -4.0f) {
-                cos.applyLinearImpulse(new Vector2(-0.1f, 0.0f),
-                        cos.getWorldCenter(), true);
-            }
-        }
-
-        if (ferSalt && Math.abs(cos.getLinearVelocity().y) < 1e-9) {
-                cos.applyLinearImpulse(new Vector2(0.0f, 2.0f),
-                        cos.getWorldCenter(), true);
-
-            long id = soSalt.play();
-        }
-
-        if (moureDreta) {
+        if (!moureEsquerra) {
+            cos.applyLinearImpulse(0.08f, 0.0f,
+                    cos.getLinearVelocity().x, 0, true);
             spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-
-            if (!personatgeCaraDreta) {
-                spritePersonatge.flip(true, false);
-                System.out.println("hola");
-            }
-            personatgeCaraDreta = true;
-        }else if (moureEsquerra){
+        }else {
+            cos.applyLinearImpulse(-0.08f, 0.0f,
+                    cos.getLinearVelocity().x, 0, true);
             spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-            if (personatgeCaraDreta) {
-                spritePersonatge.flip(true, false);
-            }
-            personatgeCaraDreta = false;
+        }
+
+        if (this.getPositionBody().x > 4.0f){
+            moureEsquerra = true;
+            moureDreta = false;
+        }
+        else if (this.getPositionBody().x < 2.0f){
+            moureDreta = true;
+            moureEsquerra = false;
         }
     }
 
@@ -179,14 +155,6 @@ public class Personatge {
         this.moureDreta = moureDreta;
     }
 
-    public boolean isFerSalt() {
-        return ferSalt;
-    }
-
-    public void setFerSalt(boolean ferSalt) {
-        this.ferSalt = ferSalt;
-    }
-
     public boolean isCaraDreta() {
         return this.personatgeCaraDreta;
     }
@@ -194,14 +162,6 @@ public class Personatge {
     public void setCaraDreta(boolean caraDreta) {
         this.personatgeCaraDreta = caraDreta;
 
-    }
-
-    public Sound getSoSalt() {
-        return soSalt;
-    }
-
-    public void setSoSalt(Sound soSalt) {
-        this.soSalt = soSalt;
     }
 
     public Vector2 getPositionBody() {
@@ -221,17 +181,9 @@ public class Personatge {
         this.stoppedTexture = textura;
     }
 
-    public int getVides() {
-        return vides;
-    }
-
-    public void setVides(int vides) {
-        this.vides = vides;
-    }
 
     public void dispose() {
         animatedTexture.dispose();
         stoppedTexture.dispose();
-        soSalt.dispose();
     }
 }

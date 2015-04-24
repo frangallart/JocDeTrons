@@ -1,12 +1,15 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.Screens.MainScreen;
 
 import java.util.ArrayList;
 /**
@@ -18,6 +21,8 @@ import java.util.ArrayList;
 public class GestorContactes implements ContactListener {
 	// de moment, no implementat
 	private ArrayList<Body> bodyDestroyList;
+	private Personatge personatge;
+	private MainScreen nivell;
 
 	public GestorContactes() {
 		
@@ -26,6 +31,14 @@ public class GestorContactes implements ContactListener {
 	public GestorContactes(ArrayList<Body> bodyDestroyList) {
 		this.bodyDestroyList = bodyDestroyList;
 	}
+
+	public GestorContactes(Personatge personatge, MainScreen nivell) {
+		this.personatge = personatge;
+		this.nivell = nivell;
+	}
+
+	private World world = new World(new Vector2(0.0f, -9.8f), true);
+
 	@Override
 	public void beginContact(Contact contact) {
 		Fixture fixtureA = contact.getFixtureA();
@@ -38,11 +51,14 @@ public class GestorContactes implements ContactListener {
 			return;
 		}
 
-		if (fixtureA.getBody().getUserData().equals("stark")
-				&& fixtureB.getBody().getUserData().equals("primerObjecte")
-				|| fixtureA.getBody().getUserData().equals("primerObjecte")
-				&& fixtureB.getBody().getUserData().equals("stark")) {
+		if (fixtureA.getBody().getUserData().equals("personatge")
+				&& fixtureB.getBody().getUserData().equals("monstre")
+				|| fixtureA.getBody().getUserData().equals("monstre")
+				&& fixtureB.getBody().getUserData().equals("personatge")) {
 			Gdx.app.log("HIT", "stark ha topat amb el primer objecte");
+			personatge.setVides(personatge.getVides() - 1);
+			//new MainScreen(new JocDeTrons("Joc de Trons"));
+
 			/*
 			 * Afegir cos a destruir
 			 * 
