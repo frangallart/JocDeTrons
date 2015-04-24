@@ -40,7 +40,7 @@ public class MainScreen extends AbstractScreen {
     // ---->private PersonatgeBackup personatge;
     Personatge personatge;
 
-    Barra barra;
+    Barra barra, barra2, barra3;
     /**
      * Objecte que cont� tots els cossos del joc als quals els aplica la
      * simulaci�
@@ -103,7 +103,10 @@ public class MainScreen extends AbstractScreen {
         // objecte que permet debugar les col·lisions
         debugRenderer = new Box2DDebugRenderer();
 
-        barra = new Barra(world, 12.6f, 1.3f,15.0f, 12.7f);
+        barra = new Barra(world, 12.6f, 1.3f,15.0f, 12.7f, "imatges/barra.png");
+        barra2 = new Barra(world, 50.66f, 2.16f, 55.3f, 50.67f, "imatges/barraDoble.png");
+        barra3 = new Barra(world,  59.66f, 2.16f, 55.6f, 59.65f, "imatges/barraDoble.png");
+
     }
 
     /**
@@ -272,6 +275,16 @@ public class MainScreen extends AbstractScreen {
         barra.moure();
         barra.updatePosition();
 
+        barra2.inicialitzarMoviments();
+        barra2.moure();
+        barra2.updatePosition();
+
+        barra3.inicialitzarMoviments();
+        barra3.moure();
+        barra3.updatePosition();
+
+
+
         /**
          * Cal actualitzar les posicions i velocitats de tots els objectes. El
          * primer paràmetre és la quanitat de frames/segon que dibuixaré
@@ -305,6 +318,8 @@ public class MainScreen extends AbstractScreen {
         batch.begin();
         personatge.dibuixar(batch);
         barra.dibuixar(batch);
+        barra2.dibuixar(batch);
+        barra3.dibuixar(batch);
         // finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
         // s'ha indicat entre begin i end
         batch.end();

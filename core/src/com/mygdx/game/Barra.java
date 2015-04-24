@@ -35,24 +35,26 @@ public class Barra {
 
     private float bloq_esquerra;
     private float bloq_dreta;
+    private String pathImg;
 
 
-    public Barra(World world, float posicioX, float posicioY, float bloq_esquerra, float bloq_dreta) {
+    public Barra(World world, float posicioX, float posicioY, float bloq_esquerra, float bloq_dreta, String pathImg) {
         moureEsquerra = moureDreta = false;
         this.world = world;
         this.posicioX = posicioX;
         this.posicioY = posicioY;
         this.bloq_esquerra = bloq_esquerra;
         this.bloq_dreta = bloq_dreta;
+        this.pathImg = pathImg;
         carregarTextures();
         crearProtagonista();
     }
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/warriorSpriteSheet.png"));
+        animatedTexture = new Texture(Gdx.files.internal(pathImg));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        stoppedTexture = new Texture(Gdx.files.internal("imatges/warrior.png"));
+        stoppedTexture = new Texture(Gdx.files.internal(pathImg));
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
