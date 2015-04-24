@@ -120,8 +120,8 @@ public class MainScreen extends AbstractScreen {
 		debugRenderer = new Box2DDebugRenderer();
 
 		barra = new Barra(world, 12.6f, 1.3f,15.0f, 12.7f, "imatges/barra.png");
-		barra2 = new Barra(world, 50.66f, 2.16f, 55.3f, 50.67f, "imatges/barraDoble.png");
-		barra3 = new Barra(world,  59.66f, 2.16f, 55.6f, 59.65f, "imatges/barraDoble.png");
+		barra2 = new Barra(world, 50.69f, 2.16f, 55.3f, 50.7f, "imatges/barraDoble.png");
+		barra3 = new Barra(world,  60.41f, 2.16f, 60.40f, 55.8f, "imatges/barraDoble.png");
 
 		monstre = new Monstre(world, 6.0f, 2.0f, 6.7f, 5.3f);
 	}
@@ -338,7 +338,7 @@ public class MainScreen extends AbstractScreen {
 		monstre.dibuixar(batch);
 		barra.dibuixar(batch);
 		barra2.dibuixar(batch);
-		//barra3.dibuixar(batch);
+		barra3.dibuixar(batch);
 	    	// finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
 		    // s'ha indicat entre begin i end
 		batch.end();
@@ -350,6 +350,11 @@ public class MainScreen extends AbstractScreen {
         debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
 				JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
 				JocDeTrons.PIXELS_PER_METRE));
+
+		/*if (personatge.getPositionBody().y < 0.38){
+			personatge.setVides(personatge.getVides()-1);
+			joc.setScreen(new MainScreen(joc, vides));
+		}*/
 
 		if (personatge.getVides() == 0){
 			joc.setScreen(new MainMenuScreen(joc));
