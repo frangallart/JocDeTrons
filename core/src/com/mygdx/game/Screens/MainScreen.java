@@ -103,7 +103,7 @@ public class MainScreen extends AbstractScreen {
 		// crear el personatge
         personatge = new Personatge(world);
         // objecte que permet debugar les col·lisions
-		debugRenderer = new Box2DDebugRenderer();
+		//debugRenderer = new Box2DDebugRenderer();
 
 		barra = new Barra(world);
 	}
@@ -312,9 +312,9 @@ public class MainScreen extends AbstractScreen {
         stage.act();
         stage.draw();
 
-        debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
-				JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
-				JocDeTrons.PIXELS_PER_METRE));
+        //debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
+		//		JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
+		//		JocDeTrons.PIXELS_PER_METRE));
 	}
 
 	@Override
