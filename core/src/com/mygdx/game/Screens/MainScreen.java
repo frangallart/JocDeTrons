@@ -103,7 +103,7 @@ public class MainScreen extends AbstractScreen {
         // objecte que permet debugar les col·lisions
         debugRenderer = new Box2DDebugRenderer();
 
-        barra = new Barra(world, 14.3f, 2.0f);
+        barra = new Barra(world, 12.6f, 1.3f,15.0f, 12.7f);
     }
 
     /**
