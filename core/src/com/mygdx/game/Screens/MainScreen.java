@@ -123,7 +123,7 @@ public class MainScreen extends AbstractScreen {
 		barra2 = new Barra(world, 50.66f, 2.16f, 55.3f, 50.67f, "imatges/barraDoble.png");
 		barra3 = new Barra(world,  59.66f, 2.16f, 55.6f, 59.65f, "imatges/barraDoble.png");
 
-		monstre = new Monstre(world, 4.0f, 2.0f);
+		monstre = new Monstre(world, 6.0f, 2.0f, 6.7f, 5.3f);
 	}
 
     /**
@@ -301,7 +301,6 @@ public class MainScreen extends AbstractScreen {
 		barra3.inicialitzarMoviments();
 		barra3.moure();
 		barra3.updatePosition();
-
         /**
          * Cal actualitzar les posicions i velocitats de tots els objectes. El
          * primer paràmetre és la quanitat de frames/segon que dibuixaré
@@ -326,7 +325,7 @@ public class MainScreen extends AbstractScreen {
 		// Color de fons marro
 		Gdx.gl.glClearColor(185f / 255f, 122f / 255f, 87f / 255f, 0);
 
-		title2.setText("Vides: " +(String.valueOf(personatge.getVides())));
+		title2.setText("Vides: " + (String.valueOf(personatge.getVides())));
 
 		moureCamera();
 		// pintar el mapa

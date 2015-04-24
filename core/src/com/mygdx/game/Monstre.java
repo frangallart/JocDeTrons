@@ -26,6 +26,8 @@ public class Monstre {
     private boolean personatgeCaraDreta;
     private float posX;
     private float posY;
+    private float posMax;
+    private float posMin;
 
     private World world;                // Referència al mon on està definit el personatge
     private Body cos;                   // per definir les propietats del cos
@@ -34,12 +36,14 @@ public class Monstre {
     private Texture stoppedTexture;     // la seva textura
     private Texture animatedTexture;
 
-    public Monstre(World world, float posX, float posY){
+    public Monstre(World world, float posX, float posY, float posMax, float posMin){
         moureEsquerra = false;
         moureDreta = true;
         this.world = world;
         this.posX = posX;
         this.posY = posY;
+        this.posMax = posMax;
+        this.posMin = posMin;
         carregarTextures();
         crearProtagonista();
     }
@@ -129,11 +133,11 @@ public class Monstre {
             spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
         }
 
-        if (this.getPositionBody().x > 4.0f){
+        if (this.getPositionBody().x > posMax){
             moureEsquerra = true;
             moureDreta = false;
         }
-        else if (this.getPositionBody().x < 2.0f){
+        else if (this.getPositionBody().x < posMin){
             moureDreta = true;
             moureEsquerra = false;
         }
