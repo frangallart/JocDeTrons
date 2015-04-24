@@ -31,12 +31,21 @@ public class Barra {
     private AnimatedSprite spriteAnimat;// animació de l'sprite
     private Texture stoppedTexture;     // la seva textura
     private Texture animatedTexture;
+    private BodyDef defCos;
+    private float posicioX, posicioY;
 
-    public Barra(World world){
+    private static final float BLOQ_ESQUERRE = 16.0f;
+    private static final float BLOQ_DRETA = 14.4f;
+
+
+    public Barra(World world, float posicioX, float posicioY) {
         moureEsquerra = moureDreta = false;
         this.world = world;
+        this.posicioX = posicioX;
+        this.posicioY = posicioY;
         carregarTextures();
         crearProtagonista();
+
     }
 
     private void carregarTextures() {
@@ -48,17 +57,16 @@ public class Barra {
     }
 
 
-
     private void crearProtagonista() {
         spritePersonatge = new Sprite(animatedTexture);
         spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS, stoppedTexture);
 
         // Definir el tipus de cos i la seva posició
-        BodyDef defCos = new BodyDef();
-        defCos.type = BodyDef.BodyType.DynamicBody;
+        defCos = new BodyDef();
         defCos.gravityScale = 0;
-        defCos.position.set(14.3f, 1.0f);
-
+        defCos.type = BodyDef.BodyType.KinematicBody;
+        System.out.println("Posicio X " + this.posicioX + " Posicio Y " + this.posicioY);
+        defCos.position.set(this.posicioX, this.posicioY);
         cos = world.createBody(defCos);
         cos.setUserData("Personatge");
         /**
@@ -75,7 +83,7 @@ public class Barra {
         FixtureDef propietats = new FixtureDef();
         propietats.shape = requadre;
         propietats.density = 1.0f;
-        propietats.friction = 3.0f;
+        propietats.friction = 0.1f;
 
         cos.setFixedRotation(true);
         cos.createFixture(propietats);
@@ -114,25 +122,28 @@ public class Barra {
      * Els impulsos s'apliquen des del centre del protagonista
      */
     public void moure() {
-        if (moureDreta) {
-            cos.applyLinearImpulse(new Vector2(0.1f, 0.0f),
-                    cos.getWorldCenter(), true);
-            spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
 
-            if (!personatgeCaraDreta) {
-                spritePersonatge.flip(true, false);
-            }
-            personatgeCaraDreta = true;
-        } else if (moureEsquerra) {
-            cos.applyLinearImpulse(new Vector2(-0.1f, 0.0f),
-                    cos.getWorldCenter(), true);
-            spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-            if (personatgeCaraDreta) {
-                spritePersonatge.flip(true, false);
-            }
-            personatgeCaraDreta = false;
+        if (this.getPositionBody().x < BLOQ_DRETA) {
+            moureDreta = true;
+            moureEsquerra = false;
+        } else if (this.getPositionBody().x > BLOQ_ESQUERRE) {
+            moureDreta = false;
+            moureEsquerra = true;
         }
+        if (moureDreta) {
+            cos.setLinearVelocity(1.0f, 0.0f);
+            ;
+            spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
+            spritePersonatge.flip(true, false);
+            defCos.gravityScale = 0;
+        } else if(moureEsquerra){
+            cos.setLinearVelocity(-1.0f, 0.0f);
+            ;
+            spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
 
+            spritePersonatge.flip(true, false);
+            defCos.gravityScale = 0;
+        }
     }
 
     public boolean isMoureEsquerra() {
