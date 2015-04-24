@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * Classe que implementa el protagonista del joc
  */
 public class Personatge {
-    public static final int FRAME_COLS = 9;
+    public static final int FRAME_COLS = 8;
     public static final int FRAME_ROWS = 2;
     /**
      * Detectar el moviment
@@ -49,10 +49,10 @@ public class Personatge {
 
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/warriorSpriteSheet.png"));
+        animatedTexture = new Texture(Gdx.files.internal("imatges/heroinaSpriteSheet.png"));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        stoppedTexture = new Texture(Gdx.files.internal("imatges/warrior.png"));
+        stoppedTexture = new Texture(Gdx.files.internal("imatges/heroina.png"));
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
@@ -129,8 +129,8 @@ public class Personatge {
      */
     public void moure() {
         if (moureDreta && cos.getLinearVelocity().x < 4.0f) {
-                    cos.applyLinearImpulse(new Vector2(0.1f, 0.0f),
-                            cos.getWorldCenter(), true);
+            cos.applyLinearImpulse(new Vector2(0.1f, 0.0f),
+                    cos.getWorldCenter(), true);
 
         } else if (moureEsquerra) {
             if (cos.getLinearVelocity().x > -4.0f) {
@@ -140,8 +140,8 @@ public class Personatge {
         }
 
         if (ferSalt && Math.abs(cos.getLinearVelocity().y) < 1e-9) {
-                cos.applyLinearImpulse(new Vector2(0.0f, 2.0f),
-                        cos.getWorldCenter(), true);
+            cos.applyLinearImpulse(new Vector2(0.0f, 2.0f),
+                    cos.getWorldCenter(), true);
 
             long id = soSalt.play();
         }
@@ -154,7 +154,7 @@ public class Personatge {
                 System.out.println("hola");
             }
             personatgeCaraDreta = true;
-        }else if (moureEsquerra){
+        } else if (moureEsquerra) {
             spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
             if (personatgeCaraDreta) {
                 spritePersonatge.flip(true, false);
