@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class Barra {
 
-    public static final int FRAME_COLS = 9;
+    public static final int FRAME_COLS = 1;
     public static final int FRAME_ROWS = 2;
     /**
      * Detectar el moviment
@@ -139,7 +139,7 @@ public class Barra {
             defCos.gravityScale = 0;
         } else if(moureEsquerra){
             cos.setLinearVelocity(-1.0f, 0.0f);
-            ;
+
             spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
 
             spriteBarra.flip(true, false);
