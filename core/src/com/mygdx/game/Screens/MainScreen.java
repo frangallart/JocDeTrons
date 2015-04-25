@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -18,6 +19,9 @@ import com.mygdx.game.MapBodyManager;
 import com.mygdx.game.Monstre;
 import com.mygdx.game.Personatge;
 import com.mygdx.game.TiledMapHelper;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Una pantalla del joc
@@ -77,18 +81,19 @@ public class MainScreen extends AbstractScreen {
 
 	private int vides;
 
+	private ArrayList<Monstre> monstres;
 	private Monstre monstre;
+	private Monstre monstre2;
 
 	/**
      * per indicar quins cossos s'han de destruir
      * @param joc
      */
-    //private ArrayList<Body> bodyDestroyList;
+    private ArrayList<Body> bodyDestroyList;
 
 
 	public MainScreen(JocDeTrons joc, int vides) {
 		super(joc);
-
         // carregar el fitxer d'skins
         skin = new Skin(Gdx.files.internal("skins/skin.json"));
         title = new Label(joc.getTitol(),skin, "groc");
@@ -104,15 +109,19 @@ public class MainScreen extends AbstractScreen {
 		carregarMusica();
 
         // --- si es volen destruir objectes, descomentar ---
-		//bodyDestroyList= new ArrayList<Body>();
+		bodyDestroyList= new ArrayList<Body>();
 		//world.setContactListener(new GestorContactes(bodyDestroyList));
-		world.setContactListener(new GestorContactes());
+		//world.setContactListener(new GestorContactes());
 
 		// crear el personatge
         personatge = new Personatge(world);
 
+		monstres = new ArrayList<Monstre>();
+		monstres.add(new Monstre(world, "monstre1", 6.0f, 2.0f, 6.7f, 5.3f));
+		monstres.add(new Monstre(world, "monstre2", 17.0f, 3.0f, 17.2f, 15.8f));
+
 		personatge.setVides(vides);
-		world.setContactListener(new GestorContactes(personatge, this));
+		world.setContactListener(new GestorContactes(bodyDestroyList,personatge));
 
 		this.vides = vides;
 
@@ -123,7 +132,6 @@ public class MainScreen extends AbstractScreen {
 		barra2 = new Barra(world, 50.69f, 2.16f, 55.3f, 50.7f, "imatges/barraDoble.png");
 		barra3 = new Barra(world,  60.41f, 2.16f, 60.40f, 55.8f, "imatges/barraDoble.png");
 
-		monstre = new Monstre(world, 6.0f, 2.0f, 6.7f, 5.3f);
 	}
 
     /**
@@ -287,8 +295,6 @@ public class MainScreen extends AbstractScreen {
 	     personatge.moure();
          personatge.updatePosition();
 
-		monstre.updatePosition();
-		monstre.moure();
 
 		barra.inicialitzarMoviments();
 		barra.moure();
@@ -313,11 +319,19 @@ public class MainScreen extends AbstractScreen {
 		/*
 		 * per destruir cossos marcats per ser eliminats
 		 */
-        /*	for(int i = bodyDestroyList.size()-1; i >=0; i-- ) {
-		    	world.destroyBody(bodyDestroyList.get(i));
-		}
-		bodyDestroyList.clear();
-        */
+        	for(int i = bodyDestroyList.size()-1; i >=0; i-- ) {
+				System.out.println((bodyDestroyList.get(i).getUserData()).toString());
+				for (int j = 0; j < monstres.size(); j++){
+					if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()){
+						monstres.get(j).dispose();
+						monstres.remove(j);
+						break;
+					}
+				}
+				world.destroyBody(bodyDestroyList.get(i));
+			}
+			bodyDestroyList.clear();
+
 
 		// Esborrar la pantalla
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -335,7 +349,14 @@ public class MainScreen extends AbstractScreen {
 		// iniciar el lot
 		batch.begin();
 		personatge.dibuixar(batch);
-		monstre.dibuixar(batch);
+
+		for(Iterator<Monstre> i = monstres.iterator(); i.hasNext(); ) {
+			Monstre item = i.next();
+			item.dibuixar(batch);
+			item.updatePosition();
+			item.moure();
+		}
+
 		barra.dibuixar(batch);
 		barra2.dibuixar(batch);
 		barra3.dibuixar(batch);
@@ -351,15 +372,14 @@ public class MainScreen extends AbstractScreen {
 				JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
 				JocDeTrons.PIXELS_PER_METRE));
 
-		/*if (personatge.getPositionBody().y < 0.38){
+		if (personatge.getPositionBody().y < 0.38){
 			personatge.setVides(personatge.getVides()-1);
 			joc.setScreen(new MainScreen(joc, vides));
-		}*/
-
-		if (personatge.getVides() == 0){
-			joc.setScreen(new MainMenuScreen(joc));
 		}
-		else if (personatge.getVides() != vides){
+
+		if (personatge.getVides() == 0) {
+			joc.setScreen(new MainMenuScreen(joc));
+		} else if (personatge.getVides() != vides) {
 			vides = personatge.getVides();
 			joc.setScreen(new MainScreen(joc, vides));
 		}

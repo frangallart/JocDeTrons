@@ -128,19 +128,19 @@ public class Personatge {
      * Els impulsos s'apliquen des del centre del protagonista
      */
     public void moure() {
-        if (moureDreta && cos.getLinearVelocity().x < 4.0f) {
+        if (moureDreta && cos.getLinearVelocity().x < 3.0f) {
             cos.applyLinearImpulse(new Vector2(0.1f, 0.0f),
                     cos.getWorldCenter(), true);
 
         } else if (moureEsquerra) {
-            if (cos.getLinearVelocity().x > -4.0f) {
+            if (cos.getLinearVelocity().x > -3.0f) {
                 cos.applyLinearImpulse(new Vector2(-0.1f, 0.0f),
                         cos.getWorldCenter(), true);
             }
         }
 
         if (ferSalt && Math.abs(cos.getLinearVelocity().y) < 1e-9) {
-            cos.applyLinearImpulse(new Vector2(0.0f, 2.0f),
+            cos.applyLinearImpulse(new Vector2(0.0f, 1.5f),
                     cos.getWorldCenter(), true);
 
             long id = soSalt.play();
@@ -151,7 +151,6 @@ public class Personatge {
 
             if (!personatgeCaraDreta) {
                 spritePersonatge.flip(true, false);
-                System.out.println("hola");
             }
             personatgeCaraDreta = true;
         } else if (moureEsquerra) {

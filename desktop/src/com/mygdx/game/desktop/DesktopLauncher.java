@@ -9,8 +9,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
         config.title = "Joc de Trons";
-        config.width = 600;
-        config.height = 320;
+        config.width = 800;
+        config.height = 520;
 
         new LwjglApplication(new JocDeTrons("Joc de Trons"), config);
 	}

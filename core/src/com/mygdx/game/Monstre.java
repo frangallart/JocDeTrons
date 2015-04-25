@@ -29,6 +29,8 @@ public class Monstre {
     private float posMax;
     private float posMin;
 
+    private String nom;
+
     private World world;                // Referència al mon on està definit el personatge
     private Body cos;                   // per definir les propietats del cos
     private Sprite spritePersonatge;    // sprite associat al personatge
@@ -36,9 +38,18 @@ public class Monstre {
     private Texture stoppedTexture;     // la seva textura
     private Texture animatedTexture;
 
-    public Monstre(World world, float posX, float posY, float posMax, float posMin){
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin){
         moureEsquerra = false;
         moureDreta = true;
+        this.nom = nom;
         this.world = world;
         this.posX = posX;
         this.posY = posY;
@@ -68,7 +79,7 @@ public class Monstre {
         defCos.position.set(posX, posY);
 
         cos = world.createBody(defCos);
-        cos.setUserData("monstre");
+        cos.setUserData(nom);
         /**
          * Definir les vores de l'sprite
          */
@@ -189,5 +200,12 @@ public class Monstre {
     public void dispose() {
         animatedTexture.dispose();
         stoppedTexture.dispose();
+    }
+
+    @Override
+    public String toString() {
+        return "Monstre{" +
+                "moureEsquerra=" + moureEsquerra +
+                '}';
     }
 }

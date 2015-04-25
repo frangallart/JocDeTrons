@@ -13,8 +13,8 @@ public class JocDeTrons extends Game {
 	 */
 	public static final float PIXELS_PER_METRE = 96.0f;
 	
-	public static final int WIDTH = 600;
-	public static final int HEIGHT = 320;
+	public static final int WIDTH = 900;
+	public static final int HEIGHT = 620;
 
 	// cont� el t�tol del joc
 	private String titol;
