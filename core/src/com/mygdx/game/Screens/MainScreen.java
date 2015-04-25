@@ -258,7 +258,7 @@ public class MainScreen extends AbstractScreen {
 	private void carregarMapa() {
 		tiledMapHelper = new TiledMapHelper();
 		tiledMapHelper.setPackerDirectory("world/level1/packer");
-		tiledMapHelper.loadMap("world/level1/packer/level2.tmx");
+		tiledMapHelper.loadMap("world/level1/packer/level.tmx");
 		tiledMapHelper.prepareCamera(joc.getScreenWidth(),
 				joc.getScreenHeight());
 	}

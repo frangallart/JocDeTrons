@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class Monstre {
 
-    public static final int FRAME_COLS = 8;
+    public static final int FRAME_COLS = 4;
     public static final int FRAME_ROWS = 2;
     /**
      * Detectar el moviment
@@ -60,7 +60,7 @@ public class Monstre {
     }
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/bolaLava.png"));
+        animatedTexture = new Texture(Gdx.files.internal("imatges/lavaMonster.png"));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         stoppedTexture = new Texture(Gdx.files.internal("imatges/warrior.png"));
