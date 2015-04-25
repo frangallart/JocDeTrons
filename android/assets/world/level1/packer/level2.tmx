@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="400" height="30" tilewidth="32" tileheight="32" nextobjectid="2">
+ <tileset firstgid="1" name="textures" tilewidth="32" tileheight="32">
+  <image source="ocdcollage2.png" width="512" height="1024"/>
+ </tileset>
+ <layer name="Capa de Patrones 1" width="400" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt18FtIkEURVEqA4fQIbAyW0IgBEIgBEIgBEIgBIfgEByCQ5jFDJJlzbhf8dtWteYc6QoWD5pVlZg2m830nwVA3TZs6tiOHgB1+7Btx3b0AKg7hO07tqMHQN0x7NCxHT0A6k5hx47t6AFQdw47dWxHD4C6S9i5Yzt6ANRdwy4d29EDoO4Wdu3Yjh4AdS9ht47t6AFQ9xr20rEdPQDq3sJeO7ajB0Dde9hbx3b0AFhAy3rv2A4fAGVPLWsT7tYQAHVTy3oKd2sIgLpty5rC3RoCoG7fsrbhbg0BUHdoWftwt4YAqDu2rEO4W0MA1J1a1jHcrSEA6s4t6xTu1hAAdZeWdQ53awiAumvLuoS7NQRA3a1lXf+8Pm9+t5v57H23RHPP6g2Aut2Hlj7zdx/ez71+7vN3fMdvuwdAv6/O1e84u+fO8ue/PPeRu+Wru8m9AVA3d55XW+Ju+tddsMTd5f8IwGN+6v/G3P2yxB2Q3oH3DQCP+wU5Qu/r
+  </data>
+ </layer>
+ <objectgroup name="Box2D">
+  <object id="1" name="terraProva" x="0" y="824">
+   <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 384,8 384,-24 480,-24 480,8 736,8 736,-24 1440,8 1984,8 1952,-824 0,-824 0,8"/>
+  </object>
+ </objectgroup>
+</map>
