@@ -27,6 +27,7 @@ public class Personatge {
     private boolean personatgeCaraDreta;
     private float velocitat;
     private int vides;
+    private int punts;
 
     private World world;                // Referència al mon on està definit el personatge
     private Body cos;                   // per definir les propietats del cos
@@ -41,6 +42,7 @@ public class Personatge {
         this.velocitat = 0.1f;
         this.world = world;
         this.vides = 3;
+        this.punts = 0;
         carregarTextures();
         carregarSons();
         crearProtagonista();
@@ -226,6 +228,14 @@ public class Personatge {
 
     public void setVides(int vides) {
         this.vides = vides;
+    }
+
+    public int getPunts() {
+        return punts;
+    }
+
+    public void setPunts(int punts) {
+        this.punts = punts;
     }
 
     public void dispose() {

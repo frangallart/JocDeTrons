@@ -1,6 +1,5 @@
 package com.mygdx.game.Screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,8 +10,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.JocDeTrons;
+import com.mygdx.game.Level2;
+import com.mygdx.game.Personatge;
 
-public class MainMenuScreen extends AbstractScreen {
+/**
+ * Created by Arnau on 25/04/2015.
+ */
+public class NextLevel extends AbstractScreen {
+
+    private Personatge jugador;
+    private String nivell;
 
     private Stage stage = new Stage();
     private Table table = new Table();
@@ -20,34 +27,42 @@ public class MainMenuScreen extends AbstractScreen {
     private Skin skin;
 
     private TextButton buttonPlay, buttonExit;
-    private Label title;
+    private Label labelNivell;
+    private Label labelPuntuacio;
+    private Label labelVides;
     /**
      * Constructor
      *
      * @param joc Classe principal del joc
      */
-    public MainMenuScreen(JocDeTrons joc) {
+    public NextLevel(final JocDeTrons joc, final Personatge jugador, String nivell) {
         super(joc);
+        this.jugador = jugador;
+        this.nivell = nivell;
         skin = new Skin(Gdx.files.internal("skins/skin.json"));
-        buttonPlay = new TextButton("Play", skin);
-        buttonExit = new TextButton("Exit", skin);
+        buttonPlay = new TextButton("Next Level", skin);
+        buttonExit = new TextButton("Menu", skin);
         buttonPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Same way we moved here from the Splash Screen
                 //We set it to new Splash because we got no other screens
                 //otherwise you put the screen there where you want to go
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new MainScreen(getGame(), 3));
+                System.out.println(jugador.getVides());
+                joc.setScreen(new Level2(getGame(), jugador.getVides()));
             }
         });
         buttonExit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                joc.setScreen(new MainMenuScreen(joc));
+                //Gdx.app.exit();
                 // or System.exit(0);
             }
         });
-        title = new Label(joc.getTitol(),skin);
+        labelNivell = new Label("Enhorabona t'has passat el " + nivell, skin);
+        labelPuntuacio = new Label("Punts: " + String.valueOf(jugador.getPunts()), skin);
+        labelVides = new Label("Vides: " + String.valueOf(jugador.getVides()),skin);
     }
 
     @Override
@@ -66,7 +81,9 @@ public class MainMenuScreen extends AbstractScreen {
     public void show() {
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
-        table.add(title).padBottom(40).row();
+        table.add(labelNivell).padBottom(40).row();
+        table.add(labelPuntuacio).padBottom(40).row();
+        table.add(labelVides).padBottom(40).row();
 
         table.add(buttonPlay).size(150,60).padBottom(20).row();
         table.add(buttonExit).size(150, 60).padBottom(20).row();
@@ -95,5 +112,4 @@ public class MainMenuScreen extends AbstractScreen {
         stage.dispose();
         skin.dispose();
     }
-
 }

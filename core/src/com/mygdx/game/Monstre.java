@@ -16,8 +16,9 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class Monstre {
 
-    public static final int FRAME_COLS = 4;
+    public static final int FRAME_COLS = 9;
     public static final int FRAME_ROWS = 2;
+    private final int PUNTS = 100;
     /**
      * Detectar el moviment
      */
@@ -60,7 +61,7 @@ public class Monstre {
     }
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/lavaMonster.png"));
+        animatedTexture = new Texture(Gdx.files.internal("imatges/warriorSpriteSheet.png"));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         stoppedTexture = new Texture(Gdx.files.internal("imatges/warrior.png"));
@@ -202,10 +203,7 @@ public class Monstre {
         stoppedTexture.dispose();
     }
 
-    @Override
-    public String toString() {
-        return "Monstre{" +
-                "moureEsquerra=" + moureEsquerra +
-                '}';
+    public int getPUNTS() {
+        return PUNTS;
     }
 }

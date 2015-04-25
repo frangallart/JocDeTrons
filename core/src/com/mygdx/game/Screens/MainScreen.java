@@ -5,10 +5,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -74,7 +76,8 @@ public class MainScreen extends AbstractScreen {
      * Per mostrar el títol
      */
     private Label title;
-	private Label title2;
+	private Label labelVides;
+	private Label labelPunts;
 
 	private Table table = new Table();
 	private Table table2 = new Table();
@@ -84,6 +87,9 @@ public class MainScreen extends AbstractScreen {
 	private ArrayList<Monstre> monstres;
 	private Monstre monstre;
 	private Monstre monstre2;
+
+	private Texture splashTexture;
+	private Image splashImage;
 
 	/**
      * per indicar quins cossos s'han de destruir
@@ -97,7 +103,8 @@ public class MainScreen extends AbstractScreen {
         // carregar el fitxer d'skins
         skin = new Skin(Gdx.files.internal("skins/skin.json"));
         title = new Label(joc.getTitol(),skin, "groc");
-		title2 = new Label("",skin, "groc");
+		labelVides = new Label("",skin, "groc");
+		labelPunts = new Label("",skin, "groc");
 		/*
 		 * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
 		 * perquè indica cap avall
@@ -324,6 +331,7 @@ public class MainScreen extends AbstractScreen {
 				for (int j = 0; j < monstres.size(); j++){
 					if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()){
 						monstres.get(j).dispose();
+						personatge.setPunts(personatge.getPunts() + monstres.get(j).getPUNTS());
 						monstres.remove(j);
 						break;
 					}
@@ -332,6 +340,8 @@ public class MainScreen extends AbstractScreen {
 			}
 			bodyDestroyList.clear();
 
+		System.out.println(personatge.getPositionBody().x);
+
 
 		// Esborrar la pantalla
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -339,7 +349,9 @@ public class MainScreen extends AbstractScreen {
 		// Color de fons marro
 		Gdx.gl.glClearColor(185f / 255f, 122f / 255f, 87f / 255f, 0);
 
-		title2.setText("Vides: " + (String.valueOf(personatge.getVides())));
+		labelVides.setText("Vides: " + (String.valueOf(personatge.getVides())));
+		labelPunts.setText("Punts: " + (String.valueOf(personatge.getPunts())));
+
 
 		moureCamera();
 		// pintar el mapa
@@ -377,6 +389,10 @@ public class MainScreen extends AbstractScreen {
 			joc.setScreen(new MainScreen(joc, vides));
 		}
 
+		if (personatge.getPositionBody().x > 96f){
+			joc.setScreen(new NextLevel(joc, personatge, "Nivell 1"));//new Level2(joc,vides));
+		}
+
 		if (personatge.getVides() == 0) {
 			joc.setScreen(new MainMenuScreen(joc));
 		} else if (personatge.getVides() != vides) {
@@ -400,7 +416,8 @@ public class MainScreen extends AbstractScreen {
 		table2.center().top().right();
 		table.center().top();
 		table.add(title).padTop(5);
-		table2.add(title2).padTop(5).padRight(5);
+		table2.add(labelVides).padTop(5).padRight(5).row();
+		table2.add(labelPunts).padTop(20).padRight(5).row();
 
 		//cell2 = table.add(title2).padTop(5);
 		table.setFillParent(true);

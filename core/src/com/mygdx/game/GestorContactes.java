@@ -62,7 +62,6 @@ public class GestorContactes implements ContactListener {
 			if(!fixtureA.getBody().getUserData().equals("personatge")) {
 				if (fixtureB.getBody().getPosition().y > (fixtureA.getBody().getPosition().y + 0.7f)) {
 					bodyDestroyList.add(fixtureA.getBody());
-
 				}else{
 					personatge.setVides(personatge.getVides() - 1);
 				}
