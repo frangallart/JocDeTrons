@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class Monstre {
 
-    public static final int FRAME_COLS = 9;
+    public static final int FRAME_COLS = 8;
     public static final int FRAME_ROWS = 2;
     /**
      * Detectar el moviment
@@ -31,10 +31,10 @@ public class Monstre {
 
     private String nom;
 
-    private World world;                // Referència al mon on està definit el personatge
+    private World world;                // Referï¿½ncia al mon on estï¿½ definit el personatge
     private Body cos;                   // per definir les propietats del cos
     private Sprite spritePersonatge;    // sprite associat al personatge
-    private AnimatedSprite spriteAnimat;// animació de l'sprite
+    private AnimatedSprite spriteAnimat;// animaciï¿½ de l'sprite
     private Texture stoppedTexture;     // la seva textura
     private Texture animatedTexture;
 
@@ -60,7 +60,7 @@ public class Monstre {
     }
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/warriorSpriteSheet.png"));
+        animatedTexture = new Texture(Gdx.files.internal("imatges/bolaLava.png"));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         stoppedTexture = new Texture(Gdx.files.internal("imatges/warrior.png"));
@@ -73,7 +73,7 @@ public class Monstre {
         spritePersonatge = new Sprite(animatedTexture);
         spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS, stoppedTexture);
 
-        // Definir el tipus de cos i la seva posició
+        // Definir el tipus de cos i la seva posiciï¿½
         BodyDef defCos = new BodyDef();
         defCos.type = BodyDef.BodyType.DynamicBody;
         defCos.position.set(posX, posY);
@@ -88,8 +88,8 @@ public class Monstre {
                 (spritePersonatge.getHeight() / FRAME_ROWS) / (2 * JocDeTrons.PIXELS_PER_METRE));
 
         /**
-         * La densitat i fricció del protagonista. Si es modifiquen aquests
-         * valor anirà més ràpid o més lent.
+         * La densitat i fricciï¿½ del protagonista. Si es modifiquen aquests
+         * valor anirï¿½ mï¿½s rï¿½pid o mï¿½s lent.
          */
         FixtureDef propietats = new FixtureDef();
         propietats.shape = requadre;
@@ -108,7 +108,7 @@ public class Monstre {
     }
 
     /**
-     * Actualitza la posició de l'sprite
+     * Actualitza la posiciï¿½ de l'sprite
      */
     public void updatePosition() {
         spritePersonatge.setPosition(
@@ -126,8 +126,8 @@ public class Monstre {
     /**
      * Fer que el personatge es mogui
      * <p/>
-     * Canvia la posició del protagonista
-     * Es tracta de forma separada el salt perquè es vol que es pugui moure si salta
+     * Canvia la posiciï¿½ del protagonista
+     * Es tracta de forma separada el salt perquï¿½ es vol que es pugui moure si salta
      * al mateix temps..
      * <p/>
      * Els impulsos s'apliquen des del centre del protagonista
