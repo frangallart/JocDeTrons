@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -13,8 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.mygdx.game.Screens.AbstractScreen;
-import com.mygdx.game.Screens.MainMenuScreen;
+import com.mygdx.game.Barra;
+import com.mygdx.game.BolesFocMonstre;
+import com.mygdx.game.GestorContactes;
+import com.mygdx.game.JocDeTrons;
+import com.mygdx.game.MapBodyManager;
+import com.mygdx.game.Monstre;
+import com.mygdx.game.MonstreLava;
+import com.mygdx.game.Personatge;
+import com.mygdx.game.TiledMapHelper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -118,8 +125,11 @@ public class Level2 extends AbstractScreen {
         monstres.add(new Monstre(world, "monstre1", 6.0f, 2.0f, 6.7f, 5.3f));
         monstres.add(new Monstre(world, "monstre2", 17.0f, 3.0f, 17.2f, 15.8f));
 
+        ArrayList<BolesFocMonstre> boles = new ArrayList<BolesFocMonstre>();
+        ArrayList<MonstreLava> monstreLava = new ArrayList<MonstreLava>();
+
         personatge.setVides(vides);
-        world.setContactListener(new GestorContactes(bodyDestroyList,personatge));
+        world.setContactListener(new GestorContactes(bodyDestroyList,personatge,monstres,monstreLava, boles));
 
         this.vides = vides;
 
@@ -331,7 +341,7 @@ public class Level2 extends AbstractScreen {
         }
         bodyDestroyList.clear();
 
-        System.out.println(personatge.getPositionBody().x);
+        //System.out.println(personatge.getPositionBody().x);
 
 
         // Esborrar la pantalla
