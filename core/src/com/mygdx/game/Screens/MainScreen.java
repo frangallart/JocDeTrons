@@ -128,7 +128,7 @@ public class MainScreen extends AbstractScreen {
         personatge = new Personatge(world, this.pathTexturaPj, this.pathImgPj);
 
 		monstres = new ArrayList<Monstre>();
-		monstres.add(new Monstre(world, "monstre1", 6.0f, 2.0f, 6.7f, 5.3f));
+		monstres.add(new Monstre(world, "monstre1", 6.0f, 2.0f, 6.6f, 5.45f));
 		monstres.add(new Monstre(world, "monstre2", 17.0f, 3.0f, 17.2f, 15.8f));
 
 		monstresLava = new ArrayList<MonstreLava>();
@@ -348,19 +348,15 @@ public class MainScreen extends AbstractScreen {
 					}
 				}
 
-				for (int lava = 0; lava < bolesFocMonstres.size(); lava++){
-					if (bodyDestroyList.get(i).getUserData() == bolesFocMonstres.get(lava).getNom()){
+				for (int lava = 0; lava < bolesFocMonstres.size(); lava++) {
+					if (bodyDestroyList.get(i).getUserData() == bolesFocMonstres.get(lava).getNom()) {
 						bolesFocMonstres.get(lava).dispose();
-						bolesFocMonstres.remove(lava);
-						//bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 2.8f, 2.0f, 4f, 2.5f, false));
-
 						if (bodyDestroyList.get(i).getUserData().equals("Lava1")) {
-							//bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 51.44f, 1.84f, 4.5f, 0.5f, false));
-							bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 50.44f, 1f, 2f, false));
-						}else {
-							//bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 59.0f, 1.84f, 4.5f, 0.5f, true));
-							bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 60.15f, 1f, 1.8f, false));
+							bolesFocMonstres.add(new BolesFocMonstre(world, bolesFocMonstres.get(lava).getNom(), 50.44f, 1f, 2f, false));
+						} else if (bodyDestroyList.get(i).getUserData().equals("Lava2")) {
+							bolesFocMonstres.add(new BolesFocMonstre(world, bolesFocMonstres.get(lava).getNom(), 60.15f, 1f, 1.8f, false));
 						}
+						bolesFocMonstres.remove(lava);
 						break;
 					}
 				}
@@ -401,11 +397,14 @@ public class MainScreen extends AbstractScreen {
 			items.moure();
 		}
 
-		for(Iterator<BolesFocMonstre> i = bolesFocMonstres.iterator(); i.hasNext(); ) {
-			BolesFocMonstre items = i.next();
-			items.dibuixar(batch);
-			items.updatePosition();
-			items.moure();
+		if (personatge.getPositionBody().x > 49.5f && personatge.getPositionBody().x < 61.5f) {
+
+			for (Iterator<BolesFocMonstre> i = bolesFocMonstres.iterator(); i.hasNext(); ) {
+				BolesFocMonstre items = i.next();
+				items.dibuixar(batch);
+				items.updatePosition();
+				items.moure();
+			}
 		}
 
 		barra.dibuixar(batch);

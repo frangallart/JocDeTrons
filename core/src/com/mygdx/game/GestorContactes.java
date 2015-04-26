@@ -55,28 +55,33 @@ public class GestorContactes implements ContactListener {
         for (int i = boles.size() - 1; i >= 0; i--) {
             if (fixtureA.getBody().getUserData().equals("terraMorir") && fixtureB.getBody().getUserData().equals(boles.get(i).getNom())) {
                 bodyDestroyList.add(fixtureB.getBody());
+                break;
             } else if (fixtureB.getBody().getUserData().equals("terraMorir") && fixtureA.getBody().getUserData().equals(boles.get(i).getNom())) {
                 bodyDestroyList.add(fixtureA.getBody());
+                break;
             } else if (fixtureA.getBody().getUserData().equals("personatge") && fixtureB.getBody().getUserData().equals(boles.get(i).getNom())) {
                 personatge.setVides(personatge.getVides() - 1);
+                break;
             } else if (fixtureB.getBody().getUserData().equals("personatge") && fixtureA.getBody().getUserData().equals(boles.get(i).getNom())) {
                 personatge.setVides(personatge.getVides() - 1);
+                break;
             } else if (fixtureB.getBody().getUserData().equals(boles.get(0).getNom()) && fixtureA.getBody().getUserData().equals(boles.get(1).getNom())) {
                 bodyDestroyList.add(fixtureA.getBody());
                 bodyDestroyList.add(fixtureB.getBody());
+                break;
             }else if (fixtureA.getBody().getUserData().equals(boles.get(0).getNom()) && fixtureB.getBody().getUserData().equals(boles.get(1).getNom())) {
                 bodyDestroyList.add(fixtureA.getBody());
                 bodyDestroyList.add(fixtureB.getBody());
+                break;
             } else if (fixtureA.getBody().getUserData().equals("Barra") && fixtureB.getBody().getUserData().equals(boles.get(i).getNom())) {
                 bodyDestroyList.add(fixtureB.getBody());
+                break;
             }else if (fixtureB.getBody().getUserData().equals("Barra") && fixtureA.getBody().getUserData().equals(boles.get(i).getNom())) {
                 bodyDestroyList.add(fixtureA.getBody());
+                break;
             }
         }
-            /*
-			 * Afegir cos a destruir
-			 * 
-			 */
+
         for (int i = monstres.size() - 1; i >= 0; i--) {
 
             if (fixtureA.getBody().getUserData().equals("personatge") && fixtureB.getBody().getUserData().equals(monstres.get(i).getNom())) {
