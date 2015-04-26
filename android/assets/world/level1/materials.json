@@ -3,7 +3,7 @@
     "name": "ground",
     "density": 1.0,
     "restitution": 0.1,
-    "friction": 0.2
+    "friction": 0.25682
   },
   {
     "name": "ice",
