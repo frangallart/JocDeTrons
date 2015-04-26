@@ -148,7 +148,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
     private void nextScreen(String pathToTexture, String pathToImg, String nomJugador) {
         // la darrera acci� ens porta cap a la seg�ent pantalla
         //joc.setScreen(new PantallaPrincipal(joc));
-        joc.setScreen(new MainScreen(getGame(), 3, pathToTexture, pathToImg, nomJugador));
+        joc.setScreen(new Level1(getGame(), 3, pathToTexture, pathToImg, nomJugador));
     }
 
 }

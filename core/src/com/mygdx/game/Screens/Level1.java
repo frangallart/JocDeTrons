@@ -31,7 +31,7 @@ import java.util.Iterator;
  * @author Marc
  *
  */
-public class MainScreen extends AbstractScreen {
+public class Level1 extends AbstractScreen {
 
     /**
      * Estils
@@ -94,7 +94,7 @@ public class MainScreen extends AbstractScreen {
     private ArrayList<Body> bodyDestroyList;
 
 
-	public MainScreen(JocDeTrons joc, int vides, String pathTexturaPj, String pathImgPj, String nomJugador) {
+	public Level1(JocDeTrons joc, int vides, String pathTexturaPj, String pathImgPj, String nomJugador) {
 		super(joc);
         // carregar el fitxer d'skins
         skin = new Skin(Gdx.files.internal("skins/skin.json"));
@@ -426,16 +426,16 @@ public class MainScreen extends AbstractScreen {
 			joc.setScreen(new NextLevel(joc, personatge, "Nivell 1", labelNomJugador.getText().toString()));//new Level2(joc,vides));
 		}
 
-		/*if (personatge.getPositionBody().y < 0.38){
+		if (personatge.getPositionBody().y < 0.38){
 			personatge.setVides(personatge.getVides()-1);
-			joc.setScreen(new MainScreen(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
-		}*/
+			joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
+		}
 
 		if (personatge.getVides() == 0) {
 			joc.setScreen(new MainMenuScreen(joc));
 		} else if (personatge.getVides() != vides) {
 			vides = personatge.getVides();
-			joc.setScreen(new MainScreen(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
+			joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
 		}
 	}
 
