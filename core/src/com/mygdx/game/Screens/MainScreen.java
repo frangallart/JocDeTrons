@@ -5,20 +5,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.Barra;
+import com.mygdx.game.BolesFocMonstre;
 import com.mygdx.game.GestorContactes;
 import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.MapBodyManager;
 import com.mygdx.game.Monstre;
+import com.mygdx.game.MonstreLava;
 import com.mygdx.game.Personatge;
 import com.mygdx.game.TiledMapHelper;
 
@@ -85,11 +85,8 @@ public class MainScreen extends AbstractScreen {
 	private int vides;
 
 	private ArrayList<Monstre> monstres;
-	private Monstre monstre;
-	private Monstre monstre2;
-
-	private Texture splashTexture;
-	private Image splashImage;
+	private ArrayList<MonstreLava> monstresLava;
+	private ArrayList<BolesFocMonstre> bolesFocMonstres;
 
 	/**
      * per indicar quins cossos s'han de destruir
@@ -127,8 +124,17 @@ public class MainScreen extends AbstractScreen {
 		monstres.add(new Monstre(world, "monstre1", 6.0f, 2.0f, 6.7f, 5.3f));
 		monstres.add(new Monstre(world, "monstre2", 17.0f, 3.0f, 17.2f, 15.8f));
 
+		monstresLava = new ArrayList<MonstreLava>();
+		monstresLava.add(new MonstreLava(world, "monstreLava1", 50.64f, 0.64f, false));
+		monstresLava.add(new MonstreLava(world, "monstreLava2", 60.15f, 0.64f, true));
+		//monstresLava.add(new MonstreLava(world, "monstreLava2", 6.0f, 2.0f, 6.7f, 5.3f));
+
+		bolesFocMonstres = new ArrayList<BolesFocMonstre>();
+		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 50.44f, 1f, 2f, false));
+		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 60.15f, 1f, 1.8f, false));
+
 		personatge.setVides(vides);
-		world.setContactListener(new GestorContactes(bodyDestroyList,personatge));
+		world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstresLava, bolesFocMonstres));
 
 		this.vides = vides;
 
@@ -327,21 +333,34 @@ public class MainScreen extends AbstractScreen {
 		 * per destruir cossos marcats per ser eliminats
 		 */
         	for(int i = bodyDestroyList.size()-1; i >=0; i-- ) {
-				System.out.println((bodyDestroyList.get(i).getUserData()).toString());
-				for (int j = 0; j < monstres.size(); j++){
-					if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()){
+				for (int j = 0; j < monstres.size(); j++) {
+					if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()) {
 						monstres.get(j).dispose();
 						personatge.setPunts(personatge.getPunts() + monstres.get(j).getPUNTS());
 						monstres.remove(j);
 						break;
 					}
 				}
+
+				for (int lava = 0; lava < bolesFocMonstres.size(); lava++){
+					if (bodyDestroyList.get(i).getUserData() == bolesFocMonstres.get(lava).getNom()){
+						bolesFocMonstres.get(lava).dispose();
+						bolesFocMonstres.remove(lava);
+						//bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 2.8f, 2.0f, 4f, 2.5f, false));
+
+						if (bodyDestroyList.get(i).getUserData().equals("Lava1")) {
+							//bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 51.44f, 1.84f, 4.5f, 0.5f, false));
+							bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 50.44f, 1f, 2f, false));
+						}else {
+							//bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 59.0f, 1.84f, 4.5f, 0.5f, true));
+							bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 60.15f, 1f, 1.8f, false));
+						}
+						break;
+					}
+				}
 				world.destroyBody(bodyDestroyList.get(i));
 			}
 			bodyDestroyList.clear();
-
-		System.out.println(personatge.getPositionBody().x);
-
 
 		// Esborrar la pantalla
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -369,6 +388,20 @@ public class MainScreen extends AbstractScreen {
 			item.moure();
 		}
 
+		for(Iterator<MonstreLava> i = monstresLava.iterator(); i.hasNext(); ) {
+			MonstreLava items = i.next();
+			items.dibuixar(batch);
+			items.updatePosition();
+			items.moure();
+		}
+
+		for(Iterator<BolesFocMonstre> i = bolesFocMonstres.iterator(); i.hasNext(); ) {
+			BolesFocMonstre items = i.next();
+			items.dibuixar(batch);
+			items.updatePosition();
+			items.moure();
+		}
+
 		barra.dibuixar(batch);
 		barra2.dibuixar(batch);
 		barra3.dibuixar(batch);
@@ -384,13 +417,13 @@ public class MainScreen extends AbstractScreen {
 				JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
 				JocDeTrons.PIXELS_PER_METRE));
 
+		if (personatge.getPositionBody().x > 96f){
+			joc.setScreen(new NextLevel(joc, personatge, "Nivell 1"));//new Level2(joc,vides));
+		}
+
 		if (personatge.getPositionBody().y < 0.38){
 			personatge.setVides(personatge.getVides()-1);
 			joc.setScreen(new MainScreen(joc, vides));
-		}
-
-		if (personatge.getPositionBody().x > 96f){
-			joc.setScreen(new NextLevel(joc, personatge, "Nivell 1"));//new Level2(joc,vides));
 		}
 
 		if (personatge.getVides() == 0) {
