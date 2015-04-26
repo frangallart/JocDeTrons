@@ -134,7 +134,6 @@ public class MainScreen extends AbstractScreen {
 		monstresLava = new ArrayList<MonstreLava>();
 		monstresLava.add(new MonstreLava(world, "monstreLava1", 50.64f, 0.64f, false));
 		monstresLava.add(new MonstreLava(world, "monstreLava2", 60.15f, 0.64f, true));
-		//monstresLava.add(new MonstreLava(world, "monstreLava2", 6.0f, 2.0f, 6.7f, 5.3f));
 
 		bolesFocMonstres = new ArrayList<BolesFocMonstre>();
 		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 50.44f, 1f, 2f, false));
@@ -428,10 +427,10 @@ public class MainScreen extends AbstractScreen {
 			joc.setScreen(new NextLevel(joc, personatge, "Nivell 1", labelNomJugador.getText().toString()));//new Level2(joc,vides));
 		}
 
-		if (personatge.getPositionBody().y < 0.38){
+		/*if (personatge.getPositionBody().y < 0.38){
 			personatge.setVides(personatge.getVides()-1);
 			joc.setScreen(new MainScreen(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
-		}
+		}*/
 
 		if (personatge.getVides() == 0) {
 			joc.setScreen(new MainMenuScreen(joc));

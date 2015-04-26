@@ -81,7 +81,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         });
 
         namePlayerInfo = new Label("Introdueix el teu nom: ",skin);
-        escullirPj = new Label("Escoll el teu heroi: ", skin);
+        escullirPj = new Label("Escull el teu heroi: ", skin);
         nomPlayer = new TextField("", skin);
         nomPlayer.setText("Jugador 1");
     }
@@ -103,15 +103,15 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
 
-        table.center().top();
+        table.center();
         table.add(namePlayerInfo);
         table.add(nomPlayer);
-        table.row();
+        table.row().left();
         table.add(escullirPj);
-        table.row();
-        table.add(imatgeHeroi).size(150,60).padTop(10);
-        table.add(imatgeHeroina).size(150,60);
-        table.row();
+        table.row().center();
+        table.add(imatgeHeroi).size(90,110).center().padTop(15);
+        table.add(imatgeHeroina).size(90,110).center().padTop(15).padRight(130);
+
         //table.add(buttonPlay).size(150,60).padBottom(20).row();
         table.setFillParent(true);
         stage.setKeyboardFocus(nomPlayer);
