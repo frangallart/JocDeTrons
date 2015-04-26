@@ -72,7 +72,7 @@ public class SplashScreen extends AbstractScreen {
         musica.stop();
         // la darrera acci� ens porta cap a la seg�ent pantalla
         //joc.setScreen(new PantallaPrincipal(joc));
-        joc.setScreen(new MainMenuScreen(joc));
+        joc.setScreen(new PersonatgeSelectionScreen(joc));
     }
 
     /**
