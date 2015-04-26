@@ -37,24 +37,30 @@ public class Personatge {
     private Sound soSalt;               // el so que reprodueix en saltar
     private Texture animatedTexture;
 
-    public Personatge(World world) {
+
+    private String pathTextura, pathImatge;
+
+    public Personatge(World world, String pathTextura, String pathImatge) {
         moureEsquerra = moureDreta = ferSalt = false;
         this.velocitat = 0.1f;
         this.world = world;
         this.vides = 3;
         this.punts = 0;
+        this.pathTextura = pathTextura;
+        this.pathImatge = pathImatge;
         carregarTextures();
         carregarSons();
         crearProtagonista();
+
 
     }
 
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/heroinaSpriteSheet.png"));
+        animatedTexture = new Texture(Gdx.files.internal(this.pathTextura));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        stoppedTexture = new Texture(Gdx.files.internal("imatges/heroina.png"));
+        stoppedTexture = new Texture(Gdx.files.internal(this.pathImatge));
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
@@ -197,6 +203,22 @@ public class Personatge {
 
     }
 
+
+    public String getPathTextura() {
+        return pathTextura;
+    }
+
+    public void setPathTextura(String pathTextura) {
+        this.pathTextura = pathTextura;
+    }
+
+    public String getPathImatge() {
+        return pathImatge;
+    }
+
+    public void setPathImatge(String pathImatge) {
+        this.pathImatge = pathImatge;
+    }
     public Sound getSoSalt() {
         return soSalt;
     }

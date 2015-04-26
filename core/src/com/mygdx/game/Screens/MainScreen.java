@@ -75,18 +75,17 @@ public class MainScreen extends AbstractScreen {
     /**
      * Per mostrar el títol
      */
-    private Label title;
-	private Label labelVides;
-	private Label labelPunts;
+    private Label title, labelVides, labelPunts, labelNomJugador;
 
-	private Table table = new Table();
-	private Table table2 = new Table();
+	private Table table, table2, table3;
 
 	private int vides;
 
 	private ArrayList<Monstre> monstres;
 	private ArrayList<MonstreLava> monstresLava;
 	private ArrayList<BolesFocMonstre> bolesFocMonstres;
+
+	private String pathTexturaPj, pathImgPj;
 
 	/**
      * per indicar quins cossos s'han de destruir
@@ -95,13 +94,21 @@ public class MainScreen extends AbstractScreen {
     private ArrayList<Body> bodyDestroyList;
 
 
-	public MainScreen(JocDeTrons joc, int vides) {
+	public MainScreen(JocDeTrons joc, int vides, String pathTexturaPj, String pathImgPj, String nomJugador) {
 		super(joc);
         // carregar el fitxer d'skins
         skin = new Skin(Gdx.files.internal("skins/skin.json"));
         title = new Label(joc.getTitol(),skin, "groc");
 		labelVides = new Label("",skin, "groc");
 		labelPunts = new Label("",skin, "groc");
+		labelNomJugador = new Label(nomJugador, skin, "groc");
+
+		this.pathTexturaPj = pathTexturaPj;
+		this.pathImgPj = pathImgPj;
+
+		table = new Table();
+		table2 = new Table();
+		table3 = new Table();
 		/*
 		 * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
 		 * perquè indica cap avall
@@ -118,7 +125,7 @@ public class MainScreen extends AbstractScreen {
 		//world.setContactListener(new GestorContactes());
 
 		// crear el personatge
-        personatge = new Personatge(world);
+        personatge = new Personatge(world, this.pathTexturaPj, this.pathImgPj);
 
 		monstres = new ArrayList<Monstre>();
 		monstres.add(new Monstre(world, "monstre1", 6.0f, 2.0f, 6.7f, 5.3f));
@@ -418,19 +425,19 @@ public class MainScreen extends AbstractScreen {
 				JocDeTrons.PIXELS_PER_METRE));
 
 		if (personatge.getPositionBody().x > 96f){
-			joc.setScreen(new NextLevel(joc, personatge, "Nivell 1"));//new Level2(joc,vides));
+			joc.setScreen(new NextLevel(joc, personatge, "Nivell 1", labelNomJugador.getText().toString()));//new Level2(joc,vides));
 		}
 
 		if (personatge.getPositionBody().y < 0.38){
 			personatge.setVides(personatge.getVides()-1);
-			joc.setScreen(new MainScreen(joc, vides));
+			joc.setScreen(new MainScreen(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
 		}
 
 		if (personatge.getVides() == 0) {
 			joc.setScreen(new MainMenuScreen(joc));
 		} else if (personatge.getVides() != vides) {
 			vides = personatge.getVides();
-			joc.setScreen(new MainScreen(joc, vides));
+			joc.setScreen(new MainScreen(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
 		}
 	}
 
@@ -451,6 +458,10 @@ public class MainScreen extends AbstractScreen {
 		table.add(title).padTop(5);
 		table2.add(labelVides).padTop(5).padRight(5).row();
 		table2.add(labelPunts).padTop(20).padRight(5).row();
+
+
+		table3.center().top().left();
+		table3.add(labelNomJugador).padTop(5).padLeft(5).row();
 
 		//cell2 = table.add(title2).padTop(5);
 		table.setFillParent(true);

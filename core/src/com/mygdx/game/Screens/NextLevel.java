@@ -34,7 +34,7 @@ public class NextLevel extends AbstractScreen {
      *
      * @param joc Classe principal del joc
      */
-    public NextLevel(final JocDeTrons joc, final Personatge jugador, String nivell) {
+    public NextLevel(final JocDeTrons joc, final Personatge jugador, String nivell, final String nomJugador) {
         super(joc);
         this.jugador = jugador;
         this.nivell = nivell;
@@ -47,7 +47,7 @@ public class NextLevel extends AbstractScreen {
                 //Same way we moved here from the Splash Screen
                 //We set it to new Splash because we got no other screens
                 //otherwise you put the screen there where you want to go
-                joc.setScreen(new Level2(getGame(), jugador.getVides()));
+                joc.setScreen(new Level2(getGame(), jugador.getVides(), jugador, nomJugador));
             }
         });
         buttonExit.addListener(new ClickListener(){

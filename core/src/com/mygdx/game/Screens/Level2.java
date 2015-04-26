@@ -41,9 +41,6 @@ public class Level2 extends AbstractScreen {
      */
     private TiledMapHelper tiledMapHelper;
 
-    // objecte que gestiona el protagonista del joc
-    // ---->private PersonatgeBackup personatge;
-    private Personatge personatge;
 
     Barra barra, barra2, barra3;
     /**
@@ -66,19 +63,16 @@ public class Level2 extends AbstractScreen {
     private Music musica;
 
     /**
-     * Per debugar les col·lisions
+     * Per debugar les colï¿½lisions
      */
     private Box2DDebugRenderer box2DRenderer;
 
     /**
-     * Per mostrar el títol
+     * Per mostrar el tï¿½tol
      */
-    private Label title;
-    private Label labelVides;
-    private Label labelPunts;
+    private Label title, labelVides, labelPunts, labelNomJugador;
 
-    private Table table = new Table();
-    private Table table2 = new Table();
+    private Table table, table2, table3;
 
     private int vides;
 
@@ -88,6 +82,7 @@ public class Level2 extends AbstractScreen {
 
     private Texture splashTexture;
     private Image splashImage;
+    private Personatge personatge;
 
     /**
      * per indicar quins cossos s'han de destruir
@@ -96,16 +91,21 @@ public class Level2 extends AbstractScreen {
     private ArrayList<Body> bodyDestroyList;
 
 
-    public Level2(JocDeTrons joc, int vides) {
+    public Level2(JocDeTrons joc, int vides, Personatge personatge, String nomJugador) {
         super(joc);
         // carregar el fitxer d'skins
         skin = new Skin(Gdx.files.internal("skins/skin.json"));
         title = new Label(joc.getTitol(),skin, "groc");
         labelVides = new Label("",skin, "groc");
         labelPunts = new Label("",skin, "groc");
+        labelNomJugador = new Label(nomJugador, skin, "groc");
+
+        table = new Table();
+        table2 = new Table();
+        table3 = new Table();
 		/*
 		 * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
-		 * perquè indica cap avall
+		 * perquï¿½ indica cap avall
 		 */
         world = new World(new Vector2(0.0f, -9.8f), true);
         comprovarMidesPantalla();
@@ -119,7 +119,7 @@ public class Level2 extends AbstractScreen {
         //world.setContactListener(new GestorContactes());
 
         // crear el personatge
-        personatge = new Personatge(world);
+       this.personatge = personatge;
 
         monstres = new ArrayList<Monstre>();
         monstres.add(new Monstre(world, "monstre1", 6.0f, 2.0f, 6.7f, 5.3f));
@@ -133,7 +133,7 @@ public class Level2 extends AbstractScreen {
 
         this.vides = vides;
 
-        // objecte que permet debugar les col·lisions
+        // objecte que permet debugar les colï¿½lisions
         debugRenderer = new Box2DDebugRenderer();
 
         barra = new Barra(world, 12.6f, 1.3f,15.0f, 12.7f, "imatges/barra.png");
@@ -143,7 +143,7 @@ public class Level2 extends AbstractScreen {
     }
 
     /**
-     * Moure la càmera en funció de la posició del personatge
+     * Moure la cï¿½mera en funciï¿½ de la posiciï¿½ del personatge
      */
     private void moureCamera() {
         // Posicionem la camera centran-la on hi hagi l'sprite del protagonista
@@ -171,7 +171,7 @@ public class Level2 extends AbstractScreen {
             tiledMapHelper.getCamera().position.y = tiledMapHelper.getHeight()
                     - joc.getScreenHeight() / 2;
         }
-        // actualitzar els nous valors de la càmera
+        // actualitzar els nous valors de la cï¿½mera
         tiledMapHelper.getCamera().update();
     }
 /*
@@ -250,7 +250,7 @@ public class Level2 extends AbstractScreen {
      */
     private void comprovarMidesPantalla() {
         /**
-         * Si la mida de la finestra de dibuix no està definida, la
+         * Si la mida de la finestra de dibuix no estï¿½ definida, la
          * inicialitzem
          */
         if (joc.getScreenWidth() == -1) {
@@ -272,7 +272,7 @@ public class Level2 extends AbstractScreen {
     }
 
     /**
-     * Carregar i reproduir l'arxiu de música de fons
+     * Carregar i reproduir l'arxiu de mï¿½sica de fons
      */
     public void carregarMusica() {
         musica = Gdx.audio.newMusic(Gdx.files
@@ -283,7 +283,7 @@ public class Level2 extends AbstractScreen {
     }
 
     /**
-     * Càrrega dels objectes que defineixen les col·lisions
+     * Cï¿½rrega dels objectes que defineixen les colï¿½lisions
      */
     private void carregarObjectes() {
         MapBodyManager mapBodyManager = new MapBodyManager(world,
@@ -293,7 +293,7 @@ public class Level2 extends AbstractScreen {
     }
 
     // ----------------------------------------------------------------------------------
-    // MÈTODES SOBREESCRITS DE AbstractScreen
+    // Mï¿½TODES SOBREESCRITS DE AbstractScreen
     // ----------------------------------------------------------------------------------
 
     @Override
@@ -317,10 +317,10 @@ public class Level2 extends AbstractScreen {
         barra3.updatePosition();
         /**
          * Cal actualitzar les posicions i velocitats de tots els objectes. El
-         * primer paràmetre és la quanitat de frames/segon que dibuixaré
-         * El segon i tercer paràmetres indiquen la quantitat d'iteracions per
-         * la velocitat i per tractar la posició. Un valor alt és més
-         * precís però més lent.
+         * primer parï¿½metre ï¿½s la quanitat de frames/segon que dibuixarï¿½
+         * El segon i tercer parï¿½metres indiquen la quantitat d'iteracions per
+         * la velocitat i per tractar la posiciï¿½. Un valor alt ï¿½s mï¿½s
+         * precï¿½s perï¿½ mï¿½s lent.
          */
         world.step(Gdx.app.getGraphics().getDeltaTime(), 6, 2);
 
@@ -332,7 +332,7 @@ public class Level2 extends AbstractScreen {
             for (int j = 0; j < monstres.size(); j++){
                 if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()){
                     monstres.get(j).dispose();
-                    personatge.setPunts(personatge.getPunts() + monstres.get(j).getPUNTS());
+                    this.personatge.setPunts(personatge.getPunts() + monstres.get(j).getPUNTS());
                     monstres.remove(j);
                     break;
                 }
@@ -361,7 +361,7 @@ public class Level2 extends AbstractScreen {
         batch.setProjectionMatrix(tiledMapHelper.getCamera().combined);
         // iniciar el lot
         batch.begin();
-        personatge.dibuixar(batch);
+        this.personatge.dibuixar(batch);
 
         for(Iterator<Monstre> i = monstres.iterator(); i.hasNext(); ) {
             Monstre item = i.next();
@@ -390,15 +390,15 @@ public class Level2 extends AbstractScreen {
 			joc.setScreen(new MainScreen(joc, vides));
 		}*/
 
-        if (personatge.getPositionBody().x > 96f){
+        if (this.personatge.getPositionBody().x > 96f){
             joc.setScreen(new MainMenuScreen(joc));
         }
 
-        if (personatge.getVides() == 0) {
+        if (this.personatge.getVides() == 0) {
             joc.setScreen(new MainMenuScreen(joc));
-        } else if (personatge.getVides() != vides) {
-            vides = personatge.getVides();
-            joc.setScreen(new Level2(joc, vides));
+        } else if (this.personatge.getVides() != vides) {
+            vides = this.personatge.getVides();
+            joc.setScreen(new Level2(joc, vides, this.personatge, labelNomJugador.getText().toString()));
         }
     }
 
@@ -414,15 +414,26 @@ public class Level2 extends AbstractScreen {
         // Els elements es mostren en l'ordre que s'afegeixen.
         // El primer apareix a la part superior, el darrer a la part inferior.
 
-        table2.center().top().right();
+
         table.center().top();
         table.add(title).padTop(5);
+        table.setFillParent(true);
+
+
+        table2.center().top().right();
         table2.add(labelVides).padTop(5).padRight(5).row();
         table2.add(labelPunts).padTop(20).padRight(5).row();
+        table2.setFillParent(true);
+
+        table3.center().top().right();
+        table3.add(labelNomJugador).padTop(5).padLeft(5).row();
+        table3.setFillParent(true);
 
         //cell2 = table.add(title2).padTop(5);
-        table.setFillParent(true);
-        table2.setFillParent(true);
+
+
+
+
         stage.addActor(table);
         stage.addActor(table2);
     }
