@@ -132,8 +132,8 @@ public class Level1 extends AbstractScreen {
         personatge = new Personatge(world, this.pathTexturaPj, this.pathImgPj);
 
 		monstres = new ArrayList<Monstre>();
-		monstres.add(new Monstre(world, "monstre1", 6.0f, 2.0f, 6.6f, 5.45f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
-		monstres.add(new Monstre(world, "monstre2", 17.0f, 3.0f, 17.2f, 15.8f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png"));
+		monstres.add(new Monstre(world, "monstre1", 6.0f, 1.33f, 6.6f, 5.45f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
+		monstres.add(new Monstre(world, "monstre2", 17.0f, 2.0f, 17.2f, 15.8f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png"));
 
 		monstresLava = new ArrayList<MonstreEstatic>();
 		monstresLava.add(new MonstreEstatic(world, "monstreLava1", 50.64f, 0.64f, false));
