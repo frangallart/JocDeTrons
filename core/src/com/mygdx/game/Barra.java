@@ -21,7 +21,7 @@ public class Barra {
     /**
      * Detectar el moviment
      */
-    private boolean moureEsquerra, moureDreta, direccio;
+    private boolean moureEsquerra, moureDreta;
 
     private World world;                // Referència al mon on està definit el personatge
     private Body cos;                   // per definir les propietats del cos
@@ -45,7 +45,6 @@ public class Barra {
         this.bloq_esquerra = bloq_esquerra;
         this.bloq_dreta = bloq_dreta;
         this.pathImg = pathImg;
-        this.direccio = direccio;
         carregarTextures();
         crearProtagonista();
     }
@@ -123,8 +122,6 @@ public class Barra {
      * Els impulsos s'apliquen des del centre del protagonista
      */
     public void moure() {
-
-        if(this.direccio) {
             if (this.getPositionBody().x < this.bloq_dreta) {
                 moureDreta = true;
                 moureEsquerra = false;
@@ -146,33 +143,6 @@ public class Barra {
                 spriteBarra.flip(true, false);
                 defCos.gravityScale = 0;
             }
-        }
-        //Aprofitem els moureDreta/Esquerra i els bloqDreta/Esquerra
-        //Dreta = Adalt, Esquerra = avall
-        else if(!this.direccio)
-        {
-                if (this.getPositionBody().y < this.bloq_dreta) {
-                    moureDreta = true;
-                    moureEsquerra = false;
-                } else if (this.getPositionBody().y > this.bloq_esquerra) {
-                    moureDreta = false;
-                    moureEsquerra = true;
-                }
-                if (moureDreta) {
-                    cos.setLinearVelocity(0.0f, 1.0f);
-                    ;
-                    spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-                    spriteBarra.flip(true, false);
-                    defCos.gravityScale = 0;
-                } else if (moureEsquerra) {
-                    cos.setLinearVelocity(0.0f, -1.0f);
-
-                    spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-
-                    spriteBarra.flip(true, false);
-                    defCos.gravityScale = 0;
-                }
-        }
     }
 
     public boolean isMoureEsquerra() {

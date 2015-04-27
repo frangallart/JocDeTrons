@@ -140,7 +140,7 @@ public class Level2 extends AbstractScreen {
         /// Horitzontal: 49
         /// Vertical: 27 Arriba fins 5 1.66f
 
-        ascensor = new Ascensor(world, 16.62f, 0.6f, 8.0f, 0.7f, "imatges/ascensor.png");
+        ascensor = new Ascensor(world, 16.62f, 0.8f, 8.5f, 0.9f, "imatges/ascensor.png");
 
 
     }
