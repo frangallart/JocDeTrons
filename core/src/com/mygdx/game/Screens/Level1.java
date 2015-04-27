@@ -21,6 +21,7 @@ import com.mygdx.game.Monstre;
 import com.mygdx.game.MonstreLava;
 import com.mygdx.game.Personatge;
 import com.mygdx.game.TiledMapHelper;
+import com.mygdx.game.Vides;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -84,6 +85,7 @@ public class Level1 extends AbstractScreen {
 	private ArrayList<Monstre> monstres;
 	private ArrayList<MonstreLava> monstresLava;
 	private ArrayList<BolesFocMonstre> bolesFocMonstres;
+	private Vides cor;
 
 	private String pathTexturaPj, pathImgPj;
 
@@ -140,6 +142,7 @@ public class Level1 extends AbstractScreen {
 		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 60.15f, 1f, 1.8f, false));
 
 		personatge.setVides(vides);
+		cor = new Vides(world, "Vida", 87.97f, 6.0f);
 		world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstresLava, bolesFocMonstres));
 
 		this.vides = vides;
@@ -408,6 +411,9 @@ public class Level1 extends AbstractScreen {
 			}
 		}
 
+		cor.dibuixar(batch);
+		cor.updatePosition();
+
 		barra.dibuixar(batch);
 		barra2.dibuixar(batch);
 		barra3.dibuixar(batch);
@@ -439,6 +445,7 @@ public class Level1 extends AbstractScreen {
 				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
 			}
 		}
+		System.out.println(personatge.getPositionBody().x);
 	}
 
 	@Override
