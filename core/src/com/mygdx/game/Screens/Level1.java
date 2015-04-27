@@ -368,9 +368,8 @@ public class Level1 extends AbstractScreen {
 
 				if (bodyDestroyList.get(i).getUserData().equals("Vida")) {
 					cor = null;
-					//personatge.setVides(personatge.getVides() + 1);
-					//this.vides = personatge.getVides();
-					//break;
+					personatge.setVides(personatge.getVides() + 1);
+					this.vides = personatge.getVides();
 				}
 				world.destroyBody(bodyDestroyList.get(i));
 			}
