@@ -34,6 +34,7 @@ public class Personatge {
     private Sprite spritePersonatge;    // sprite associat al personatge
     private AnimatedSprite spriteAnimat;// animació de l'sprite
     private Texture stoppedTexture;     // la seva textura
+    private Texture stoppedTextureE;     // la seva textura
     private Sound soSalt;               // el so que reprodueix en saltar
     private Texture animatedTexture;
 
@@ -48,6 +49,7 @@ public class Personatge {
         this.punts = 0;
         this.pathTextura = pathTextura;
         this.pathImatge = pathImatge;
+        this.personatgeCaraDreta = true;
         carregarTextures();
         carregarSons();
         crearProtagonista();
@@ -62,6 +64,9 @@ public class Personatge {
 
         stoppedTexture = new Texture(Gdx.files.internal(this.pathImatge));
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        stoppedTextureE = new Texture(Gdx.files.internal("imatges/heroinaE.png"));
+        stoppedTextureE.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
     /**
@@ -73,12 +78,12 @@ public class Personatge {
 
     public void crearProtagonista() {
         spritePersonatge = new Sprite(animatedTexture);
-        spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS, stoppedTexture);
+        spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS,stoppedTexture, stoppedTextureE);
 
         // Definir el tipus de cos i la seva posició
         BodyDef defCos = new BodyDef();
         defCos.type = BodyDef.BodyType.DynamicBody;
-        defCos.position.set(85.0f, 3.0f);
+        defCos.position.set(1.0f, 3.0f);
 
         cos = world.createBody(defCos);
         cos.setUserData("personatge");
@@ -123,7 +128,7 @@ public class Personatge {
     }
 
     public void dibuixar(SpriteBatch batch) {
-        spriteAnimat.draw(batch);
+        spriteAnimat.draw(batch, this.isCaraDreta());
     }
 
     /**
@@ -136,6 +141,7 @@ public class Personatge {
      * Els impulsos s'apliquen des del centre del protagonista
      */
     public void moure() {
+
         if (moureDreta && cos.getLinearVelocity().x < 3.0f) {
             cos.applyLinearImpulse(new Vector2(0.1f, 0.0f),
                     cos.getWorldCenter(), true);
