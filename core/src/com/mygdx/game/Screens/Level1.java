@@ -309,7 +309,8 @@ public class Level1 extends AbstractScreen {
 
 	@Override
 	public void render(float delta) {
-		 personatge.inicialitzarMoviments();
+
+		personatge.inicialitzarMoviments();
 		 tractarEventsEntrada();
 	     personatge.moure();
          personatge.updatePosition();
@@ -424,18 +425,19 @@ public class Level1 extends AbstractScreen {
 
 		if (personatge.getPositionBody().x > 96f){
 			joc.setScreen(new NextLevel(joc, personatge, "Nivell 1", labelNomJugador.getText().toString()));//new Level2(joc,vides));
-		}
+		}else {
 
-		if (personatge.getPositionBody().y < 0.38){
-			personatge.setVides(personatge.getVides()-1);
-			joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
-		}
+			if (personatge.getPositionBody().y < 0.38) {
+				personatge.setVides(personatge.getVides() - 1);
+				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
+			}
 
-		if (personatge.getVides() == 0) {
-			joc.setScreen(new MainMenuScreen(joc));
-		} else if (personatge.getVides() != vides) {
-			vides = personatge.getVides();
-			joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
+			if (personatge.getVides() == 0) {
+				joc.setScreen(new MainMenuScreen(joc));
+			} else if (personatge.getVides() != vides) {
+				vides = personatge.getVides();
+				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
+			}
 		}
 	}
 

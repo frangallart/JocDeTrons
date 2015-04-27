@@ -119,7 +119,7 @@ public class Level2 extends AbstractScreen {
         //world.setContactListener(new GestorContactes());
 
         // crear el personatge
-       this.personatge = personatge;
+        this.personatge = new Personatge(world, personatge.getPathTextura(), personatge.getPathImatge());
 
         monstres = new ArrayList<Monstre>();
         monstres.add(new Monstre(world, "monstre1", 6.0f, 2.0f, 6.7f, 5.3f));
@@ -385,12 +385,13 @@ public class Level2 extends AbstractScreen {
                 JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
                 JocDeTrons.PIXELS_PER_METRE));
 
-		/*if (personatge.getPositionBody().y < 0.38){
+		if (personatge.getPositionBody().y < 0.38){
 			personatge.setVides(personatge.getVides()-1);
-			joc.setScreen(new MainScreen(joc, vides));
-		}*/
+			joc.setScreen(new Level2(joc, vides, personatge, labelNomJugador.getText().toString()));
+		}
 
-        if (this.personatge.getPositionBody().x > 96f){
+        System.out.println(this.personatge.getPositionBody().x);
+        if (this.personatge.getPositionBody().x > 332.1f){
             joc.setScreen(new MainMenuScreen(joc));
         }
 
