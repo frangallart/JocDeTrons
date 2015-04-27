@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class Monstre {
 
-    public static final int FRAME_COLS = 4;
+    public static final int FRAME_COLS = 6;
     public static final int FRAME_ROWS = 2;
     private final int PUNTS = 100;
     /**
@@ -61,7 +61,7 @@ public class Monstre {
     }
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/noiaNua.png"));
+        animatedTexture = new Texture(Gdx.files.internal("imatges/whiteWalker.png"));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         stoppedTexture = new Texture(Gdx.files.internal("imatges/warrior.png"));
