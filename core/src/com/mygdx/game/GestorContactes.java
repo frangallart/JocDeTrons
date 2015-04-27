@@ -85,14 +85,14 @@ public class GestorContactes implements ContactListener {
         for (int i = monstres.size() - 1; i >= 0; i--) {
 
             if (fixtureA.getBody().getUserData().equals("personatge") && fixtureB.getBody().getUserData().equals(monstres.get(i).getNom())) {
-                if (fixtureA.getBody().getPosition().y > (fixtureB.getBody().getPosition().y + 0.7f)) {
+                if (fixtureA.getBody().getPosition().y > (fixtureB.getBody().getPosition().y + 0.5f)) {
                     bodyDestroyList.add(fixtureB.getBody());
                 } else {
                     personatge.setVides(personatge.getVides() - 1);
                 }
 
             } else if (fixtureB.getBody().getUserData().equals("personatge") && fixtureA.getBody().getUserData().equals(monstres.get(i).getNom())) {
-                if (fixtureB.getBody().getPosition().y > (fixtureA.getBody().getPosition().y + 0.7f)) {
+                if (fixtureB.getBody().getPosition().y > (fixtureA.getBody().getPosition().y + 0.5f)) {
                     bodyDestroyList.add(fixtureA.getBody());
                 } else {
                     personatge.setVides(personatge.getVides() - 1);
