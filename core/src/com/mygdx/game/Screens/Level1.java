@@ -343,6 +343,7 @@ public class Level1 extends AbstractScreen {
 		 * per destruir cossos marcats per ser eliminats
 		 */
         	for(int i = bodyDestroyList.size()-1; i >=0; i-- ) {
+
 				for (int j = 0; j < monstres.size(); j++) {
 					if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()) {
 						monstres.get(j).dispose();
@@ -366,9 +367,10 @@ public class Level1 extends AbstractScreen {
 				}
 
 				if (bodyDestroyList.get(i).getUserData().equals("Vida")) {
-					cor.dispose();
-					personatge.setVides(personatge.getVides() + 1);
-					this.vides = personatge.getVides();
+					cor = null;
+					//personatge.setVides(personatge.getVides() + 1);
+					//this.vides = personatge.getVides();
+					//break;
 				}
 				world.destroyBody(bodyDestroyList.get(i));
 			}
@@ -417,7 +419,11 @@ public class Level1 extends AbstractScreen {
 			}
 		}
 
-		cor.dibuixar(batch);
+		if (cor != null) {
+			cor.dibuixar(batch);
+			cor.updatePosition();
+			cor.moure();
+		}
 
 		barra.dibuixar(batch);
 		barra2.dibuixar(batch);
@@ -426,8 +432,7 @@ public class Level1 extends AbstractScreen {
 		    // s'ha indicat entre begin i end
 		batch.end();
 
-		cor.updatePosition();
-		cor.moure();
+
         // dibuixar els controls de pantalla
 				stage.act();
 				stage.draw();
