@@ -17,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Ascensor {
 
     public static final int FRAME_COLS = 1;
-    public static final int FRAME_ROWS = 2;
+    public static final int FRAME_ROWS = 20;
     /**
      * Detectar el moviment
      */
