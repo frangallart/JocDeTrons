@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.mygdx.game.Barra;
+import com.mygdx.game.Ascensor;
 import com.mygdx.game.BolesFocMonstre;
 import com.mygdx.game.GestorContactes;
 import com.mygdx.game.JocDeTrons;
@@ -31,6 +31,7 @@ import java.util.Iterator;
  */
 public class Level2 extends AbstractScreen {
 
+
     /**
      * Estils
      */
@@ -42,7 +43,7 @@ public class Level2 extends AbstractScreen {
     private TiledMapHelper tiledMapHelper;
 
 
-    Barra barra, barra2, barra3;
+    private Ascensor ascensor;
     /**
      * Objecte que cont? tots els cossos del joc als quals els aplica la
      * simulaci?
@@ -129,16 +130,18 @@ public class Level2 extends AbstractScreen {
         ArrayList<MonstreLava> monstreLava = new ArrayList<MonstreLava>();
 
         personatge.setVides(vides);
-        world.setContactListener(new GestorContactes(bodyDestroyList,personatge,monstres,monstreLava, boles));
+        world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstreLava, boles));
 
         this.vides = vides;
 
         // objecte que permet debugar les col�lisions
         debugRenderer = new Box2DDebugRenderer();
 
-        barra = new Barra(world, 12.6f, 1.3f,15.0f, 12.7f, "imatges/barra.png");
-        barra2 = new Barra(world, 50.69f, 2.16f, 55.3f, 50.7f, "imatges/barraDoble.png");
-        barra3 = new Barra(world,  60.41f, 2.16f, 60.40f, 55.8f, "imatges/barraDoble.png");
+        /// Horitzontal: 49
+        /// Vertical: 27 Arriba fins 5 1.66f
+
+        ascensor = new Ascensor(world, 16.62f, 0.6f, 8.0f, 0.7f, "imatges/ascensor.png");
+
 
     }
 
@@ -304,17 +307,10 @@ public class Level2 extends AbstractScreen {
         personatge.updatePosition();
 
 
-        barra.inicialitzarMoviments();
-        barra.moure();
-        barra.updatePosition();
+        ascensor.inicialitzarMoviments();
+        ascensor.moure();
+        ascensor.updatePosition();
 
-        barra2.inicialitzarMoviments();
-        barra2.moure();
-        barra2.updatePosition();
-
-        barra3.inicialitzarMoviments();
-        barra3.moure();
-        barra3.updatePosition();
         /**
          * Cal actualitzar les posicions i velocitats de tots els objectes. El
          * primer par�metre �s la quanitat de frames/segon que dibuixar�
@@ -370,9 +366,7 @@ public class Level2 extends AbstractScreen {
             item.moure();
         }
 
-        barra.dibuixar(batch);
-        barra2.dibuixar(batch);
-        barra3.dibuixar(batch);
+        ascensor.dibuixar(batch);
         // finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
         // s'ha indicat entre begin i end
         batch.end();
@@ -431,9 +425,6 @@ public class Level2 extends AbstractScreen {
         table3.setFillParent(true);
 
         //cell2 = table.add(title2).padTop(5);
-
-
-
 
         stage.addActor(table);
         stage.addActor(table2);
