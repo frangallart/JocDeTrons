@@ -418,16 +418,16 @@ public class Level1 extends AbstractScreen {
 		}
 
 		cor.dibuixar(batch);
-		cor.updatePosition();
-		cor.moure();
 
-				barra.dibuixar(batch);
+		barra.dibuixar(batch);
 		barra2.dibuixar(batch);
 		barra3.dibuixar(batch);
 	    	// finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
 		    // s'ha indicat entre begin i end
 		batch.end();
 
+		cor.updatePosition();
+		cor.moure();
         // dibuixar els controls de pantalla
 				stage.act();
 				stage.draw();
