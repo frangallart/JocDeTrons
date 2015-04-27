@@ -1,5 +1,9 @@
 package com.mygdx.game;
 
+/**
+ * Created by Arnau on 27/04/2015.
+ */
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,12 +15,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-/**
- * Created by Arnau on 23/04/2015.
- */
-public class Monstre {
 
-    public static final int FRAME_COLS = 4;
+public class Vides {
+
+    public static final int FRAME_COLS = 2;
     public static final int FRAME_ROWS = 2;
     private final int PUNTS = 100;
     /**
@@ -32,10 +34,10 @@ public class Monstre {
 
     private String nom;
 
-    private World world;                // Refer�ncia al mon on est� definit el personatge
+    private World world;                // Refer?ncia al mon on est? definit el personatge
     private Body cos;                   // per definir les propietats del cos
     private Sprite spritePersonatge;    // sprite associat al personatge
-    private AnimatedSprite spriteAnimat;// animaci� de l'sprite
+    private AnimatedSprite spriteAnimat;// animaci? de l'sprite
     private Texture stoppedTexture;     // la seva textura
     private Texture animatedTexture;
 
@@ -47,24 +49,22 @@ public class Monstre {
         this.nom = nom;
     }
 
-    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin){
+    public Vides(World world,String nom, float posX, float posY){
         moureEsquerra = false;
         moureDreta = true;
         this.nom = nom;
         this.world = world;
         this.posX = posX;
         this.posY = posY;
-        this.posMax = posMax;
-        this.posMin = posMin;
         carregarTextures();
         crearProtagonista();
     }
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/noiaNua.png"));
+        animatedTexture = new Texture(Gdx.files.internal("imatges/cor.png"));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        stoppedTexture = new Texture(Gdx.files.internal("imatges/warrior.png"));
+        stoppedTexture = new Texture(Gdx.files.internal("imatges/cor.png"));
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
@@ -74,7 +74,7 @@ public class Monstre {
         spritePersonatge = new Sprite(animatedTexture);
         spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS, stoppedTexture);
 
-        // Definir el tipus de cos i la seva posici�
+        // Definir el tipus de cos i la seva posici?
         BodyDef defCos = new BodyDef();
         defCos.type = BodyDef.BodyType.DynamicBody;
         defCos.position.set(posX, posY);
@@ -89,8 +89,8 @@ public class Monstre {
                 (spritePersonatge.getHeight() / FRAME_ROWS) / (2 * JocDeTrons.PIXELS_PER_METRE));
 
         /**
-         * La densitat i fricci� del protagonista. Si es modifiquen aquests
-         * valor anir� m�s r�pid o m�s lent.
+         * La densitat i fricci? del protagonista. Si es modifiquen aquests
+         * valor anir? m?s r?pid o m?s lent.
          */
         FixtureDef propietats = new FixtureDef();
         propietats.shape = requadre;
@@ -109,7 +109,7 @@ public class Monstre {
     }
 
     /**
-     * Actualitza la posici� de l'sprite
+     * Actualitza la posici? de l'sprite
      */
     public void updatePosition() {
         spritePersonatge.setPosition(
@@ -124,34 +124,11 @@ public class Monstre {
         spriteAnimat.draw(batch);
     }
 
-    /**
-     * Fer que el personatge es mogui
-     * <p/>
-     * Canvia la posici� del protagonista
-     * Es tracta de forma separada el salt perqu� es vol que es pugui moure si salta
-     * al mateix temps..
-     * <p/>
-     * Els impulsos s'apliquen des del centre del protagonista
-     */
-
     public void moure() {
         if (!moureEsquerra) {
-            cos.applyLinearImpulse(0.08f, 0.0f,
-                    cos.getLinearVelocity().x, 0, true);
             spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
         }else {
-            cos.applyLinearImpulse(-0.08f, 0.0f,
-                    cos.getLinearVelocity().x, 0, true);
             spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-        }
-
-        if (this.getPositionBody().x > posMax){
-            moureEsquerra = true;
-            moureDreta = false;
-        }
-        else if (this.getPositionBody().x < posMin){
-            moureDreta = true;
-            moureEsquerra = false;
         }
     }
 
@@ -201,9 +178,5 @@ public class Monstre {
     public void dispose() {
         animatedTexture.dispose();
         stoppedTexture.dispose();
-    }
-
-    public int getPUNTS() {
-        return PUNTS;
     }
 }
