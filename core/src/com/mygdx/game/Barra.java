@@ -131,7 +131,6 @@ public class Barra {
             }
             if (moureDreta) {
                 cos.setLinearVelocity(1.0f, 0.0f);
-                ;
                 spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
                 spriteBarra.flip(true, false);
                 defCos.gravityScale = 0;

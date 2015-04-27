@@ -30,7 +30,7 @@ public class Monstre {
     private float posMax;
     private float posMin;
 
-    private String nom;
+    private String nom, pathTextura, pathImg;
 
     private World world;                // Refer�ncia al mon on est� definit el personatge
     private Body cos;                   // per definir les propietats del cos
@@ -38,6 +38,7 @@ public class Monstre {
     private AnimatedSprite spriteAnimat;// animaci� de l'sprite
     private Texture stoppedTexture;     // la seva textura
     private Texture animatedTexture;
+    private float velocitat;
 
     public String getNom() {
         return nom;
@@ -47,7 +48,7 @@ public class Monstre {
         this.nom = nom;
     }
 
-    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin){
+    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin, String pathTextura, String pathImg){
         moureEsquerra = false;
         moureDreta = true;
         this.nom = nom;
@@ -56,15 +57,34 @@ public class Monstre {
         this.posY = posY;
         this.posMax = posMax;
         this.posMin = posMin;
+        this.velocitat = 1f;
+        this.pathTextura = pathTextura;
+        this.pathImg = pathImg;
+        carregarTextures();
+        crearProtagonista();
+    }
+
+    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin, float velocitat, String pathTextura, String pathImg){
+        moureEsquerra = false;
+        moureDreta = true;
+        this.nom = nom;
+        this.world = world;
+        this.posX = posX;
+        this.posY = posY;
+        this.posMax = posMax;
+        this.posMin = posMin;
+        this.velocitat = velocitat;
+        this.pathTextura = pathTextura;
+        this.pathImg = pathImg;
         carregarTextures();
         crearProtagonista();
     }
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/whiteWalker.png"));
+        animatedTexture = new Texture(Gdx.files.internal(this.pathTextura));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        stoppedTexture = new Texture(Gdx.files.internal("imatges/warrior.png"));
+        stoppedTexture = new Texture(Gdx.files.internal(this.pathImg));
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
@@ -136,12 +156,10 @@ public class Monstre {
 
     public void moure() {
         if (!moureEsquerra) {
-            cos.applyLinearImpulse(0.05f, 0.0f,
-                    cos.getLinearVelocity().x, 0, true);
+            cos.setLinearVelocity(this.velocitat, 0.0f);
             spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
         }else {
-            cos.applyLinearImpulse(-0.05f, 0.0f,
-                    cos.getLinearVelocity().x, 0, true);
+            cos.setLinearVelocity(-this.velocitat, 0.0f);
             spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
         }
 

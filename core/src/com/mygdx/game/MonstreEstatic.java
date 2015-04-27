@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 /**
  * Created by Arnau on 26/04/2015.
  */
-public class MonstreLava {
+public class MonstreEstatic {
     public static final int FRAME_COLS = 4;
     public static final int FRAME_ROWS = 2;
     private final int PUNTS = 100;
@@ -44,7 +44,7 @@ public class MonstreLava {
         this.nom = nom;
     }
 
-    public MonstreLava(World world,String nom, float posX, float posY, boolean orientacio){
+    public MonstreEstatic(World world, String nom, float posX, float posY, boolean orientacio){
         moureEsquerra = orientacio;
         this.nom = nom;
         this.world = world;
