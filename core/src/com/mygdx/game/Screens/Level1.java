@@ -343,6 +343,7 @@ public class Level1 extends AbstractScreen {
 		 * per destruir cossos marcats per ser eliminats
 		 */
         	for(int i = bodyDestroyList.size()-1; i >=0; i-- ) {
+
 				for (int j = 0; j < monstres.size(); j++) {
 					if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()) {
 						monstres.get(j).dispose();
@@ -366,7 +367,7 @@ public class Level1 extends AbstractScreen {
 				}
 
 				if (bodyDestroyList.get(i).getUserData().equals("Vida")) {
-					cor.dispose();
+					cor = null;
 					personatge.setVides(personatge.getVides() + 1);
 					this.vides = personatge.getVides();
 				}
@@ -417,16 +418,19 @@ public class Level1 extends AbstractScreen {
 			}
 		}
 
-		cor.dibuixar(batch);
-		cor.updatePosition();
-		cor.moure();
+		if (cor != null) {
+			cor.dibuixar(batch);
+			cor.updatePosition();
+			cor.moure();
+		}
 
-				barra.dibuixar(batch);
+		barra.dibuixar(batch);
 		barra2.dibuixar(batch);
 		barra3.dibuixar(batch);
 	    	// finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
 		    // s'ha indicat entre begin i end
 		batch.end();
+
 
         // dibuixar els controls de pantalla
 				stage.act();

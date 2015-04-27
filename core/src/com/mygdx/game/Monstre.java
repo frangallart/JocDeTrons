@@ -136,11 +136,11 @@ public class Monstre {
 
     public void moure() {
         if (!moureEsquerra) {
-            cos.applyLinearImpulse(0.08f, 0.0f,
+            cos.applyLinearImpulse(0.05f, 0.0f,
                     cos.getLinearVelocity().x, 0, true);
             spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
         }else {
-            cos.applyLinearImpulse(-0.08f, 0.0f,
+            cos.applyLinearImpulse(-0.05f, 0.0f,
                     cos.getLinearVelocity().x, 0, true);
             spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
         }
