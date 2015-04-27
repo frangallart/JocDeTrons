@@ -95,6 +95,7 @@ public class Level1 extends AbstractScreen {
      */
     private ArrayList<Body> bodyDestroyList;
 
+	private boolean vidaVista;
 
 	public Level1(JocDeTrons joc, int vides, String pathTexturaPj, String pathImgPj, String nomJugador) {
 		super(joc);
@@ -107,6 +108,7 @@ public class Level1 extends AbstractScreen {
 
 		this.pathTexturaPj = pathTexturaPj;
 		this.pathImgPj = pathImgPj;
+		this.vidaVista = false;
 
 		table = new Table();
 		table2 = new Table();
@@ -142,7 +144,6 @@ public class Level1 extends AbstractScreen {
 		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 60.15f, 1f, 1.8f, false));
 
 		personatge.setVides(vides);
-		cor = new Vides(world, "Vida", 87.99f, 6.0f);
 		world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstresLava, bolesFocMonstres));
 
 		this.vides = vides;
@@ -309,7 +310,6 @@ public class Level1 extends AbstractScreen {
 	// ----------------------------------------------------------------------------------
 	// MÈTODES SOBREESCRITS DE AbstractScreen
 	// ----------------------------------------------------------------------------------
-
 	@Override
 	public void render(float delta) {
 
@@ -418,6 +418,10 @@ public class Level1 extends AbstractScreen {
 			}
 		}
 
+		if (personatge.getPositionBody().x > 86 && !vidaVista) {
+			cor = new Vides(world, "Vida", 87.99f, 6.0f);
+			vidaVista = true;
+		}
 		if (cor != null) {
 			cor.dibuixar(batch);
 			cor.updatePosition();
