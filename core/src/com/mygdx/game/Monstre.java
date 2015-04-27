@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class Monstre {
 
-    public static final int FRAME_COLS = 9;
+    public static final int FRAME_COLS = 6;
     public static final int FRAME_ROWS = 2;
     private final int PUNTS = 100;
     /**
