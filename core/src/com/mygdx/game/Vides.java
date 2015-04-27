@@ -72,7 +72,7 @@ public class Vides {
 
     private void crearProtagonista() {
         spritePersonatge = new Sprite(animatedTexture);
-        spriteAnimat = new AnimatedSprite(stoppedTexture);
+        spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS, stoppedTexture);
 
         // Definir el tipus de cos i la seva posici?
         BodyDef defCos = new BodyDef();
@@ -85,8 +85,8 @@ public class Vides {
          * Definir les vores de l'sprite
          */
         PolygonShape requadre = new PolygonShape();
-        requadre.setAsBox((spritePersonatge.getWidth() / 0.5f) / (2 * JocDeTrons.PIXELS_PER_METRE),
-                (spritePersonatge.getHeight() * 2) / (2 * JocDeTrons.PIXELS_PER_METRE));
+        requadre.setAsBox((spritePersonatge.getWidth() / FRAME_COLS) / (2 * JocDeTrons.PIXELS_PER_METRE),
+                (spritePersonatge.getHeight() / FRAME_ROWS) / (2 * JocDeTrons.PIXELS_PER_METRE));
 
         /**
          * La densitat i fricci? del protagonista. Si es modifiquen aquests
@@ -124,6 +124,13 @@ public class Vides {
         spriteAnimat.draw(batch);
     }
 
+    public void moure() {
+        if (!moureEsquerra) {
+            spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
+        }else {
+            spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
+        }
+    }
 
     public boolean isMoureEsquerra() {
         return moureEsquerra;

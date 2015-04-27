@@ -142,7 +142,7 @@ public class Level1 extends AbstractScreen {
 		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 60.15f, 1f, 1.8f, false));
 
 		personatge.setVides(vides);
-		cor = new Vides(world, "Vida", 87.97f, 6.0f);
+		cor = new Vides(world, "Vida", 87.99f, 6.0f);
 		world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstresLava, bolesFocMonstres));
 
 		this.vides = vides;
@@ -364,6 +364,12 @@ public class Level1 extends AbstractScreen {
 						break;
 					}
 				}
+
+				if (bodyDestroyList.get(i).getUserData().equals("Vida")) {
+					cor.dispose();
+					personatge.setVides(personatge.getVides() + 1);
+					this.vides = personatge.getVides();
+				}
 				world.destroyBody(bodyDestroyList.get(i));
 			}
 			bodyDestroyList.clear();
@@ -413,8 +419,9 @@ public class Level1 extends AbstractScreen {
 
 		cor.dibuixar(batch);
 		cor.updatePosition();
+		cor.moure();
 
-		barra.dibuixar(batch);
+				barra.dibuixar(batch);
 		barra2.dibuixar(batch);
 		barra3.dibuixar(batch);
 	    	// finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
@@ -422,11 +429,11 @@ public class Level1 extends AbstractScreen {
 		batch.end();
 
         // dibuixar els controls de pantalla
-        stage.act();
-        stage.draw();
+				stage.act();
+				stage.draw();
 
-        debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
-				JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
+				debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
+						JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
 				JocDeTrons.PIXELS_PER_METRE));
 
 		if (personatge.getPositionBody().x > 96f){
@@ -440,12 +447,11 @@ public class Level1 extends AbstractScreen {
 
 			if (personatge.getVides() == 0) {
 				joc.setScreen(new MainMenuScreen(joc));
-			} else if (personatge.getVides() != vides) {
+			} else if (personatge.getVides() < vides) {
 				vides = personatge.getVides();
 				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
 			}
 		}
-		System.out.println(personatge.getPositionBody().x);
 	}
 
 	@Override
