@@ -121,18 +121,18 @@ public class Level2 extends AbstractScreen {
         this.personatge = new Personatge(world, personatge.getVides(), personatge.getPunts(), personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE());
 
         monstres = new ArrayList<Monstre>();
-        monstres.add(new Monstre(world, "gegant1", 37.0f, 0.66f, 46f, 37.1f, "imatges/whiteWalker.png","imatges/whiteWalker.png"));
-        monstres.add(new Monstre(world, "gegant2", 72.66f, 0.66f, 77.66f, 72.67f,"imatges/whiteWalker.png", "imatges/whiteWalker.png"));
-        monstres.add(new Monstre(world, "gegant3", 109f, 0.66f, 111f, 109.1f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png"));
-        monstres.add(new Monstre(world, "gegant4", 144.33f, 1.0f, 147f, 144.34f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
-        monstres.add(new Monstre(world, "gegant5", 156.33f, 1.66f, 160.33f, 156.34f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
-        monstres.add(new Monstre(world, "caminant1", 122f, 2.33f, 127.33f, 122.1f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
-        monstres.add(new Monstre(world, "caminant2", 169.33f, 1.0f, 172.33f, 169.34f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
-        monstres.add(new Monstre(world, "caminant3", 203.33f, 1.33f, 210f, 203.34f, 1.5f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
-        monstres.add(new Monstre(world, "caminant4", 236.33f, 1.33f, 240f, 236.34f, 1.5f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
-        monstres.add(new Monstre(world, "caminant5", 249.66f, 2.66f, 252.33f, 249.67f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
-        monstres.add(new Monstre(world, "caminant6", 266.66f, 1.0f, 271f, 266.67f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png"));
-        monstres.add(new Monstre(world, "caminant7", 290.66f, 1.0f, 294f, 290.67f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png"));
+        monstres.add(new Monstre(world, "gegant1", 37.0f, 0.66f, 46f, 37.1f, "imatges/whiteWalker.png","imatges/whiteWalker.png", 6, 2));
+        monstres.add(new Monstre(world, "gegant2", 72.66f, 0.66f, 77.66f, 72.67f,"imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
+        monstres.add(new Monstre(world, "gegant3", 109f, 0.66f, 111f, 109.1f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png", 6, 2));
+        monstres.add(new Monstre(world, "gegant4", 144.33f, 1.0f, 147f, 144.34f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
+        monstres.add(new Monstre(world, "gegant5", 156.33f, 1.66f, 160.33f, 156.34f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 8, 2));
+        monstres.add(new Monstre(world, "caminant1", 122f, 2.33f, 127.33f, 122.1f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
+        monstres.add(new Monstre(world, "caminant2", 169.33f, 1.0f, 172.33f, 169.34f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
+        monstres.add(new Monstre(world, "caminant3", 203.33f, 1.33f, 210f, 203.34f, 1.5f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
+        monstres.add(new Monstre(world, "caminant4", 236.33f, 1.33f, 240f, 236.34f, 1.5f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
+        monstres.add(new Monstre(world, "caminant5", 249.66f, 2.66f, 252.33f, 249.67f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
+        monstres.add(new Monstre(world, "caminant6", 266.66f, 1.0f, 271f, 266.67f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png", 6, 2));
+        monstres.add(new Monstre(world, "caminant7", 290.66f, 1.0f, 294f, 290.67f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png", 6, 2));
 
         noia = new MonstreEstatic(world, "noia", 332.54f, 6.07f, true, "imatges/noiaNua.png");
 
