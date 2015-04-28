@@ -98,7 +98,7 @@ public class Personatge {
         // Definir el tipus de cos i la seva posició
         BodyDef defCos = new BodyDef();
         defCos.type = BodyDef.BodyType.DynamicBody;
-        defCos.position.set(330.0f, 6.0f);
+        defCos.position.set(1.0f, 3.0f);
 
         cos = world.createBody(defCos);
         cos.setUserData("personatge");
