@@ -259,6 +259,13 @@ public class Level1 extends AbstractScreen {
 				}
 			}
 		}
+
+		if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+			personatge.setFerAtac(true);
+		}else{
+			personatge.setFerAtac(false);
+		}
+
 	}
 
     /**
