@@ -20,7 +20,7 @@ public class GestorContactes implements ContactListener {
     private ArrayList<Body> bodyDestroyList;
     private ArrayList<BolesFocMonstre> boles;
     private ArrayList<Monstre> monstres;
-    private ArrayList<MonstreLava> monstreLava;
+    private ArrayList<MonstreEstatic> monstreEstatic;
     private Personatge personatge;
 
     public GestorContactes() {
@@ -32,11 +32,11 @@ public class GestorContactes implements ContactListener {
     }
 
     public GestorContactes(ArrayList<Body> bodyDestroyList, Personatge personatge, ArrayList<Monstre> monstres,
-                           ArrayList<MonstreLava> monstresLava, ArrayList<BolesFocMonstre> boles) {
+                           ArrayList<MonstreEstatic> monstresLava, ArrayList<BolesFocMonstre> boles) {
         this.bodyDestroyList = bodyDestroyList;
         this.personatge = personatge;
         this.monstres = monstres;
-        this.monstreLava = monstresLava;
+        this.monstreEstatic = monstresLava;
         this.boles = boles;
     }
 
@@ -100,10 +100,10 @@ public class GestorContactes implements ContactListener {
             }
         }
 
-        for (int monstresLava = monstreLava.size() - 1; monstresLava >= 0; monstresLava--) {
-            if (fixtureB.getBody().getUserData().equals("personatge") && fixtureA.getBody().getUserData().equals(monstreLava.get(monstresLava).getNom())) {
+        for (int monstresLava = monstreEstatic.size() - 1; monstresLava >= 0; monstresLava--) {
+            if (fixtureB.getBody().getUserData().equals("personatge") && fixtureA.getBody().getUserData().equals(monstreEstatic.get(monstresLava).getNom())) {
                 personatge.setVides(personatge.getVides() - 1);
-            }else if (fixtureA.getBody().getUserData().equals("personatge") && fixtureB.getBody().getUserData().equals(monstreLava.get(monstresLava).getNom())) {
+            }else if (fixtureA.getBody().getUserData().equals("personatge") && fixtureB.getBody().getUserData().equals(monstreEstatic.get(monstresLava).getNom())) {
                 personatge.setVides(personatge.getVides() - 1);
             }
         }

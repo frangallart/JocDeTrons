@@ -19,7 +19,7 @@ import com.mygdx.game.GestorContactes;
 import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.MapBodyManager;
 import com.mygdx.game.Monstre;
-import com.mygdx.game.MonstreLava;
+import com.mygdx.game.MonstreEstatic;
 import com.mygdx.game.Personatge;
 import com.mygdx.game.TiledMapHelper;
 
@@ -123,14 +123,24 @@ public class Level2 extends AbstractScreen {
         this.personatge = new Personatge(world, personatge.getPathTextura(), personatge.getPathImatge());
 
         monstres = new ArrayList<Monstre>();
-        monstres.add(new Monstre(world, "monstre1", 6.0f, 2.0f, 6.7f, 5.3f));
-        monstres.add(new Monstre(world, "monstre2", 17.0f, 3.0f, 17.2f, 15.8f));
+        monstres.add(new Monstre(world, "gegant1", 37.0f, 0.66f, 46f, 37.1f, "imatges/whiteWalker.png","imatges/whiteWalker.png"));
+        monstres.add(new Monstre(world, "gegant2", 72.66f, 0.66f, 77.66f, 72.67f,"imatges/whiteWalker.png", "imatges/whiteWalker.png"));
+        monstres.add(new Monstre(world, "gegant3", 109f, 0.66f, 111f, 109.1f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png"));
+        monstres.add(new Monstre(world, "gegant4", 144.33f, 1.0f, 147f, 144.34f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
+        monstres.add(new Monstre(world, "gegant5", 156.33f, 1.66f, 160.33f, 156.34f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
+        monstres.add(new Monstre(world, "caminant1", 122f, 2.33f, 127.33f, 122.1f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
+        monstres.add(new Monstre(world, "caminant2", 169.33f, 1.0f, 172.33f, 169.34f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
+        monstres.add(new Monstre(world, "caminant3", 203.33f, 1.33f, 210f, 203.34f, 1.5f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
+        monstres.add(new Monstre(world, "caminant4", 236.33f, 1.33f, 240f, 236.34f, 1.5f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
+        monstres.add(new Monstre(world, "caminant5", 249.66f, 2.66f, 252.33f, 249.67f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
+        monstres.add(new Monstre(world, "caminant6", 266.66f, 1.0f, 271f, 266.67f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png"));
+        monstres.add(new Monstre(world, "caminant7", 290.66f, 1.0f, 294f, 290.67f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png"));
 
         ArrayList<BolesFocMonstre> boles = new ArrayList<BolesFocMonstre>();
-        ArrayList<MonstreLava> monstreLava = new ArrayList<MonstreLava>();
+        ArrayList<MonstreEstatic> monstreEstatic = new ArrayList<MonstreEstatic>();
 
         personatge.setVides(vides);
-        world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstreLava, boles));
+        world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstreEstatic, boles));
 
         this.vides = vides;
 

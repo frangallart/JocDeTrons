@@ -18,7 +18,7 @@ import com.mygdx.game.GestorContactes;
 import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.MapBodyManager;
 import com.mygdx.game.Monstre;
-import com.mygdx.game.MonstreLava;
+import com.mygdx.game.MonstreEstatic;
 import com.mygdx.game.Personatge;
 import com.mygdx.game.TiledMapHelper;
 import com.mygdx.game.Vides;
@@ -83,7 +83,7 @@ public class Level1 extends AbstractScreen {
 	private int vides;
 
 	private ArrayList<Monstre> monstres;
-	private ArrayList<MonstreLava> monstresLava;
+	private ArrayList<MonstreEstatic> monstresLava;
 	private ArrayList<BolesFocMonstre> bolesFocMonstres;
 	private Vides cor;
 
@@ -132,12 +132,12 @@ public class Level1 extends AbstractScreen {
         personatge = new Personatge(world, this.pathTexturaPj, this.pathImgPj);
 
 		monstres = new ArrayList<Monstre>();
-		monstres.add(new Monstre(world, "monstre1", 6.0f, 2.0f, 6.6f, 5.45f));
-		monstres.add(new Monstre(world, "monstre2", 17.0f, 3.0f, 17.2f, 15.8f));
+		monstres.add(new Monstre(world, "monstre1", 6.0f, 1.33f, 6.6f, 5.45f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
+		monstres.add(new Monstre(world, "monstre2", 17.0f, 2.0f, 17.2f, 15.8f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png"));
 
-		monstresLava = new ArrayList<MonstreLava>();
-		monstresLava.add(new MonstreLava(world, "monstreLava1", 50.64f, 0.64f, false));
-		monstresLava.add(new MonstreLava(world, "monstreLava2", 60.15f, 0.64f, true));
+		monstresLava = new ArrayList<MonstreEstatic>();
+		monstresLava.add(new MonstreEstatic(world, "monstreLava1", 50.64f, 0.64f, false));
+		monstresLava.add(new MonstreEstatic(world, "monstreLava2", 60.15f, 0.64f, true));
 
 		bolesFocMonstres = new ArrayList<BolesFocMonstre>();
 		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 50.44f, 1f, 2f, false));
@@ -401,8 +401,8 @@ public class Level1 extends AbstractScreen {
 			item.moure();
 		}
 
-		for(Iterator<MonstreLava> i = monstresLava.iterator(); i.hasNext(); ) {
-			MonstreLava items = i.next();
+		for(Iterator<MonstreEstatic> i = monstresLava.iterator(); i.hasNext(); ) {
+			MonstreEstatic items = i.next();
 			items.dibuixar(batch);
 			items.updatePosition();
 			items.moure();

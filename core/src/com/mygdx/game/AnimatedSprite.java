@@ -22,6 +22,7 @@ public class AnimatedSprite {
     private Animation animation;
     private TextureRegion[] framesLeft, framesRight;
     private Texture frame;
+    private Texture frameE;
     private int textureCols, textureRows;
     private Direction direction;
 
@@ -61,6 +62,33 @@ public class AnimatedSprite {
         stateTime = 0f;
     }
 
+    public AnimatedSprite(Sprite sprite, int textureCols, int textureRows, Texture stoppedTexture, Texture stoppedTextureE) {
+        Texture framesTexture = sprite.getTexture();
+        TextureRegion[][] tmp = TextureRegion.split(framesTexture,
+                framesTexture.getWidth() / textureCols,
+                framesTexture.getHeight() / textureRows);
+
+        this.sprite = sprite;
+        this.textureCols = textureCols;
+        this.textureRows = textureRows;
+        frame = stoppedTexture;
+        frameE = stoppedTextureE;
+        direction = Direction.STOPPED;
+
+        framesLeft = new TextureRegion[textureCols];
+        for (int j = 0; j < textureCols; j++) {
+            framesLeft[j] = tmp[1][j];
+        }
+
+        framesRight = new TextureRegion[textureCols];
+        for (int j = 0; j < textureCols; j++) {
+            framesRight[j] = tmp[0][j];
+        }
+
+        animation = new Animation(0.25f, framesRight);
+        stateTime = 0f;
+    }
+
     /**
      * Dibuixar l'sprite
      *
@@ -75,7 +103,18 @@ public class AnimatedSprite {
         }
     }
 
-
+    public void draw(SpriteBatch spriteBatch, boolean cara) {
+        if (direction == Direction.STOPPED) {
+            if (cara) {
+                spriteBatch.draw(frame, sprite.getX(), sprite.getY());
+            }else{
+                spriteBatch.draw(frameE, sprite.getX(), sprite.getY());
+            }
+        } else {
+            stateTime += Gdx.graphics.getDeltaTime() * 2;
+            spriteBatch.draw(animation.getKeyFrame(stateTime, true), sprite.getX(), sprite.getY());
+        }
+    }
 
 
     public void setPosition(float x, float y) {
@@ -90,7 +129,6 @@ public class AnimatedSprite {
             animation = new Animation(0.25f, framesRight);
         }
     }
-
 
     public void setStoppedTexture(Texture texture) {
         this.frame = texture;
