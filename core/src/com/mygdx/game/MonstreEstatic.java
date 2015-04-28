@@ -27,7 +27,7 @@ public class MonstreEstatic {
     private float posX;
     private float posY;
 
-    private String nom;
+    private String nom, imatge;
 
     private World world;                // Refer?ncia al mon on est? definit el personatge
     private Body cos;                   // per definir les propietats del cos
@@ -44,18 +44,19 @@ public class MonstreEstatic {
         this.nom = nom;
     }
 
-    public MonstreEstatic(World world, String nom, float posX, float posY, boolean orientacio){
+    public MonstreEstatic(World world, String nom, float posX, float posY, boolean orientacio, String imatge){
         moureEsquerra = orientacio;
         this.nom = nom;
         this.world = world;
         this.posX = posX;
         this.posY = posY;
+        this.imatge = imatge;
         carregarTextures();
         crearProtagonista();
     }
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/lavaMonster.png"));
+        animatedTexture = new Texture(Gdx.files.internal(imatge));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         stoppedTexture = new Texture(Gdx.files.internal("imatges/warrior.png"));

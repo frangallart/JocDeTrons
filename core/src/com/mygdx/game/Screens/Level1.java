@@ -137,8 +137,8 @@ public class Level1 extends AbstractScreen {
 		monstres.add(new Monstre(world, "monstre2", 17.0f, 2.0f, 17.2f, 15.8f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png"));
 
 		monstresLava = new ArrayList<MonstreEstatic>();
-		monstresLava.add(new MonstreEstatic(world, "monstreLava1", 50.64f, 0.64f, false));
-		monstresLava.add(new MonstreEstatic(world, "monstreLava2", 60.15f, 0.64f, true));
+		monstresLava.add(new MonstreEstatic(world, "monstreLava1", 50.64f, 0.64f, false, "imatges/lavaMonster.png"));
+		monstresLava.add(new MonstreEstatic(world, "monstreLava2", 60.15f, 0.64f, true, "imatges/lavaMonster.png"));
 
 		bolesFocMonstres = new ArrayList<BolesFocMonstre>();
 		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 50.44f, 1f, 2f, false));
