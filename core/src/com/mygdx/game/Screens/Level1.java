@@ -87,7 +87,7 @@ public class Level1 extends AbstractScreen {
 	private ArrayList<BolesFocMonstre> bolesFocMonstres;
 	private Vides cor;
 
-	private String pathTexturaPj, pathImgPj;
+	private String pathTexturaPj, pathImgPj, pathImgPjE;
 
 	/**
      * per indicar quins cossos s'han de destruir
@@ -97,7 +97,7 @@ public class Level1 extends AbstractScreen {
 
 	private boolean vidaVista;
 
-	public Level1(JocDeTrons joc, int vides, String pathTexturaPj, String pathImgPj, String nomJugador) {
+	public Level1(JocDeTrons joc, int vides, String pathTexturaPj, String pathImgPj, String pathImgPjE, String nomJugador) {
 		super(joc);
         // carregar el fitxer d'skins
         skin = new Skin(Gdx.files.internal("skins/skin.json"));
@@ -108,6 +108,7 @@ public class Level1 extends AbstractScreen {
 
 		this.pathTexturaPj = pathTexturaPj;
 		this.pathImgPj = pathImgPj;
+		this.pathImgPjE = pathImgPjE;
 		this.vidaVista = false;
 
 		table = new Table();
@@ -129,7 +130,7 @@ public class Level1 extends AbstractScreen {
 		//world.setContactListener(new GestorContactes());
 
 		// crear el personatge
-        personatge = new Personatge(world, this.pathTexturaPj, this.pathImgPj);
+        personatge = new Personatge(world, this.pathTexturaPj, this.pathImgPj, this.pathImgPjE);
 
 		monstres = new ArrayList<Monstre>();
 		monstres.add(new Monstre(world, "monstre1", 6.0f, 2.0f, 6.6f, 5.45f, "imatges/whiteWalker.png", "imatges/whiteWalker.png"));
@@ -450,14 +451,14 @@ public class Level1 extends AbstractScreen {
 
 			if (personatge.getPositionBody().y < 0.38) {
 				personatge.setVides(personatge.getVides() - 1);
-				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
+				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), labelNomJugador.getText().toString()));
 			}
 
 			if (personatge.getVides() == 0) {
 				joc.setScreen(new MainMenuScreen(joc));
 			} else if (personatge.getVides() < vides) {
 				vides = personatge.getVides();
-				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), labelNomJugador.getText().toString()));
+				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), labelNomJugador.getText().toString()));
 			}
 		}
 	}

@@ -39,9 +39,10 @@ public class Personatge {
     private Texture animatedTexture;
 
 
-    private String pathTextura, pathImatge;
+    private String pathTextura, pathImatge, pathImatgeE;
 
-    public Personatge(World world, String pathTextura, String pathImatge) {
+
+    public Personatge(World world, String pathTextura, String pathImatge, String pathImatgeE) {
         moureEsquerra = moureDreta = ferSalt = false;
         this.velocitat = 0.1f;
         this.world = world;
@@ -49,6 +50,7 @@ public class Personatge {
         this.punts = 0;
         this.pathTextura = pathTextura;
         this.pathImatge = pathImatge;
+        this.pathImatgeE = pathImatgeE;
         this.personatgeCaraDreta = true;
         carregarTextures();
         carregarSons();
@@ -65,7 +67,7 @@ public class Personatge {
         stoppedTexture = new Texture(Gdx.files.internal(this.pathImatge));
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        stoppedTextureE = new Texture(Gdx.files.internal("imatges/heroinaE.png"));
+        stoppedTextureE = new Texture(Gdx.files.internal(pathImatgeE));
         stoppedTextureE.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
@@ -264,6 +266,14 @@ public class Personatge {
 
     public void setPunts(int punts) {
         this.punts = punts;
+    }
+
+    public String getPathImatgeE() {
+        return pathImatgeE;
+    }
+
+    public void setPathImatgeE(String pathImatgeE) {
+        this.pathImatgeE = pathImatgeE;
     }
 
     public void dispose() {
