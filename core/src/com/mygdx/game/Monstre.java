@@ -11,24 +11,16 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-/**
- * Created by Arnau on 23/04/2015.
- */
+
 public class Monstre {
 
-    public static final int FRAME_COLS = 6;
-    public static final int FRAME_ROWS = 2;
+    public  int frameCols, frameRows;
     private final int PUNTS = 100;
     /**
      * Detectar el moviment
      */
-    private boolean moureEsquerra;
-    private boolean moureDreta;
-    private boolean personatgeCaraDreta;
-    private float posX;
-    private float posY;
-    private float posMax;
-    private float posMin;
+    private boolean moureEsquerra,moureDreta,personatgeCaraDreta;
+    private float posX,posY,posMax,posMin, velocitat;
 
     private String nom, pathTextura, pathImg;
 
@@ -36,9 +28,7 @@ public class Monstre {
     private Body cos;                   // per definir les propietats del cos
     private Sprite spritePersonatge;    // sprite associat al personatge
     private AnimatedSprite spriteAnimat;// animaci� de l'sprite
-    private Texture stoppedTexture;     // la seva textura
-    private Texture animatedTexture;
-    private float velocitat;
+    private Texture stoppedTexture,animatedTexture;
 
     public String getNom() {
         return nom;
@@ -48,7 +38,12 @@ public class Monstre {
         this.nom = nom;
     }
 
-    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin, String pathTextura, String pathImg){
+    //SERPS: COLS: 4 ROWS: 2
+    //Caminants: COLS 6: ROWS :2
+    //Gegants : COLS: 8 ROWS: 2
+    //Putilla: COLS 4: ROWS 2
+
+    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin, String pathTextura, String pathImg, int frameCols, int frameRows){
         moureEsquerra = false;
         moureDreta = true;
         this.nom = nom;
@@ -60,11 +55,13 @@ public class Monstre {
         this.velocitat = 1f;
         this.pathTextura = pathTextura;
         this.pathImg = pathImg;
+        this.frameCols = frameCols;
+        this.frameRows = frameRows;
         carregarTextures();
         crearProtagonista();
     }
 
-    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin, float velocitat, String pathTextura, String pathImg){
+    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin, float velocitat, String pathTextura, String pathImg, int frameCols, int frameRows){
         moureEsquerra = false;
         moureDreta = true;
         this.nom = nom;
@@ -76,6 +73,8 @@ public class Monstre {
         this.velocitat = velocitat;
         this.pathTextura = pathTextura;
         this.pathImg = pathImg;
+        this.frameCols = frameCols;
+        this.frameRows = frameRows;
         carregarTextures();
         crearProtagonista();
     }
@@ -92,7 +91,7 @@ public class Monstre {
 
     private void crearProtagonista() {
         spritePersonatge = new Sprite(animatedTexture);
-        spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS, stoppedTexture);
+        spriteAnimat = new AnimatedSprite(spritePersonatge, frameCols, frameRows, stoppedTexture);
 
         // Definir el tipus de cos i la seva posici�
         BodyDef defCos = new BodyDef();
@@ -105,8 +104,8 @@ public class Monstre {
          * Definir les vores de l'sprite
          */
         PolygonShape requadre = new PolygonShape();
-        requadre.setAsBox((spritePersonatge.getWidth() / FRAME_COLS) / (2 * JocDeTrons.PIXELS_PER_METRE),
-                (spritePersonatge.getHeight() / FRAME_ROWS) / (2 * JocDeTrons.PIXELS_PER_METRE));
+        requadre.setAsBox((spritePersonatge.getWidth() / frameCols) / (2 * JocDeTrons.PIXELS_PER_METRE),
+                (spritePersonatge.getHeight() / frameRows) / (2 * JocDeTrons.PIXELS_PER_METRE));
 
         /**
          * La densitat i fricci� del protagonista. Si es modifiquen aquests
@@ -134,9 +133,9 @@ public class Monstre {
     public void updatePosition() {
         spritePersonatge.setPosition(
                 JocDeTrons.PIXELS_PER_METRE * cos.getPosition().x
-                        - spritePersonatge.getWidth() / FRAME_COLS / 2,
+                        - spritePersonatge.getWidth() / frameCols / 2,
                 JocDeTrons.PIXELS_PER_METRE * cos.getPosition().y
-                        - spritePersonatge.getHeight() / FRAME_ROWS / 2);
+                        - spritePersonatge.getHeight() / frameRows / 2);
         spriteAnimat.setPosition(spritePersonatge.getX(), spritePersonatge.getY());
     }
 
