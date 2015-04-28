@@ -55,8 +55,21 @@ public class Personatge {
         carregarTextures();
         carregarSons();
         crearProtagonista();
+    }
 
-
+    public Personatge(World world, int vides, int punts, String pathTextura, String pathImatge, String pathImatgeE) {
+        moureEsquerra = moureDreta = ferSalt = false;
+        this.velocitat = 0.1f;
+        this.world = world;
+        this.vides = vides;
+        this.punts = punts;
+        this.pathTextura = pathTextura;
+        this.pathImatge = pathImatge;
+        this.pathImatgeE = pathImatgeE;
+        this.personatgeCaraDreta = true;
+        carregarTextures();
+        carregarSons();
+        crearProtagonista();
     }
 
 
@@ -85,7 +98,7 @@ public class Personatge {
         // Definir el tipus de cos i la seva posició
         BodyDef defCos = new BodyDef();
         defCos.type = BodyDef.BodyType.DynamicBody;
-        defCos.position.set(1.0f, 3.0f);
+        defCos.position.set(330.0f, 6.0f);
 
         cos = world.createBody(defCos);
         cos.setUserData("personatge");

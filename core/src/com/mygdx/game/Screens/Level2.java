@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.Ascensor;
-import com.mygdx.game.BolesFocMonstre;
 import com.mygdx.game.GestorContactes;
 import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.MapBodyManager;
@@ -84,6 +83,7 @@ public class Level2 extends AbstractScreen {
     private Texture splashTexture;
     private Image splashImage;
     private Personatge personatge;
+    private MonstreEstatic noia;
 
     /**
      * per indicar quins cossos s'han de destruir
@@ -92,7 +92,7 @@ public class Level2 extends AbstractScreen {
     private ArrayList<Body> bodyDestroyList;
 
 
-    public Level2(JocDeTrons joc, int vides, Personatge personatge, String nomJugador) {
+    public Level2(JocDeTrons joc, Personatge personatge, String nomJugador) {
         super(joc);
         // carregar el fitxer d'skins
         skin = new Skin(Gdx.files.internal("skins/skin.json"));
@@ -116,11 +116,9 @@ public class Level2 extends AbstractScreen {
 
         // --- si es volen destruir objectes, descomentar ---
         bodyDestroyList= new ArrayList<Body>();
-        //world.setContactListener(new GestorContactes(bodyDestroyList));
-        //world.setContactListener(new GestorContactes());
 
         // crear el personatge
-        this.personatge = new Personatge(world, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE());
+        this.personatge = new Personatge(world, personatge.getVides(), personatge.getPunts(), personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE());
 
         monstres = new ArrayList<Monstre>();
         monstres.add(new Monstre(world, "gegant1", 37.0f, 0.66f, 46f, 37.1f, "imatges/whiteWalker.png","imatges/whiteWalker.png"));
@@ -136,15 +134,13 @@ public class Level2 extends AbstractScreen {
         monstres.add(new Monstre(world, "caminant6", 266.66f, 1.0f, 271f, 266.67f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png"));
         monstres.add(new Monstre(world, "caminant7", 290.66f, 1.0f, 294f, 290.67f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png"));
 
-        ArrayList<BolesFocMonstre> boles = new ArrayList<BolesFocMonstre>();
-        ArrayList<MonstreEstatic> monstreEstatic = new ArrayList<MonstreEstatic>();
+        noia = new MonstreEstatic(world, "noia", 332.54f, 6.07f, true, "imatges/noiaNua.png");
 
-        personatge.setVides(vides);
-        world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstreEstatic, boles));
+        world.setContactListener(new GestorContactes(bodyDestroyList, this.personatge, monstres, null, null));
 
-        this.vides = vides;
+        this.vides = personatge.getVides();
 
-        // objecte que permet debugar les col�lisions
+        // objecte que permet debugar les col·lisions
         debugRenderer = new Box2DDebugRenderer();
 
         /// Horitzontal: 49
@@ -334,11 +330,10 @@ public class Level2 extends AbstractScreen {
 		 * per destruir cossos marcats per ser eliminats
 		 */
         for(int i = bodyDestroyList.size()-1; i >=0; i-- ) {
-            System.out.println((bodyDestroyList.get(i).getUserData()).toString());
-            for (int j = 0; j < monstres.size(); j++){
-                if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()){
+            for (int j = 0; j < monstres.size(); j++) {
+                if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()) {
                     monstres.get(j).dispose();
-                    this.personatge.setPunts(personatge.getPunts() + monstres.get(j).getPUNTS());
+                    personatge.setPunts(personatge.getPunts() + monstres.get(j).getPUNTS());
                     monstres.remove(j);
                     break;
                 }
@@ -346,9 +341,6 @@ public class Level2 extends AbstractScreen {
             world.destroyBody(bodyDestroyList.get(i));
         }
         bodyDestroyList.clear();
-
-        //System.out.println(personatge.getPositionBody().x);
-
 
         // Esborrar la pantalla
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -376,6 +368,10 @@ public class Level2 extends AbstractScreen {
             item.moure();
         }
 
+        noia.dibuixar(batch);
+        noia.updatePosition();
+        noia.moure();
+
         ascensor.dibuixar(batch);
         // finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
         // s'ha indicat entre begin i end
@@ -389,21 +385,20 @@ public class Level2 extends AbstractScreen {
                 JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
                 JocDeTrons.PIXELS_PER_METRE));
 
-		if (personatge.getPositionBody().y < 0.38){
-			personatge.setVides(personatge.getVides()-1);
-			joc.setScreen(new Level2(joc, vides, personatge, labelNomJugador.getText().toString()));
-		}
-
-        System.out.println(this.personatge.getPositionBody().x);
         if (this.personatge.getPositionBody().x > 332.1f){
             joc.setScreen(new MainMenuScreen(joc));
-        }
+        }else {
+            if (personatge.getPositionBody().y < 0.38){
+                personatge.setVides(personatge.getVides()-1);
+                joc.setScreen(new Level2(joc, personatge, labelNomJugador.getText().toString()));
+            }
 
-        if (this.personatge.getVides() == 0) {
-            joc.setScreen(new MainMenuScreen(joc));
-        } else if (this.personatge.getVides() != vides) {
-            vides = this.personatge.getVides();
-            joc.setScreen(new Level2(joc, vides, this.personatge, labelNomJugador.getText().toString()));
+            if (this.personatge.getVides() == 0) {
+                joc.setScreen(new MainMenuScreen(joc));
+            } else if (this.personatge.getVides() != vides) {
+                vides = this.personatge.getVides();
+                joc.setScreen(new Level2(joc, this.personatge, labelNomJugador.getText().toString()));
+            }
         }
     }
 
