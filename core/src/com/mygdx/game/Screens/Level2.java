@@ -120,7 +120,7 @@ public class Level2 extends AbstractScreen {
         //world.setContactListener(new GestorContactes());
 
         // crear el personatge
-        this.personatge = new Personatge(world, personatge.getPathTextura(), personatge.getPathImatge());
+        this.personatge = new Personatge(world, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE());
 
         monstres = new ArrayList<Monstre>();
         monstres.add(new Monstre(world, "gegant1", 37.0f, 0.66f, 46f, 37.1f, "imatges/whiteWalker.png","imatges/whiteWalker.png"));
