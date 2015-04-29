@@ -1,7 +1,11 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.Screens.SplashScreen;
+
 
 
 public class JocDeTrons extends Game {
@@ -18,7 +22,16 @@ public class JocDeTrons extends Game {
 
 	// cont� el t�tol del joc
 	private String titol;
+	// skin utilitzat en el joc
+	private Skin skin;
 
+	public Skin getSkin() {
+		return skin;
+	}
+
+	public void setSkin(Skin skin) {
+		this.skin = skin;
+	}
 
 	/**
 	 * Mides de la pantalla en p�xels
@@ -55,15 +68,27 @@ public class JocDeTrons extends Game {
 		this.setTitol(titol);
 	}
 
-	
+
 
 	@Override
 	public void create() {
+		// càrrega de l'skin
+		skin = new Skin(Gdx.files.internal("skins/skin.json"));
+		// si està en un dispositiu Android, escalar la font segons la densitat de pantalla
+		if(Gdx.app.getType() == Application.ApplicationType.Android) {
+			skin.getFont("default-font").setScale(Gdx.graphics.getDensity(), Gdx.graphics.getDensity());
+			//skin.getFont("groc").setScale(Gdx.graphics.getDensity(), Gdx.graphics.getDensity());
+		}
+		// començar el joc amb la SplashScreen
 		setScreen(new SplashScreen(this));
-        //setScreen( new Animator(this));
 	}
 
-	
+	@Override
+	public void dispose() {
+		super.dispose();
+		skin.dispose();
+
+	}
 	@Override
 	public void resume() {
 

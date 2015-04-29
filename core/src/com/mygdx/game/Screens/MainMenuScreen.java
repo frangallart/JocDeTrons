@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -17,7 +16,6 @@ public class MainMenuScreen extends AbstractScreen {
     private Stage stage = new Stage();
     private Table table = new Table();
 
-    private Skin skin;
 
     private TextButton buttonPlay, buttonExit;
     private Label title;
@@ -28,9 +26,9 @@ public class MainMenuScreen extends AbstractScreen {
      */
     public MainMenuScreen(JocDeTrons joc) {
         super(joc);
-        skin = new Skin(Gdx.files.internal("skins/skin.json"));
-        buttonPlay = new TextButton("Play", skin);
-        buttonExit = new TextButton("Exit", skin);
+
+        buttonPlay = new TextButton("Play", joc.getSkin());
+        buttonExit = new TextButton("Exit", joc.getSkin());
         buttonPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -47,13 +45,14 @@ public class MainMenuScreen extends AbstractScreen {
                 // or System.exit(0);
             }
         });
-        title = new Label(joc.getTitol(),skin);
+        title = new Label(joc.getTitol(),joc.getSkin());
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        calculRedimensionat();
         stage.act();
         stage.draw();
     }
@@ -66,14 +65,14 @@ public class MainMenuScreen extends AbstractScreen {
     public void show() {
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
-        table.add(title).padBottom(40).row();
 
-        table.add(buttonPlay).size(150,60).padBottom(20).row();
-        table.add(buttonExit).size(150, 60).padBottom(20).row();
+        table.add(title).padBottom(40 * Gdx.graphics.getDensity()).row();
+        table.add(buttonPlay).size(150*Gdx.graphics.getDensity(),60*Gdx.graphics.getDensity()).padBottom(20*Gdx.graphics.getDensity()).row();
+        table.add(buttonExit).size(150*Gdx.graphics.getDensity(), 60*Gdx.graphics.getDensity()).padBottom(20*Gdx.graphics.getDensity()).row();
         table.setFillParent(true);
         stage.addActor(table);
-
         Gdx.input.setInputProcessor(stage);
+
     }
 
     @Override
@@ -93,7 +92,6 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
     }
 
 }

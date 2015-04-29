@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.Barra;
 import com.mygdx.game.BolesFocMonstre;
@@ -34,11 +33,7 @@ import java.util.Iterator;
  */
 public class Level1 extends AbstractScreen {
 
-    /**
-     * Estils
-     */
-    private final Skin skin;
-    /**
+	/*
 	 * Variable d'instancia que permet gestionar i pintar el mapa a partir d'un
 	 * TiledMap (TMX)
 	 */
@@ -97,14 +92,13 @@ public class Level1 extends AbstractScreen {
 
 	private boolean vidaVista;
 
-	public Level1(JocDeTrons joc, int vides, String pathTexturaPj, String pathImgPj, String pathImgPjE, String nomJugador) {
+	public Level1(JocDeTrons joc, int vides, String pathTexturaPj, String pathImgPj, String pathImgPjE) {
 		super(joc);
         // carregar el fitxer d'skins
-        skin = new Skin(Gdx.files.internal("skins/skin.json"));
-        title = new Label(joc.getTitol(),skin, "groc");
-		labelVides = new Label("",skin, "groc");
-		labelPunts = new Label("",skin, "groc");
-		labelNomJugador = new Label(nomJugador, skin, "groc");
+        title = new Label(joc.getTitol(),joc.getSkin());
+		labelVides = new Label("",joc.getSkin());
+		labelPunts = new Label("",joc.getSkin());
+		//labelNomJugador = new Label(nomJugador, joc.getSkin());
 
 		this.pathTexturaPj = pathTexturaPj;
 		this.pathImgPj = pathImgPj;
@@ -113,7 +107,7 @@ public class Level1 extends AbstractScreen {
 
 		table = new Table();
 		table2 = new Table();
-		table3 = new Table();
+		//table3 = new Table();
 		/*
 		 * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
 		 * perquè indica cap avall
@@ -451,14 +445,14 @@ public class Level1 extends AbstractScreen {
 
 			if (personatge.getPositionBody().y < 0.38) {
 				personatge.setVides(personatge.getVides() - 1);
-				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), labelNomJugador.getText().toString()));
+				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE()));
 			}
 
 			if (personatge.getVides() == 0) {
 				joc.setScreen(new MainMenuScreen(joc));
 			} else if (personatge.getVides() < vides) {
 				vides = personatge.getVides();
-				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), labelNomJugador.getText().toString()));
+				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE()));
 			}
 		}
 	}
@@ -482,8 +476,8 @@ public class Level1 extends AbstractScreen {
 		table2.add(labelPunts).padTop(20).padRight(5).row();
 
 
-		table3.center().top().left();
-		table3.add(labelNomJugador).padTop(5).padLeft(5).row();
+		//table3.center().top().left();
+		//table3.add(labelNomJugador).padTop(5).padLeft(5).row();
 
 		//cell2 = table.add(title2).padTop(5);
 		table.setFillParent(true);
