@@ -160,7 +160,7 @@ public class Personatge {
         if (cos != null) {
             defCos.position.set(this.getPositionBody().x, this.getPositionBody().y);
         }else{
-            defCos.position.set(290.0f, 6.0f);
+            defCos.position.set(80.0f, 6.0f);
         }
         cos = world.createBody(defCos);
         cos.setUserData("personatge");
