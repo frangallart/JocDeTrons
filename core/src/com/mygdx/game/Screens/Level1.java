@@ -10,10 +10,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.Barra;
 import com.mygdx.game.BolesFocMonstre;
+import com.mygdx.game.Clau;
 import com.mygdx.game.GestorContactes;
 import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.MapBodyManager;
@@ -34,11 +34,7 @@ import java.util.Iterator;
  */
 public class Level1 extends AbstractScreen {
 
-    /**
-     * Estils
-     */
-    private final Skin skin;
-    /**
+	/**
 	 * Variable d'instancia que permet gestionar i pintar el mapa a partir d'un
 	 * TiledMap (TMX)
 	 */
@@ -46,7 +42,7 @@ public class Level1 extends AbstractScreen {
 
 	// objecte que gestiona el protagonista del joc
 	// ---->private PersonatgeBackup personatge;
-    private Personatge personatge;
+	private Personatge personatge;
 
 	Barra barra, barra2, barra3;
 	/**
@@ -68,17 +64,17 @@ public class Level1 extends AbstractScreen {
 	 */
 	private Music musica;
 
-    /**
-     * Per debugar les col·lisions
-     */
+	/**
+	 * Per debugar les col·lisions
+	 */
 	private Box2DDebugRenderer box2DRenderer;
 
-    /**
-     * Per mostrar el títol
-     */
-    private Label title, labelVides, labelPunts, labelNomJugador;
+	/**
+	 * Per mostrar el títol
+	 */
+	private Label title, labelVides, labelPunts, labelNomJugador, labelNoPassarNivell;
 
-	private Table table, table2, table3;
+	private Table table, table2, table3, table4;
 
 	private int vides;
 
@@ -86,25 +82,26 @@ public class Level1 extends AbstractScreen {
 	private ArrayList<MonstreEstatic> monstresLava;
 	private ArrayList<BolesFocMonstre> bolesFocMonstres;
 	private Vides cor;
+	private Clau clau;
 
 	private String pathTexturaPj, pathImgPj, pathImgPjE, pathImgPjAtac;
 
 	/**
-     * per indicar quins cossos s'han de destruir
-     * @param joc
-     */
-    private ArrayList<Body> bodyDestroyList;
+	 * per indicar quins cossos s'han de destruir
+	 * @param joc
+	 */
+	private ArrayList<Body> bodyDestroyList;
 
 	private boolean vidaVista;
 
-	public Level1(JocDeTrons joc, int vides, String pathTexturaPj, String pathImgPj, String pathImgPjE, String pathImgPjAtac, String nomJugador) {
+	public Level1(JocDeTrons joc, int vides, String pathTexturaPj, String pathImgPj, String pathImgPjE, String pathImgPjAtac) {
 		super(joc);
-        // carregar el fitxer d'skins
-        skin = new Skin(Gdx.files.internal("skins/skin.json"));
-        title = new Label(joc.getTitol(),skin, "groc");
-		labelVides = new Label("",skin, "groc");
-		labelPunts = new Label("",skin, "groc");
-		labelNomJugador = new Label(nomJugador, skin, "groc");
+		// carregar el fitxer d'skins
+		title = new Label(joc.getTitol(),joc.getSkin());
+		labelVides = new Label("",joc.getSkin());
+		labelPunts = new Label("",joc.getSkin());
+		//labelNomJugador = new Label(nomJugador, skin, "groc");
+		labelNoPassarNivell = new Label("",joc.getSkin());
 
 		this.pathTexturaPj = pathTexturaPj;
 		this.pathImgPj = pathImgPj;
@@ -114,24 +111,25 @@ public class Level1 extends AbstractScreen {
 
 		table = new Table();
 		table2 = new Table();
-		table3 = new Table();
-		/*
-		 * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
-		 * perquè indica cap avall
-		 */
+		//table3 = new Table();
+		table4 = new Table();
+      /*
+       * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
+       * perquè indica cap avall
+       */
 		world = new World(new Vector2(0.0f, -9.8f), true);
 		comprovarMidesPantalla();
 		carregarMapa();
 		carregarObjectes();
 		carregarMusica();
 
-        // --- si es volen destruir objectes, descomentar ---
+		// --- si es volen destruir objectes, descomentar ---
 		bodyDestroyList= new ArrayList<Body>();
 		//world.setContactListener(new GestorContactes(bodyDestroyList));
 		//world.setContactListener(new GestorContactes());
 
 		// crear el personatge
-        personatge = new Personatge(world, this.pathTexturaPj, this.pathImgPj, this.pathImgPjE, this.pathImgPjAtac);
+		personatge = new Personatge(world, this.pathTexturaPj, this.pathImgPj, this.pathImgPjE, this.pathImgPjAtac);
 
 		monstres = new ArrayList<Monstre>();
 		monstres.add(new Monstre(world, "monstre1", 6.0f, 1.33f, 6.6f, 5.45f, "imatges/serp.png", "imatges/serp.png", 4, 2));
@@ -146,12 +144,14 @@ public class Level1 extends AbstractScreen {
 		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 50.44f, 1f, 2f, false));
 		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 60.15f, 1f, 1.8f, false));
 
+		clau = new Clau(world, "clau", 58.36f, 3.50f, true, "imatges/clau.png");
+
 		personatge.setVides(vides);
 		world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstresLava, bolesFocMonstres));
 
 		this.vides = vides;
 
-        // objecte que permet debugar les col·lisions
+		// objecte que permet debugar les col·lisions
 		debugRenderer = new Box2DDebugRenderer();
 
 		barra = new Barra(world, 12.6f, 1.3f,15.0f, 12.7f, "imatges/barra.png");
@@ -160,18 +160,18 @@ public class Level1 extends AbstractScreen {
 
 	}
 
-    /**
-     * Moure la càmera en funció de la posició del personatge
-     */
+	/**
+	 * Moure la càmera en funció de la posició del personatge
+	 */
 	private void moureCamera() {
 		// Posicionem la camera centran-la on hi hagi l'sprite del protagonista
 		tiledMapHelper.getCamera().position.x = JocDeTrons.PIXELS_PER_METRE
 				* personatge.getPositionBody().x;
 		//Centrem la camara verticalment al personatge, permetent que la camara es mogui en vertical
- 		tiledMapHelper.getCamera().position.y = JocDeTrons.PIXELS_PER_METRE
+		tiledMapHelper.getCamera().position.y = JocDeTrons.PIXELS_PER_METRE
 				* personatge.getPositionBody().y;
 
- 		// Assegurar que la camera nomes mostra el mapa i res mes
+		// Assegurar que la camera nomes mostra el mapa i res mes
 		if (tiledMapHelper.getCamera().position.x <  joc.getScreenWidth() / 2) {
 			tiledMapHelper.getCamera().position.x =  joc.getScreenWidth()/ 2;
 		}
@@ -225,9 +225,9 @@ public class Level1 extends AbstractScreen {
         return true;
     }
     */
-    /**
-     * tractar els events de l'entrada
-     */
+	/**
+	 * tractar els events de l'entrada
+	 */
 	private void tractarEventsEntrada() {
 		if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT)) {
 			personatge.setMoureDreta(true);
@@ -274,9 +274,9 @@ public class Level1 extends AbstractScreen {
 		}
 	}
 
-    /**
-     * comprovar les mides de la pantalla
-     */
+	/**
+	 * comprovar les mides de la pantalla
+	 */
 	private void comprovarMidesPantalla() {
 		/**
 		 * Si la mida de la finestra de dibuix no està definida, la
@@ -328,9 +328,9 @@ public class Level1 extends AbstractScreen {
 	public void render(float delta) {
 
 		personatge.inicialitzarMoviments();
-		 tractarEventsEntrada();
-	     personatge.moure();
-         personatge.updatePosition();
+		tractarEventsEntrada();
+		personatge.moure();
+		personatge.updatePosition();
 
 
 		barra.inicialitzarMoviments();
@@ -344,50 +344,55 @@ public class Level1 extends AbstractScreen {
 		barra3.inicialitzarMoviments();
 		barra3.moure();
 		barra3.updatePosition();
-        /**
-         * Cal actualitzar les posicions i velocitats de tots els objectes. El
-         * primer paràmetre és la quanitat de frames/segon que dibuixaré
-         * El segon i tercer paràmetres indiquen la quantitat d'iteracions per
-         * la velocitat i per tractar la posició. Un valor alt és més
-         * precís però més lent.
-         */
+		/**
+		 * Cal actualitzar les posicions i velocitats de tots els objectes. El
+		 * primer paràmetre és la quanitat de frames/segon que dibuixaré
+		 * El segon i tercer paràmetres indiquen la quantitat d'iteracions per
+		 * la velocitat i per tractar la posició. Un valor alt és més
+		 * precís però més lent.
+		 */
 		world.step(Gdx.app.getGraphics().getDeltaTime(), 6, 2);
 
-		/*
-		 * per destruir cossos marcats per ser eliminats
-		 */
-        	for(int i = bodyDestroyList.size()-1; i >=0; i-- ) {
+      /*
+       * per destruir cossos marcats per ser eliminats
+       */
+		for(int i = bodyDestroyList.size()-1; i >=0; i-- ) {
 
-				for (int j = 0; j < monstres.size(); j++) {
-					if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()) {
-						monstres.get(j).dispose();
-						personatge.setPunts(personatge.getPunts() + monstres.get(j).getPUNTS());
-						monstres.remove(j);
-						break;
-					}
+			for (int j = 0; j < monstres.size(); j++) {
+				if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()) {
+					monstres.get(j).dispose();
+					personatge.setPunts(personatge.getPunts() + monstres.get(j).getPUNTS());
+					monstres.remove(j);
+					break;
 				}
-
-				for (int lava = 0; lava < bolesFocMonstres.size(); lava++) {
-					if (bodyDestroyList.get(i).getUserData() == bolesFocMonstres.get(lava).getNom()) {
-						bolesFocMonstres.get(lava).dispose();
-						if (bodyDestroyList.get(i).getUserData().equals("Lava1")) {
-							bolesFocMonstres.add(new BolesFocMonstre(world, bolesFocMonstres.get(lava).getNom(), 50.44f, 1f, 2f, false));
-						} else if (bodyDestroyList.get(i).getUserData().equals("Lava2")) {
-							bolesFocMonstres.add(new BolesFocMonstre(world, bolesFocMonstres.get(lava).getNom(), 60.15f, 1f, 1.8f, false));
-						}
-						bolesFocMonstres.remove(lava);
-						break;
-					}
-				}
-
-				if (bodyDestroyList.get(i).getUserData().equals("Vida")) {
-					cor = null;
-					personatge.setVides(personatge.getVides() + 1);
-					this.vides = personatge.getVides();
-				}
-				world.destroyBody(bodyDestroyList.get(i));
 			}
-			bodyDestroyList.clear();
+
+			for (int lava = 0; lava < bolesFocMonstres.size(); lava++) {
+				if (bodyDestroyList.get(i).getUserData() == bolesFocMonstres.get(lava).getNom()) {
+					bolesFocMonstres.get(lava).dispose();
+					if (bodyDestroyList.get(i).getUserData().equals("Lava1")) {
+						bolesFocMonstres.add(new BolesFocMonstre(world, bolesFocMonstres.get(lava).getNom(), 50.44f, 1f, 2f, false));
+					} else if (bodyDestroyList.get(i).getUserData().equals("Lava2")) {
+						bolesFocMonstres.add(new BolesFocMonstre(world, bolesFocMonstres.get(lava).getNom(), 60.15f, 1f, 1.8f, false));
+					}
+					bolesFocMonstres.remove(lava);
+					break;
+				}
+			}
+
+			if (bodyDestroyList.get(i).getUserData().equals("Vida")) {
+				cor = null;
+				personatge.setVides(personatge.getVides() + 1);
+				this.vides = personatge.getVides();
+			}
+
+			if (bodyDestroyList.get(i).getUserData().equals("clau")) {
+				personatge.setPassarNivell(true);
+				clau.dispose();
+			}
+			world.destroyBody(bodyDestroyList.get(i));
+		}
+		bodyDestroyList.clear();
 
 		// Esborrar la pantalla
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -442,36 +447,45 @@ public class Level1 extends AbstractScreen {
 			cor.dibuixar(batch);
 		}
 
+		clau.moure();
+		clau.updatePosition();
+		clau.dibuixar(batch);
+
 		barra.dibuixar(batch);
 		barra2.dibuixar(batch);
 		barra3.dibuixar(batch);
-	    	// finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
-		    // s'ha indicat entre begin i end
+		// finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
+		// s'ha indicat entre begin i end
 		batch.end();
 
 
-        // dibuixar els controls de pantalla
-				stage.act();
-				stage.draw();
+		// dibuixar els controls de pantalla
+		stage.act();
+		stage.draw();
 
-				debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
-						JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
+		debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
+				JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
 				JocDeTrons.PIXELS_PER_METRE));
 
 		if (personatge.getPositionBody().x > 96f){
-			joc.setScreen(new NextLevel(joc, personatge, "Nivell 1", labelNomJugador.getText().toString()));//new Level2(joc,vides));
+			if ( personatge.isPassarNivell()) {
+				joc.setScreen(new NextLevel(joc, personatge, "Nivell 1", labelNomJugador.getText().toString()));//new Level2(joc,vides));
+			}else{
+				labelNoPassarNivell.setText("No has recollit la clau!");
+			}
 		}else {
 
+			labelNoPassarNivell.setText("");
 			if (personatge.getPositionBody().y < 0.38) {
 				personatge.setVides(personatge.getVides() - 1);
-				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), personatge.getPathImatgeAtac(), labelNomJugador.getText().toString()));
+				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), personatge.getPathImatgeAtac()));
 			}
 
 			if (personatge.getVides() == 0) {
 				joc.setScreen(new MainMenuScreen(joc));
 			} else if (personatge.getVides() < vides) {
 				vides = personatge.getVides();
-				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), personatge.getPathImatgeAtac(), labelNomJugador.getText().toString()));
+				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), personatge.getPathImatgeAtac()));
 			}
 		}
 	}
@@ -489,19 +503,24 @@ public class Level1 extends AbstractScreen {
 		// El primer apareix a la part superior, el darrer a la part inferior.
 
 		table2.center().top().right();
-		table.center().top();
+		table.left().top();
 		table.add(title).padTop(5);
 		table2.add(labelVides).padTop(5).padRight(5).row();
 		table2.add(labelPunts).padTop(20).padRight(5).row();
 
 
-		table3.center().top().left();
-		table3.add(labelNomJugador).padTop(5).padLeft(5).row();
+		//table3.center().top().left();
+		//table3.add(labelNomJugador).padTop(5).padLeft(5).row();
+
+		table4.center();
+		table4.add(labelNoPassarNivell).row();
 
 		//cell2 = table.add(title2).padTop(5);
 		table.setFillParent(true);
 		table2.setFillParent(true);
+		table4.setFillParent(true);
 		stage.addActor(table);
 		stage.addActor(table2);
+		stage.addActor(table4);
 	}
 }

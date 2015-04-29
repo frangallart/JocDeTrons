@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -23,8 +22,6 @@ public class NextLevel extends AbstractScreen {
     private Stage stage = new Stage();
     private Table table = new Table();
 
-    private Skin skin;
-
     private TextButton buttonPlay, buttonExit;
     private Label labelNivell;
     private Label labelPuntuacio;
@@ -38,9 +35,8 @@ public class NextLevel extends AbstractScreen {
         super(joc);
         this.jugador = jugador;
         this.nivell = nivell;
-        skin = new Skin(Gdx.files.internal("skins/skin.json"));
-        buttonPlay = new TextButton("Next Level", skin);
-        buttonExit = new TextButton("Menu", skin);
+        buttonPlay = new TextButton("Next Level", joc.getSkin());
+        buttonExit = new TextButton("Menu", joc.getSkin());
         buttonPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -58,15 +54,16 @@ public class NextLevel extends AbstractScreen {
                 // or System.exit(0);
             }
         });
-        labelNivell = new Label("Enhorabona t'has passat el " + nivell, skin);
-        labelPuntuacio = new Label("Punts: " + String.valueOf(jugador.getPunts()), skin);
-        labelVides = new Label("Vides: " + String.valueOf(jugador.getVides()),skin);
+        labelNivell = new Label("Enhorabona t'has passat el " + nivell, joc.getSkin());
+        labelPuntuacio = new Label("Punts: " + String.valueOf(jugador.getPunts()), joc.getSkin());
+        labelVides = new Label("Vides: " + String.valueOf(jugador.getVides()),joc.getSkin());
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        calculRedimensionat();
         stage.act();
         stage.draw();
     }
@@ -108,6 +105,5 @@ public class NextLevel extends AbstractScreen {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
     }
 }
