@@ -136,6 +136,7 @@ public class Level1 extends AbstractScreen {
 		monstres = new ArrayList<Monstre>();
 		monstres.add(new Monstre(world, "monstre1", 6.0f, 1.33f, 6.6f, 5.45f, "imatges/serp.png", "imatges/serp.png", 4, 2));
 		monstres.add(new Monstre(world, "monstre2", 17.0f, 2.0f, 17.2f, 15.8f, "imatges/serp.png" ,"imatges/serp.png", 4, 2));
+		monstres.add(new Monstre(world, "monstre3", 81.5f, 2.0f, 85.3f, 80.46f,2.5f, "imatges/serp.png" ,"imatges/serp.png", 4, 2));
 
 		monstresLava = new ArrayList<MonstreEstatic>();
 		monstresLava.add(new MonstreEstatic(world, "monstreLava1", 50.64f, 0.64f, false, "imatges/lavaMonster.png"));
@@ -267,7 +268,7 @@ public class Level1 extends AbstractScreen {
 			for (int i = 0; i < 2; i++) {
 				if (Gdx.input.isTouched(i)
 						&& Gdx.input.getY() > Gdx.graphics.getHeight() * 0.80f) {
-					personatge.setFerSalt(true);
+					personatge.setFerAtac(true);
 				}
 			}
 		}
