@@ -21,29 +21,29 @@ public class Personatge {
     /**
      * Detectar el moviment
      */
-    private boolean moureEsquerra;
-    private boolean moureDreta;
-    private boolean ferSalt;
-    private boolean personatgeCaraDreta;
+    private boolean moureDreta, moureEsquerra, personatgeCaraDreta, ferSalt, ferAtac, atac;
     private float velocitat;
     private int vides;
     private int punts;
 
     private World world;                // Referència al mon on està definit el personatge
-    private Body cos;                   // per definir les propietats del cos
-    private Sprite spritePersonatge;    // sprite associat al personatge
-    private AnimatedSprite spriteAnimat;// animació de l'sprite
-    private Texture stoppedTexture;     // la seva textura
-    private Texture stoppedTextureE;     // la seva textura
+    private Body cos, cosAtac;                   // per definir les propietats del cos
+    private Sprite spritePersonatge, spritePersonatgeAtac;    // sprite associat al personatge
+    private AnimatedSprite spriteAnimat, spriteAtac;// animació de l'sprite
     private Sound soSalt;               // el so que reprodueix en saltar
-    private Texture animatedTexture;
+    private Texture animatedTexture, animatedTextureAtac, stoppedTexture, stoppedTextureE;     // la seva textura
+
+    private FixtureDef propietats = new FixtureDef();
+
+    private String pathTextura, pathImatge, pathImatgeE, pathImatgeAtac;
 
 
-    private String pathTextura, pathImatge, pathImatgeE;
+    public String getPathImatgeAtac() {
+        return pathImatgeAtac;
+    }
 
-
-    public Personatge(World world, String pathTextura, String pathImatge, String pathImatgeE) {
-        moureEsquerra = moureDreta = ferSalt = false;
+    public Personatge(World world, String pathTextura, String pathImatge, String pathImatgeE, String pathImatgeAtac) {
+        moureEsquerra = moureDreta = ferSalt = ferAtac = atac = false;
         this.velocitat = 0.1f;
         this.world = world;
         this.vides = 3;
@@ -52,13 +52,14 @@ public class Personatge {
         this.pathImatge = pathImatge;
         this.pathImatgeE = pathImatgeE;
         this.personatgeCaraDreta = true;
+        this.pathImatgeAtac = pathImatgeAtac;
         carregarTextures();
         carregarSons();
         crearProtagonista();
     }
 
-    public Personatge(World world, int vides, int punts, String pathTextura, String pathImatge, String pathImatgeE) {
-        moureEsquerra = moureDreta = ferSalt = false;
+    public Personatge(World world, int vides, int punts, String pathTextura, String pathImatge, String pathImatgeE, String pathImatgeAtac) {
+        moureEsquerra = moureDreta = ferSalt = ferAtac = atac = false;
         this.velocitat = 0.1f;
         this.world = world;
         this.vides = vides;
@@ -67,6 +68,7 @@ public class Personatge {
         this.pathImatge = pathImatge;
         this.pathImatgeE = pathImatgeE;
         this.personatgeCaraDreta = true;
+        this.pathImatgeAtac = pathImatgeAtac;
         carregarTextures();
         carregarSons();
         crearProtagonista();
@@ -76,6 +78,9 @@ public class Personatge {
     private void carregarTextures() {
         animatedTexture = new Texture(Gdx.files.internal(this.pathTextura));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        animatedTextureAtac = new Texture(Gdx.files.internal(this.pathImatgeAtac));
+        animatedTextureAtac.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         stoppedTexture = new Texture(Gdx.files.internal(this.pathImatge));
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -95,55 +100,98 @@ public class Personatge {
         spritePersonatge = new Sprite(animatedTexture);
         spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS,stoppedTexture, stoppedTextureE);
 
-        // Definir el tipus de cos i la seva posició
-        BodyDef defCos = new BodyDef();
-        defCos.type = BodyDef.BodyType.DynamicBody;
-        defCos.position.set(1.0f, 3.0f);
+        spritePersonatgeAtac = new Sprite(animatedTextureAtac);
+        spriteAtac = new AnimatedSprite(spritePersonatgeAtac, 4, FRAME_ROWS);
 
-        cos = world.createBody(defCos);
-        cos.setUserData("personatge");
-        /**
-         * Definir les vores de l'sprite
-         */
-        PolygonShape requadre = new PolygonShape();
-        requadre.setAsBox((spritePersonatge.getWidth() / FRAME_COLS) / (2 * JocDeTrons.PIXELS_PER_METRE),
-                (spritePersonatge.getHeight() / FRAME_ROWS) / (2 * JocDeTrons.PIXELS_PER_METRE));
-
-        /**
-         * La densitat i fricció del protagonista. Si es modifiquen aquests
-         * valor anirà més ràpid o més lent.
-         */
-        FixtureDef propietats = new FixtureDef();
-        propietats.shape = requadre;
-        propietats.density = 1.0f;
-        propietats.friction = 3.0f;
-
-        cos.setFixedRotation(true);
-        cos.createFixture(propietats);
-        requadre.dispose();
+        cos = novesColisions(null);
     }
 
     public void inicialitzarMoviments() {
         setMoureDreta(false);
         setMoureEsquerra(false);
         setFerSalt(false);
+        setFerAtac(false);
         spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
     }
 
-    /**
-     * Actualitza la posició de l'sprite
-     */
     public void updatePosition() {
-        spritePersonatge.setPosition(
-                JocDeTrons.PIXELS_PER_METRE * cos.getPosition().x
-                        - spritePersonatge.getWidth() / FRAME_COLS / 2,
-                JocDeTrons.PIXELS_PER_METRE * cos.getPosition().y
-                        - spritePersonatge.getHeight() / FRAME_ROWS / 2);
-        spriteAnimat.setPosition(spritePersonatge.getX(), spritePersonatge.getY());
+
+        if (!isFerAtac()) {
+
+            if (atac) {
+                cos = novesColisions(cosAtac);
+                atac = false;
+            }
+            spritePersonatge.setPosition(
+                    JocDeTrons.PIXELS_PER_METRE * cos.getPosition().x
+                            - spritePersonatge.getWidth() / FRAME_COLS / 2,
+                    JocDeTrons.PIXELS_PER_METRE * cos.getPosition().y
+                            - spritePersonatge.getHeight() / FRAME_ROWS / 2);
+            spriteAnimat.setPosition(spritePersonatge.getX(), spritePersonatge.getY());
+        }else {
+            if (!atac){
+                atac = true;
+                cosAtac = novesColisions(cos);
+            }
+            spritePersonatgeAtac.setPosition(
+                    JocDeTrons.PIXELS_PER_METRE * cosAtac.getPosition().x
+                            - spritePersonatgeAtac.getWidth() / FRAME_COLS / 2,
+                    JocDeTrons.PIXELS_PER_METRE * cosAtac.getPosition().y
+                            - spritePersonatgeAtac.getHeight() / FRAME_ROWS / 2);
+            spriteAtac.setPosition(spritePersonatgeAtac.getX(), spritePersonatgeAtac.getY());
+        }
+    }
+
+    /**
+     * Mètode que crea les colisions dels personatges segons estiguin en posició
+     * d'atacar o en posició normal.
+     */
+    private Body novesColisions(Body cos) {
+        if (cos != null){
+            world.destroyBody(cos);
+        }
+
+        BodyDef defCos = new BodyDef();
+        defCos.type = BodyDef.BodyType.DynamicBody;
+
+        if (cos != null) {
+            defCos.position.set(this.getPositionBody().x, this.getPositionBody().y);
+        }else{
+            defCos.position.set(1.0f, 3.0f);
+        }
+        cos = world.createBody(defCos);
+        cos.setUserData("personatge");
+
+        /**
+         * La densitat i fricció del protagonista. Si es modifiquen aquests
+         * valor anirà més ràpid o més lent.
+         */
+
+        if (isFerAtac()) {
+            PolygonShape requadre2 = new PolygonShape();
+            requadre2.setAsBox((spritePersonatgeAtac.getWidth() / 4) / (2 * JocDeTrons.PIXELS_PER_METRE),
+                    (spritePersonatgeAtac.getHeight() / FRAME_ROWS) / (2 * JocDeTrons.PIXELS_PER_METRE));
+            propietats.shape = requadre2;
+        }else{
+            PolygonShape requadre = new PolygonShape();
+            requadre.setAsBox((spritePersonatge.getWidth() / FRAME_COLS) / (2 * JocDeTrons.PIXELS_PER_METRE),
+                    (spritePersonatge.getHeight() / FRAME_ROWS) / (2 * JocDeTrons.PIXELS_PER_METRE));
+            propietats.shape = requadre;
+        }
+        propietats.density = 1.0f;
+        propietats.friction = 3.0f;
+
+        cos.setFixedRotation(true);
+        cos.createFixture(propietats);
+        return cos;
     }
 
     public void dibuixar(SpriteBatch batch) {
-        spriteAnimat.draw(batch, this.isCaraDreta());
+        if (this.isFerAtac()) {
+            spriteAtac.draw(batch, this.isCaraDreta(),isFerAtac());
+        }else{
+            spriteAnimat.draw(batch, this.isCaraDreta(), isFerAtac());
+        }
     }
 
     /**
@@ -158,7 +206,7 @@ public class Personatge {
     public void moure() {
 
         if (moureDreta && cos.getLinearVelocity().x < 3.0f) {
-            cos.applyLinearImpulse(new Vector2(0.1f, 0.0f),
+            cos.applyLinearImpulse(new Vector2(0.1f, 0.0f),  // linearVelocity
                     cos.getWorldCenter(), true);
 
         } else if (moureEsquerra) {
@@ -287,6 +335,14 @@ public class Personatge {
 
     public void setPathImatgeE(String pathImatgeE) {
         this.pathImatgeE = pathImatgeE;
+    }
+
+    public boolean isFerAtac() {
+        return ferAtac;
+    }
+
+    public void setFerAtac(boolean ferAtac) {
+        this.ferAtac = ferAtac;
     }
 
     public void dispose() {

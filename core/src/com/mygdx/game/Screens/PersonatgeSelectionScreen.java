@@ -56,7 +56,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         imatgeHeroi.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                nextScreen("imatges/heroiSpriteSheet.png", "imatges/heroi.png", "imatges/heroiE.png", nomPlayer.getText());
+                nextScreen("imatges/heroiSpriteSheet.png", "imatges/heroi.png", "imatges/heroiE.png", "imatges/heroiSpriteAtacDret.png", nomPlayer.getText());
             }
         });
 
@@ -76,7 +76,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         imatgeHeroina.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                nextScreen("imatges/heroinaSpriteSheet.png", "imatges/heroina.png", "imatges/heroinaE.png", nomPlayer.getText());
+                nextScreen("imatges/heroinaSpriteSheet.png", "imatges/heroina.png", "imatges/heroinaE.png", "imatges/heroinaSpriteAtacDret.png", nomPlayer.getText());
             }
         });
 
@@ -145,10 +145,11 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
     /**
      * canviar a la següent pantalla
      */
-    private void nextScreen(String pathToTexture, String pathToImg, String pathToImgE, String nomJugador) {
+    private void nextScreen(String pathToTexture, String pathToImg, String pathToImgE, String pathToImgAtac, String nomJugador) {
         // la darrera acci� ens porta cap a la seg�ent pantalla
         //joc.setScreen(new PantallaPrincipal(joc));
-        joc.setScreen(new Level1(getGame(), 3, pathToTexture, pathToImg, pathToImgE, nomJugador));
+
+        joc.setScreen(new Level1(getGame(), 3, pathToTexture, pathToImg, pathToImgE, pathToImgAtac, nomJugador));
 
        // World world = new World(new Vector2(0.0f, -9.8f), true);
         //Personatge persona = new Personatge(world, 3 , 0, pathToTexture, pathToImg, pathToImgE);

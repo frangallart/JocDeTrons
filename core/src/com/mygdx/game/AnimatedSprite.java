@@ -19,10 +19,9 @@ public class AnimatedSprite {
     public enum Direction {LEFT, RIGHT, STOPPED};
 
     private Sprite sprite;
-    private Animation animation;
-    private TextureRegion[] framesLeft, framesRight;
-    private Texture frame;
-    private Texture frameE;
+    private Animation animation, animationAtac;
+    private TextureRegion[] framesLeft, framesRight, framesAtac, framesAtacLeft, framesAtacRight;
+    private Texture frame, frameE;
     private int textureCols, textureRows;
     private Direction direction;
 
@@ -73,6 +72,7 @@ public class AnimatedSprite {
         this.textureRows = textureRows;
         frame = stoppedTexture;
         frameE = stoppedTextureE;
+
         direction = Direction.STOPPED;
 
         framesLeft = new TextureRegion[textureCols];
@@ -85,7 +85,34 @@ public class AnimatedSprite {
             framesRight[j] = tmp[0][j];
         }
 
-        animation = new Animation(0.25f, framesRight);
+        animationAtac = new Animation(0.25f, framesRight);
+        stateTime = 0f;
+    }
+
+    public AnimatedSprite(Sprite sprite, int textureCols, int textureRows) {
+        Texture framesTexture = sprite.getTexture();
+        TextureRegion[][] tmp = TextureRegion.split(framesTexture,
+                framesTexture.getWidth() / textureCols,
+                framesTexture.getHeight() / textureRows);
+
+        this.sprite = sprite;
+        this.textureCols = textureCols;
+        this.textureRows = textureRows;
+
+        direction = Direction.STOPPED;
+
+        framesAtacLeft = new TextureRegion[textureCols];
+        for (int j = 0; j < textureCols; j++) {
+            framesAtacLeft[j] = tmp[1][j];
+        }
+
+        framesAtacRight = new TextureRegion[textureCols];
+        for (int j = 0; j < textureCols; j++) {
+            framesAtacRight[j] = tmp[0][j];
+        }
+
+        animationAtac = new Animation(0.25f, framesAtacRight);
+
         stateTime = 0f;
     }
 
@@ -103,16 +130,28 @@ public class AnimatedSprite {
         }
     }
 
-    public void draw(SpriteBatch spriteBatch, boolean cara) {
-        if (direction == Direction.STOPPED) {
-            if (cara) {
-                spriteBatch.draw(frame, sprite.getX(), sprite.getY());
-            }else{
-                spriteBatch.draw(frameE, sprite.getX(), sprite.getY());
-            }
-        } else {
+    public void draw(SpriteBatch spriteBatch, boolean cara, boolean atac) {
+        if (atac) {
             stateTime += Gdx.graphics.getDeltaTime() * 2;
-            spriteBatch.draw(animation.getKeyFrame(stateTime, true), sprite.getX(), sprite.getY());
+
+            if (cara) {
+                animationAtac = new Animation(0.25f, framesAtacRight);
+            }else{
+                animationAtac = new Animation(0.25f, framesAtacLeft);
+            }
+            spriteBatch.draw(animationAtac.getKeyFrame(stateTime, true), sprite.getX(), sprite.getY());
+
+        }else {
+            if (direction == Direction.STOPPED) {
+                if (cara) {
+                    spriteBatch.draw(frame, sprite.getX(), sprite.getY());
+                } else {
+                    spriteBatch.draw(frameE, sprite.getX(), sprite.getY());
+                }
+            } else {
+                stateTime += Gdx.graphics.getDeltaTime() * 2;
+                spriteBatch.draw(animation.getKeyFrame(stateTime, true), sprite.getX(), sprite.getY());
+            }
         }
     }
 
