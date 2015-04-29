@@ -21,7 +21,7 @@ public class Personatge {
     /**
      * Detectar el moviment
      */
-    private boolean moureDreta, moureEsquerra, personatgeCaraDreta, ferSalt, ferAtac, atac;
+    private boolean moureDreta, moureEsquerra, personatgeCaraDreta, ferSalt, ferAtac, atac, passarNivell;
     private float velocitat;
     private int vides;
     private int punts;
@@ -42,6 +42,7 @@ public class Personatge {
         return pathImatgeAtac;
     }
 
+
     public Personatge(World world, String pathTextura, String pathImatge, String pathImatgeE, String pathImatgeAtac) {
         moureEsquerra = moureDreta = ferSalt = ferAtac = atac = false;
         this.velocitat = 0.1f;
@@ -53,6 +54,7 @@ public class Personatge {
         this.pathImatgeE = pathImatgeE;
         this.personatgeCaraDreta = true;
         this.pathImatgeAtac = pathImatgeAtac;
+        this.passarNivell = false;
         carregarTextures();
         carregarSons();
         crearProtagonista();
@@ -69,6 +71,7 @@ public class Personatge {
         this.pathImatgeE = pathImatgeE;
         this.personatgeCaraDreta = true;
         this.pathImatgeAtac = pathImatgeAtac;
+        this.passarNivell = false;
         carregarTextures();
         carregarSons();
         crearProtagonista();
@@ -157,7 +160,7 @@ public class Personatge {
         if (cos != null) {
             defCos.position.set(this.getPositionBody().x, this.getPositionBody().y);
         }else{
-            defCos.position.set(1.0f, 3.0f);
+            defCos.position.set(80.0f, 3.0f);
         }
         cos = world.createBody(defCos);
         cos.setUserData("personatge");
@@ -188,7 +191,7 @@ public class Personatge {
 
     public void dibuixar(SpriteBatch batch) {
         if (this.isFerAtac()) {
-            spriteAtac.draw(batch, this.isCaraDreta(),isFerAtac());
+            spriteAtac.draw(batch, this.isCaraDreta(), isFerAtac());
         }else{
             spriteAnimat.draw(batch, this.isCaraDreta(), isFerAtac());
         }
@@ -272,7 +275,6 @@ public class Personatge {
 
     }
 
-
     public String getPathTextura() {
         return pathTextura;
     }
@@ -343,6 +345,14 @@ public class Personatge {
 
     public void setFerAtac(boolean ferAtac) {
         this.ferAtac = ferAtac;
+    }
+
+    public boolean isPassarNivell() {
+        return passarNivell;
+    }
+
+    public void setPassarNivell(boolean passarNivell) {
+        this.passarNivell = passarNivell;
     }
 
     public void dispose() {
