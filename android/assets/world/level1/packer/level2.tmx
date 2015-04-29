@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="1000" height="30" tilewidth="32" tileheight="32" nextobjectid="70">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="1000" height="30" tilewidth="32" tileheight="32" nextobjectid="79">
  <tileset firstgid="1" name="textures" tilewidth="32" tileheight="32">
   <image source="ocdcollage2.png" width="512" height="1024"/>
  </tileset>
@@ -15,7 +15,7 @@
  </layer>
  <layer name="recorregut" width="1000" height="30">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <layer name="decoratMur" width="1000" height="30" opacity="0.6">
@@ -255,70 +255,7 @@
    </properties>
    <polyline points="0,0 0,-62 -64,-62 -64,-94 -96,-94 -96,-126 -128,-126 -128,-158 -160,-158 -160,-190 -224,-190 -224,-222 -288,-222 -288,-254 -320,-254 -320,-286 -384,-286 -384,-318 -512,-318 -512,-286 -576,-286 -576,-254 -608,-254 -608,-222 -672,-222 -672,-190 -704,-190 -704,-158 -768,-158 -768,-126 -928,-126 -928,-94 -960,-94 -960,-62 -992,-62 -992,-30 -1056,-30 -1056,2 -1312,2 -1312,-30 -1344,-30 -1344,-62 -1376,-62 -1376,-94 -1408,-94 -1408,-158 -1440,-158 -1440,-190 -1568,-190 -1568,-254 -1600,-254 -1600,-318 -1632,-318 -1632,-350 -1664,-350 -1664,-382 -1792,-382 -1792,-350 -1888,-350 -1888,-318 -1920,-318 -1920,-286 -1952,-286 -1952,-254 -1984,-254 -1984,-222 -2016,-222 -2016,-190 -2080,-190 -2080,-158 -2112,-158 -2112,-126 -2144,-126 -2144,-94 -2592,-94 -2592,-126 -2624,-126 -2624,-158 -2656,-158 -2656,-190 -2880,-190 -2880,-222 -2944,-222 -2944,-286 -3040,-286 -3040,-254 -3072,-254 -3072,-222 -3104,-222 -3104,-190 -3136,-190 -3136,-158 -3168,-158 -3168,-126 -3232,-126 -3232,-94 -3296,-94 -3296,-62 -3424,-62 -3424,-30 -3744,-30 -3744,-62 -4032,-62 -4032,-94 -4416,-94 -4416,-30 -4704,-30 -4704,-94 -4768,-94 -4768,-126 -4832,-126 -4832,-158 -4960,-158 -4960,-190 -4992,-190 -4992,-222 -5088,-222 -5088,-190 -5312,-190 -5312,-158 -5344,-158 -5344,-126 -5792,-126 -5792,-158 -5888,-158 -5888,-190 -5952,-190 -5952,-222 -5984,-222 -5984,-254 -6048,-254 -6048,-286 -6080,-286 -6080,-350 -6112,-350 -6112,-382 -6144,-382 -6144,-350 -6208,-350 -6208,-318 -6336,-318 -6336,-286 -6368,-286 -6368,-254 -6400,-254"/>
   </object>
-  <object id="54" name="terra27" x="29056" y="672.5">
-   <properties>
-    <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
-   </properties>
-   <polyline points="0,0 64,-0.5"/>
-  </object>
-  <object id="55" name="terra28" x="29216" y="704.182">
-   <properties>
-    <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
-   </properties>
-   <polyline points="0,0 64,-0.181818"/>
-  </object>
-  <object id="56" name="terra29" x="29408" y="704.25">
-   <properties>
-    <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
-   </properties>
-   <polyline points="0,0 64,-0.25"/>
-  </object>
-  <object id="57" name="terra30" x="29600" y="736.25">
-   <properties>
-    <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
-   </properties>
-   <polyline points="0,0 64,-0.25"/>
-  </object>
-  <object id="58" name="terra31" x="29791.8" y="672">
-   <properties>
-    <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
-   </properties>
-   <polyline points="0,0 64.25,0"/>
-  </object>
-  <object id="59" name="terra32" x="29984" y="704">
-   <properties>
-    <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
-   </properties>
-   <polyline points="0,0 64,0"/>
-  </object>
-  <object id="60" name="terra33" x="30175.7" y="736.333">
-   <properties>
-    <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
-   </properties>
-   <polyline points="0,0 64.3333,-0.333333"/>
-  </object>
-  <object id="61" name="terra34" x="30400" y="736">
-   <properties>
-    <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
-   </properties>
-   <polyline points="0,0 64,0"/>
-  </object>
-  <object id="62" name="terra35" x="30624" y="735.75">
-   <properties>
-    <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
-   </properties>
-   <polyline points="0,0 64,0.25"/>
-  </object>
-  <object id="63" name="terra36" x="30880" y="832">
+  <object id="63" name="terra30" x="30880" y="832">
    <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
@@ -340,18 +277,81 @@
    <polyline points="0,0 160,0.666667 160,-31.3333 192,-31.3333 192,0.666667 224,0.666667 224,-31.3333 256,-31.3333 256,32.6667"/>
   </object>
   <object id="68" name="mur" x="1632" y="896">
-  <properties>
+   <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
    <polyline points="0,0 0,-736 256,-704 384,-224 384,64"/>
   </object>
   <object id="69" name="terra1.3" x="5024" y="768">
-  <properties>
+   <properties>
     <property name="body" value="environment"/>
     <property name="material" value="ground"/>
    </properties>
    <polyline points="0,0 0,-96 -128,-96 -128,-32 -192,-32 -192,32 -224,32 -224,64 -256,64 -256,96 -416,96 -416,128 -3008,160"/>
+  </object>
+  <object id="70" name="terra20" x="29056" y="800">
+  <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 64,0"/>
+  </object>
+  <object id="71" name="terra21" x="29216" y="799.667">
+  <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 64,0.333333"/>
+  </object>
+  <object id="72" name="terra22" x="29407.7" y="799.667">
+  <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 64.3333,0.333333"/>
+  </object>
+  <object id="73" name="terra23" x="29600" y="768">
+  <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 64,0"/>
+  </object>
+  <object id="74" name="terra24" x="29791.7" y="799.667">
+  <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 64.3333,0.333333"/>
+  </object>
+  <object id="75" name="terra25" x="29983.7" y="767.333">
+  <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 64.3333,0.666667"/>
+  </object>
+  <object id="76" name="terra27" x="30176.7" y="800">
+  <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 63.3333,0"/>
+  </object>
+  <object id="77" name="terra28" x="30400.3" y="768">
+  <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 63.6667,0"/>
+  </object>
+  <object id="78" name="terra29" x="30623.7" y="768">
+  <properties>
+    <property name="body" value="environment"/>
+    <property name="material" value="ground"/>
+   </properties>
+   <polyline points="0,0 64.3333,0"/>
   </object>
  </objectgroup>
 </map>
