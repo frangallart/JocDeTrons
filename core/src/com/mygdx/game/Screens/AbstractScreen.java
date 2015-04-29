@@ -3,131 +3,157 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.JocDeTrons;
+
+;
+
 
 /**
  * Classe que abstreu les caracter�stiques b�siques d'una pantalla del joc
- * 
+ *
  * @author Marc
  *
  */
 public class AbstractScreen implements Screen, InputProcessor {
-	// atributs
-	protected final JocDeTrons joc;
-	/**
-	 * Objecte SpriteBatch Defineix un bloc en que es crea un lot d'ordres de
-	 * dibuix per enviar a la GPU
-	 */
-	protected final SpriteBatch
-            batch;
-	
-	// escena
-	protected final Stage stage;
+    // atributs
+    protected final JocDeTrons joc;
+    /**
+     * Objecte SpriteBatch Defineix un bloc en que es crea un lot d'ordres de
+     * dibuix per enviar a la GPU
+     */
+    protected final SpriteBatch  batch;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param joc
-	 *            Classe principal del joc
-	 */
-	public AbstractScreen(JocDeTrons joc) {
-		this.joc= joc;
-		this.batch = new SpriteBatch();
-		// definim l'stage amb un viewport de mida 0x0px i que mantingui la relaci� d'aspecte
-		this.stage = new Stage(); //0, 0, true);
+    // escena
+    protected final Stage stage;
+
+
+    private FitViewport viewport;
+    private Texture imatge;
+    /**
+     * Constructor
+     *
+     * @param joc
+     *            Classe principal del joc
+     */
+    public AbstractScreen(JocDeTrons joc) {
+        this.joc= joc;
+        this.batch = new SpriteBatch();
+        // definim l'stage amb un viewport de mida 0x0px i que mantingui la relaci� d'aspecte
+        this.stage = new Stage(); //0, 0, true);
         Gdx.input.setInputProcessor(this);
-	}
 
-	/**
-	 * @see com.badlogic.gdx.Screen#render(float)
-	 */
-	@Override
-	public void render(float delta) {
-		// (1) processar la l�gica del joc
+        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        Pixmap pixels = new Pixmap(16, 16, Pixmap.Format.RGBA8888);
+        pixels.setColor(1,1,1,1);
+        pixels.fill();
+        imatge = new Texture(pixels);
+    }
 
-		// actualitzar els actors
-		stage.act(delta);
+    /**
+     * @see com.badlogic.gdx.Screen#render(float)
+     */
+    @Override
+    public void render(float delta) {
+        // actualitzar els actors
+        stage.act(delta);
+        // dibuixar els actors.
+        stage.draw();
+    }
 
-		// (2) dibuixar el resultat
-		// Pinta la pantalla amb color negre
-		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		// dibuixar els actors.
-		stage.draw();
-	}
+    public void calculRedimensionat() {
 
-	/**
-	 * @see com.badlogic.gdx.Screen#resize(int, int)
-	 */
-	@Override
-	public void resize(int width, int height) {
-		Gdx.app.log(JocDeTrons.class.getSimpleName(), "Redimensionant pantalla: " + getName() + " a: "
-				+ width + " x " + height);
+        int screenWidth = Gdx.graphics.getWidth();
+        int screenHeight = Gdx.graphics.getHeight();
 
-		// redimensionar el viewport del stage
-		// tamb� es crida a aquest m�tode en crear la pantalla
-		//stage.setViewport(width, height, true);
-	}
+        Gdx.gl.glViewport(0,0, screenWidth, screenHeight);
+        batch.getProjectionMatrix().idt().setToOrtho2D(0,0,screenWidth, screenHeight);
+        batch.getTransformMatrix().idt();
+        batch.begin();
+        float zonaEsquerra = viewport.getLeftGutterWidth();
 
-	/**
-	 * @see com.badlogic.gdx.Screen#show()
-	 */
-	@Override
-	public void show() {
-		Gdx.app.log(JocDeTrons.class.getSimpleName(), "Mostrant pantalla: " + getName());
-	}
+        if(zonaEsquerra > 0) {
+            batch.draw(imatge, 0, 0, zonaEsquerra, screenHeight);
+            batch.draw(imatge, viewport.getRightGutterX(), 0, viewport.getRightGutterWidth(), screenHeight);
+        }
 
-	/**
-	 * @see com.badlogic.gdx.Screen#hide()
-	 */
-	@Override
-	public void hide() {
-		Gdx.app.log(JocDeTrons.class.getSimpleName(), "Amagant pantalla: " + getName());
+        float zonaInferior = viewport.getBottomGutterHeight();
 
-		// dispose de la pantalla quan deixem la pantalla.
-		// Aquest m�tode no es crida autom�ticament.
-		dispose();
-	}
+        if(zonaInferior > 0) {
+            batch.draw(imatge, 0, 0, screenWidth, zonaInferior);
+            batch.draw(imatge, 0, viewport.getTopGutterY(), screenWidth, viewport.getTopGutterHeight());
+        }
+        batch.end();
+        viewport.update(screenWidth,screenHeight, true);
+    }
 
-	/**
-	 * @see com.badlogic.gdx.Screen#pause()
-	 */
-	@Override
-	public void pause() {
-		Gdx.app.log(JocDeTrons.class.getSimpleName(), "Pansant la pantalla: " + getName());
-	}
+    /**
+     * @see com.badlogic.gdx.Screen#resize(int, int)
+     */
+    @Override
+    public void resize(int width, int height) {
 
-	/**
-	 * @see com.badlogic.gdx.Screen#resume()
-	 */
-	@Override
-	public void resume() {
-		Gdx.app.log(JocDeTrons.class.getSimpleName(), "Tornant a la pantalla: " + getName());
-	}
+        viewport.update(width, height);
+    }
 
-	/**
-	 * @see com.badlogic.gdx.Screen#dispose()
-	 */
-	@Override
-	public void dispose() {
-		Gdx.app.log(JocDeTrons.class.getSimpleName(), "Alliberant recursos de la pantalla: " + getName());
+    /**
+     * @see com.badlogic.gdx.Screen#show()
+     */
+    @Override
+    public void show() {
+    }
 
-		stage.dispose();
-		batch.dispose();
-	}
+    /**
+     * @see com.badlogic.gdx.Screen#hide()
+     */
+    @Override
+    public void hide() {
 
-	/**
-	 * per recuperar el nom de la pantalla
-	 * 
-	 * @return
-	 */
-	protected String getName() {
-		return getClass().getSimpleName();
-	}
+        // dispose de la pantalla quan deixem la pantalla.
+        // Aquest m�tode no es crida autom�ticament.
+        dispose();
+    }
+
+    /**
+     * @see com.badlogic.gdx.Screen#pause()
+     */
+    @Override
+    public void pause() {
+    }
+
+    /**
+     * @see com.badlogic.gdx.Screen#resume()
+     */
+    @Override
+    public void resume() {
+    }
+
+    /**
+     * @see com.badlogic.gdx.Screen#dispose()
+     */
+    @Override
+    public void dispose() {
+        Gdx.app.log(JocDeTrons.class.getSimpleName(), "Alliberant recursos de la pantalla: " + getName());
+
+        stage.dispose();
+        batch.dispose();
+        imatge.dispose();
+
+    }
+
+    /**
+     * per recuperar el nom de la pantalla
+     *
+     * @return
+     */
+    protected String getName() {
+        return getClass().getSimpleName();
+    }
 
     protected JocDeTrons getGame() {
         return joc;

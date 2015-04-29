@@ -11,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.Ascensor;
 import com.mygdx.game.Drac;
@@ -32,10 +31,7 @@ import java.util.Iterator;
 public class Level2 extends AbstractScreen {
 
 
-    /**
-     * Estils
-     */
-    private final Skin skin;
+
     /**
      * Variable d'instancia que permet gestionar i pintar el mapa a partir d'un
      * TiledMap (TMX)
@@ -96,12 +92,11 @@ public class Level2 extends AbstractScreen {
 
     public Level2(JocDeTrons joc, Personatge personatge, String nomJugador) {
         super(joc);
-        // carregar el fitxer d'skins
-        skin = new Skin(Gdx.files.internal("skins/skin.json"));
-        title = new Label(joc.getTitol(),skin, "groc");
-        labelVides = new Label("",skin, "groc");
-        labelPunts = new Label("",skin, "groc");
-        labelNomJugador = new Label(nomJugador, skin, "groc");
+        // carregar el fitxer d'joc.getSkin()s
+        title = new Label(joc.getTitol(),joc.getSkin());
+        labelVides = new Label("",joc.getSkin());
+        labelPunts = new Label("",joc.getSkin());
+        labelNomJugador = new Label(nomJugador, joc.getSkin());
 
         table = new Table();
         table2 = new Table();
@@ -317,6 +312,7 @@ public class Level2 extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+
         personatge.inicialitzarMoviments();
         tractarEventsEntrada();
         personatge.moure();
@@ -390,7 +386,7 @@ public class Level2 extends AbstractScreen {
         // finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
         // s'ha indicat entre begin i end
         batch.end();
-
+        calculRedimensionat();
         // dibuixar els controls de pantalla
         stage.act();
         stage.draw();

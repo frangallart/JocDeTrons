@@ -10,7 +10,7 @@
   		},
   		com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
   			default: {
-  				font: default-font, fontColor: green
+  				font: default-font, fontColor: white
   			}
   			groc: {
   			  	font: default-font, fontColor: white
