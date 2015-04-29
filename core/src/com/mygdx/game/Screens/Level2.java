@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.Ascensor;
+import com.mygdx.game.BolesFocMonstre;
 import com.mygdx.game.Drac;
 import com.mygdx.game.GestorContactes;
 import com.mygdx.game.JocDeTrons;
@@ -21,6 +22,7 @@ import com.mygdx.game.Monstre;
 import com.mygdx.game.MonstreEstatic;
 import com.mygdx.game.Personatge;
 import com.mygdx.game.TiledMapHelper;
+import com.mygdx.game.Troncs;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -74,8 +76,8 @@ public class Level2 extends AbstractScreen {
     private int vides;
 
     private ArrayList<Monstre> monstres;
-    private Monstre monstre;
-    private Monstre monstre2;
+    private ArrayList<BolesFocMonstre> bolesDrac;
+    private ArrayList<Troncs> troncs;
 
     private Texture splashTexture;
     private Image splashImage;
@@ -129,13 +131,20 @@ public class Level2 extends AbstractScreen {
         monstres.add(new Monstre(world, "caminant6", 266.66f, 1.0f, 271f, 266.67f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png", 6, 2));
         monstres.add(new Monstre(world, "caminant7", 290.66f, 1.0f, 294f, 290.67f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png", 6, 2));
 
-        drac = new Drac(world, "drac", 301.02f, 1.0f, 310, 301.01f,3f, "imatges/dracVolant.png" ,"imatges/dracVolant.png", 12, 2);
+        drac = new Drac(world, "drac", 301.02f, 1.0f, 310, 301.01f,3f, "imatges/dracVolant.png" ,"imatges/drac.png", 12, 2);
 
         noia = new MonstreEstatic(world, "noia", 332.54f, 6.07f, true, "imatges/noiaNua.png");
+
+        bolesDrac = new ArrayList<BolesFocMonstre>();
+        bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 4f, 5f, false));
 
         world.setContactListener(new GestorContactes(bodyDestroyList, this.personatge, monstres, null, null));
 
         this.vides = personatge.getVides();
+
+        troncs = new ArrayList<Troncs>();
+        troncs.add(new Troncs(world, 302.6f, 1.6f, "imatges/barra.png"));
+        troncs.add(new Troncs(world, 303.7f, 1.6f, "imatges/barra.png"));
 
         // objecte que permet debugar les col·lisions
         debugRenderer = new Box2DDebugRenderer();
@@ -372,6 +381,13 @@ public class Level2 extends AbstractScreen {
             item.dibuixar(batch);
         }
 
+        for(Iterator<Troncs> i = troncs.iterator(); i.hasNext(); ) {
+            Troncs item = i.next();
+            item.moure();
+            item.updatePosition();
+            item.dibuixar(batch);
+        }
+
         noia.dibuixar(batch);
         noia.updatePosition();
         noia.moure();
@@ -381,6 +397,21 @@ public class Level2 extends AbstractScreen {
         drac.dibuixar(batch);
 
         ascensor.dibuixar(batch);
+
+        if (personatge.getPositionBody().x > 301.02f && personatge.getPositionBody().x < 310f) {
+
+            /*if (bolesDrac.size() < 3) {
+                bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x, drac.getPositionBody().y + 2f, 4f, false));
+            }*/
+
+            for (Iterator<BolesFocMonstre> i = bolesDrac.iterator(); i.hasNext(); ) {
+                BolesFocMonstre items = i.next();
+                items.moure();
+                items.updatePosition();
+                items.dibuixar(batch);
+            }
+        }
+
         // finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
         // s'ha indicat entre begin i end
         batch.end();
