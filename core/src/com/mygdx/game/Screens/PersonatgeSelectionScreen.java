@@ -3,6 +3,8 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -14,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.JocDeTrons;
+import com.mygdx.game.Personatge;
 
 
 public class PersonatgeSelectionScreen extends AbstractScreen {
@@ -149,11 +152,11 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         // la darrera acci� ens porta cap a la seg�ent pantalla
         //joc.setScreen(new PantallaPrincipal(joc));
 
-        joc.setScreen(new Level1(getGame(), 3, pathToTexture, pathToImg, pathToImgE, pathToImgAtac, nomJugador));
+        //joc.setScreen(new Level1(getGame(), 3, pathToTexture, pathToImg, pathToImgE, pathToImgAtac, nomJugador));
 
-       // World world = new World(new Vector2(0.0f, -9.8f), true);
-        //Personatge persona = new Personatge(world, 3 , 0, pathToTexture, pathToImg, pathToImgE);
-        //joc.setScreen(new Level2(getGame(), persona, nomJugador));
+        World world = new World(new Vector2(0.0f, -9.8f), true);
+        Personatge persona = new Personatge(world, 3 , 0, pathToTexture, pathToImg, pathToImgE, pathToImgE);
+        joc.setScreen(new Level2(getGame(), persona, nomJugador));
     }
 
 }

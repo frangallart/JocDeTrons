@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.Ascensor;
+import com.mygdx.game.Drac;
 import com.mygdx.game.GestorContactes;
 import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.MapBodyManager;
@@ -84,6 +85,7 @@ public class Level2 extends AbstractScreen {
     private Image splashImage;
     private Personatge personatge;
     private MonstreEstatic noia;
+    private Drac drac;
 
     /**
      * per indicar quins cossos s'han de destruir
@@ -133,6 +135,8 @@ public class Level2 extends AbstractScreen {
         monstres.add(new Monstre(world, "caminant5", 249.66f, 2.66f, 252.33f, 249.67f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
         monstres.add(new Monstre(world, "caminant6", 266.66f, 1.0f, 271f, 266.67f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png", 6, 2));
         monstres.add(new Monstre(world, "caminant7", 290.66f, 1.0f, 294f, 290.67f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png", 6, 2));
+
+        drac = new Drac(world, "drac", 301.02f, 1.0f, 310, 301.01f,3f, "imatges/dracVolant.png" ,"imatges/dracVolant.png", 12, 2);
 
         noia = new MonstreEstatic(world, "noia", 332.54f, 6.07f, true, "imatges/noiaNua.png");
 
@@ -378,6 +382,10 @@ public class Level2 extends AbstractScreen {
         noia.updatePosition();
         noia.moure();
 
+        drac.moure(personatge);
+        drac.updatePosition();
+        drac.dibuixar(batch);
+
         ascensor.dibuixar(batch);
         // finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
         // s'ha indicat entre begin i end
@@ -406,6 +414,7 @@ public class Level2 extends AbstractScreen {
                 joc.setScreen(new Level2(joc, this.personatge, labelNomJugador.getText().toString()));
             }
         }
+        System.out.println(personatge.getPositionBody().x);
     }
 
     @Override
