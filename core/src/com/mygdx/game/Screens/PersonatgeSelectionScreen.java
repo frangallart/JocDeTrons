@@ -109,7 +109,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         table.row().left();
         table.add(escullirPj);
         table.row().center();
-        table.add(imatgeHeroi).size(90,110).center().padTop(15).padRight(50);
+        table.add(imatgeHeroi).size(90, 110).center().padTop(15).padRight(50);
         table.add(imatgeHeroina).size(90,110).center().padTop(15).padRight(130);
 
         //table.add(buttonPlay).size(150,60).padBottom(20).row();
@@ -148,11 +148,12 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
     private void nextScreen(String pathToTexture, String pathToImg, String pathToImgE, String pathToAtac){
         // la darrera acci� ens porta cap a la seg�ent pantalla
         //joc.setScreen(new PantallaPrincipal(joc));
+
         joc.setScreen(new Level1(getGame(), 3, pathToTexture, pathToImg, pathToImgE, pathToAtac));
 
-       // World world = new World(new Vector2(0.0f, -9.8f), true);
-        //Personatge persona = new Personatge(world, 3 , 0, pathToTexture, pathToImg, pathToImgE);
-        //joc.setScreen(new Level2(getGame(), persona, nomJugador));
+       /* World world = new World(new Vector2(0.0f, -9.8f), true);
+        Personatge persona = new Personatge(world, 3 , 0, pathToTexture, pathToImg, pathToImgE, pathToAtac);
+        joc.setScreen(new Level2(getGame(), persona));*/
     }
 
 }

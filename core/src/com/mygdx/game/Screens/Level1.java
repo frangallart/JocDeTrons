@@ -387,8 +387,8 @@ public class Level1 extends AbstractScreen {
 			}
 
 			if (bodyDestroyList.get(i).getUserData().equals("clau")) {
+				clau = null;
 				personatge.setPassarNivell(true);
-				clau.dispose();
 			}
 			world.destroyBody(bodyDestroyList.get(i));
 		}
@@ -447,9 +447,11 @@ public class Level1 extends AbstractScreen {
 			cor.dibuixar(batch);
 		}
 
-		clau.moure();
-		clau.updatePosition();
-		clau.dibuixar(batch);
+		if (clau != null) {
+			clau.moure();
+			clau.updatePosition();
+			clau.dibuixar(batch);
+		}
 
 		barra.dibuixar(batch);
 		barra2.dibuixar(batch);
@@ -469,7 +471,7 @@ public class Level1 extends AbstractScreen {
 
 		if (personatge.getPositionBody().x > 96f){
 			if ( personatge.isPassarNivell()) {
-				joc.setScreen(new NextLevel(joc, personatge, "Nivell 1", labelNomJugador.getText().toString()));//new Level2(joc,vides));
+				joc.setScreen(new NextLevel(joc, personatge, "Nivell 1"));//new Level2(joc,vides));
 			}else{
 				labelNoPassarNivell.setText("No has recollit la clau!");
 			}

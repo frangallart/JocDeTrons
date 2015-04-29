@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.Ascensor;
+import com.mygdx.game.Drac;
 import com.mygdx.game.GestorContactes;
 import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.MapBodyManager;
@@ -66,9 +67,9 @@ public class Level2 extends AbstractScreen {
     /**
      * Per mostrar el t�tol
      */
-    private Label title, labelVides, labelPunts, labelNomJugador;
+    private Label title, labelVides, labelPunts;
 
-    private Table table, table2, table3;
+    private Table table, table2;
 
     private int vides;
 
@@ -80,6 +81,7 @@ public class Level2 extends AbstractScreen {
     private Image splashImage;
     private Personatge personatge;
     private MonstreEstatic noia;
+    private Drac drac;
 
     /**
      * per indicar quins cossos s'han de destruir
@@ -88,17 +90,15 @@ public class Level2 extends AbstractScreen {
     private ArrayList<Body> bodyDestroyList;
 
 
-    public Level2(JocDeTrons joc, Personatge personatge, String nomJugador) {
+    public Level2(JocDeTrons joc, Personatge personatge) {
         super(joc);
         // carregar el fitxer d'joc.getSkin()s
         title = new Label(joc.getTitol(),joc.getSkin());
         labelVides = new Label("",joc.getSkin());
         labelPunts = new Label("",joc.getSkin());
-        labelNomJugador = new Label(nomJugador, joc.getSkin());
 
         table = new Table();
         table2 = new Table();
-        table3 = new Table();
 		/*
 		 * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
 		 * perqu� indica cap avall
@@ -128,6 +128,8 @@ public class Level2 extends AbstractScreen {
         monstres.add(new Monstre(world, "caminant5", 249.66f, 2.66f, 252.33f, 249.67f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
         monstres.add(new Monstre(world, "caminant6", 266.66f, 1.0f, 271f, 266.67f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png", 6, 2));
         monstres.add(new Monstre(world, "caminant7", 290.66f, 1.0f, 294f, 290.67f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png", 6, 2));
+
+        drac = new Drac(world, "drac", 301.02f, 1.0f, 310, 301.01f,3f, "imatges/dracVolant.png" ,"imatges/dracVolant.png", 12, 2);
 
         noia = new MonstreEstatic(world, "noia", 332.54f, 6.07f, true, "imatges/noiaNua.png");
 
@@ -374,6 +376,10 @@ public class Level2 extends AbstractScreen {
         noia.updatePosition();
         noia.moure();
 
+        drac.moure(personatge);
+        drac.updatePosition();
+        drac.dibuixar(batch);
+
         ascensor.dibuixar(batch);
         // finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
         // s'ha indicat entre begin i end
@@ -392,16 +398,17 @@ public class Level2 extends AbstractScreen {
         }else {
             if (personatge.getPositionBody().y < 0.38){
                 personatge.setVides(personatge.getVides()-1);
-                joc.setScreen(new Level2(joc, personatge, labelNomJugador.getText().toString()));
+                joc.setScreen(new Level2(joc, personatge));
             }
 
             if (this.personatge.getVides() == 0) {
                 joc.setScreen(new MainMenuScreen(joc));
             } else if (this.personatge.getVides() != vides) {
                 vides = this.personatge.getVides();
-                joc.setScreen(new Level2(joc, this.personatge, labelNomJugador.getText().toString()));
+                joc.setScreen(new Level2(joc, this.personatge));
             }
         }
+        System.out.println(personatge.getPositionBody().x);
     }
 
     @Override
@@ -426,10 +433,6 @@ public class Level2 extends AbstractScreen {
         table2.add(labelVides).padTop(5).padRight(5).row();
         table2.add(labelPunts).padTop(20).padRight(5).row();
         table2.setFillParent(true);
-
-        table3.center().top().right();
-        table3.add(labelNomJugador).padTop(5).padLeft(5).row();
-        table3.setFillParent(true);
 
         //cell2 = table.add(title2).padTop(5);
 
