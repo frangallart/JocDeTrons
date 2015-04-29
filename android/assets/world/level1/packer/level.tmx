@@ -25,7 +25,7 @@
  </layer>
  <layer name="recorregut" width="300" height="30">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <layer name="escut" width="300" height="30">
@@ -41,7 +41,7 @@
   <object id="27" name="paretEsquerra" x="0" y="-4">
    <properties>
     <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
+    <property name="material" value="wall"/>
    </properties>
    <polyline points="0,0 0,964"/>
   </object>
@@ -164,13 +164,6 @@
    </properties>
    <polyline points="0,0 161,1"/>
   </object>
-  <object id="54" name="terraMuntanya3" x="3135.33" y="383.333">
-   <properties>
-    <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
-   </properties>
-   <polyline points="0,0 0.666667,-31.3333 32.6667,-31.3333 32.6667,-63.3333 64.6667,-63.3333 64.6667,-95.3333 96.6667,-95.3333 96.6667,-127.333 128.667,-127.333 128.667,-159.333 160.667,-159.333 160.667,-191.333 192.667,-191.333 192.667,-223.333 224.667,-223.333 224.667,-255.333 256.667,-255.333 256.667,-287.333 2432.67,-287.333"/>
-  </object>
   <object id="56" name="terra18" x="6336.33" y="800.333">
    <properties>
     <property name="body" value="environment"/>
@@ -206,17 +199,10 @@
    </properties>
    <polyline points="0,0 94.6667,0 94.6667,-32 318.667,-32 318.667,32 382.667,32 382.667,128 414.667,128 414.667,160 446.667,160 446.667,128 542.667,128 542.667,96 1182.67,96 1534.67,96 1534.67,64 1598.67,64 1598.67,32 1630.67,32 1630.67,0 1726.67,0 1726.67,-32 1790.67,-32 1790.67,0 1886.67,0 1886.67,32 1950.67,32 1950.67,64 2910.67,64"/>
   </object>
-  <object id="64" name="guanyar" x="9249.33" y="706.667">
-   <properties>
-    <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
-   </properties>
-   <polyline points="0,0 -1.33333,93.3333"/>
-  </object>
   <object id="65" name="paretDreta" x="9598.67" y="2.66667">
    <properties>
     <property name="body" value="environment"/>
-    <property name="material" value="ground"/>
+    <property name="material" value="wall"/>
    </properties>
    <polyline points="0,0 1.33333,957.333"/>
   </object>
