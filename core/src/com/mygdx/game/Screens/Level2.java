@@ -118,7 +118,7 @@ public class Level2 extends AbstractScreen {
         bodyDestroyList= new ArrayList<Body>();
 
         // crear el personatge
-        this.personatge = new Personatge(world, personatge.getVides(), personatge.getPunts(), personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE());
+        this.personatge = new Personatge(world, personatge.getVides(), personatge.getPunts(), personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), personatge.getPathImatgeAtac());
 
         monstres = new ArrayList<Monstre>();
         monstres.add(new Monstre(world, "gegant1", 37.0f, 0.66f, 46f, 37.1f, "imatges/whiteWalker.png","imatges/whiteWalker.png", 6, 2));
@@ -252,6 +252,12 @@ public class Level2 extends AbstractScreen {
                 }
             }
         }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            personatge.setFerAtac(true);
+        }else{
+            personatge.setFerAtac(false);
+        }
     }
 
     /**
@@ -363,9 +369,9 @@ public class Level2 extends AbstractScreen {
 
         for(Iterator<Monstre> i = monstres.iterator(); i.hasNext(); ) {
             Monstre item = i.next();
-            item.dibuixar(batch);
-            item.updatePosition();
             item.moure();
+            item.updatePosition();
+            item.dibuixar(batch);
         }
 
         noia.dibuixar(batch);

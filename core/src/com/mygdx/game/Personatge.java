@@ -35,10 +35,14 @@ public class Personatge {
 
     private FixtureDef propietats = new FixtureDef();
 
-    private String pathTextura, pathImatge, pathImatgeE;
+    private String pathTextura, pathImatge, pathImatgeE, pathImatgeAtac;
 
 
-    public Personatge(World world, String pathTextura, String pathImatge, String pathImatgeE) {
+    public String getPathImatgeAtac() {
+        return pathImatgeAtac;
+    }
+
+    public Personatge(World world, String pathTextura, String pathImatge, String pathImatgeE, String pathImatgeAtac) {
         moureEsquerra = moureDreta = ferSalt = ferAtac = atac = false;
         this.velocitat = 0.1f;
         this.world = world;
@@ -48,12 +52,13 @@ public class Personatge {
         this.pathImatge = pathImatge;
         this.pathImatgeE = pathImatgeE;
         this.personatgeCaraDreta = true;
+        this.pathImatgeAtac = pathImatgeAtac;
         carregarTextures();
         carregarSons();
         crearProtagonista();
     }
 
-    public Personatge(World world, int vides, int punts, String pathTextura, String pathImatge, String pathImatgeE) {
+    public Personatge(World world, int vides, int punts, String pathTextura, String pathImatge, String pathImatgeE, String pathImatgeAtac) {
         moureEsquerra = moureDreta = ferSalt = ferAtac = atac = false;
         this.velocitat = 0.1f;
         this.world = world;
@@ -63,6 +68,7 @@ public class Personatge {
         this.pathImatge = pathImatge;
         this.pathImatgeE = pathImatgeE;
         this.personatgeCaraDreta = true;
+        this.pathImatgeAtac = pathImatgeAtac;
         carregarTextures();
         carregarSons();
         crearProtagonista();
@@ -73,7 +79,7 @@ public class Personatge {
         animatedTexture = new Texture(Gdx.files.internal(this.pathTextura));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        animatedTextureAtac = new Texture(Gdx.files.internal("imatges/heroinaSpriteAtacDret.png"));
+        animatedTextureAtac = new Texture(Gdx.files.internal(this.pathImatgeAtac));
         animatedTextureAtac.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         stoppedTexture = new Texture(Gdx.files.internal(this.pathImatge));
@@ -104,6 +110,7 @@ public class Personatge {
         setMoureDreta(false);
         setMoureEsquerra(false);
         setFerSalt(false);
+        setFerAtac(false);
         spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
     }
 

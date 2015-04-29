@@ -77,6 +77,7 @@ public class Monstre {
         this.frameRows = frameRows;
         carregarTextures();
         crearProtagonista();
+        inicialitzarMoviments();
     }
 
     private void carregarTextures() {
