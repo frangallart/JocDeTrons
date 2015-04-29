@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.Barra;
 import com.mygdx.game.BolesFocMonstre;
+import com.mygdx.game.Clau;
 import com.mygdx.game.GestorContactes;
 import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.MapBodyManager;
@@ -76,9 +77,9 @@ public class Level1 extends AbstractScreen {
     /**
      * Per mostrar el títol
      */
-    private Label title, labelVides, labelPunts, labelNomJugador;
+    private Label title, labelVides, labelPunts, labelNomJugador, labelNoPassarNivell;
 
-	private Table table, table2, table3;
+	private Table table, table2, table3, table4;
 
 	private int vides;
 
@@ -86,6 +87,7 @@ public class Level1 extends AbstractScreen {
 	private ArrayList<MonstreEstatic> monstresLava;
 	private ArrayList<BolesFocMonstre> bolesFocMonstres;
 	private Vides cor;
+	private Clau clau;
 
 	private String pathTexturaPj, pathImgPj, pathImgPjE, pathImgPjAtac;
 
@@ -105,6 +107,7 @@ public class Level1 extends AbstractScreen {
 		labelVides = new Label("",skin, "groc");
 		labelPunts = new Label("",skin, "groc");
 		labelNomJugador = new Label(nomJugador, skin, "groc");
+		labelNoPassarNivell = new Label("", skin, "groc");
 
 		this.pathTexturaPj = pathTexturaPj;
 		this.pathImgPj = pathImgPj;
@@ -115,6 +118,7 @@ public class Level1 extends AbstractScreen {
 		table = new Table();
 		table2 = new Table();
 		table3 = new Table();
+		table4 = new Table();
 		/*
 		 * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
 		 * perquè indica cap avall
@@ -145,6 +149,8 @@ public class Level1 extends AbstractScreen {
 		bolesFocMonstres = new ArrayList<BolesFocMonstre>();
 		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 50.44f, 1f, 2f, false));
 		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 60.15f, 1f, 1.8f, false));
+
+		clau = new Clau(world, "clau", 58.36f, 3.50f, true, "imatges/clau.png");
 
 		personatge.setVides(vides);
 		world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstresLava, bolesFocMonstres));
@@ -385,6 +391,11 @@ public class Level1 extends AbstractScreen {
 					personatge.setVides(personatge.getVides() + 1);
 					this.vides = personatge.getVides();
 				}
+
+				if (bodyDestroyList.get(i).getUserData().equals("clau")) {
+					personatge.setPassarNivell(true);
+					clau.dispose();
+				}
 				world.destroyBody(bodyDestroyList.get(i));
 			}
 			bodyDestroyList.clear();
@@ -442,6 +453,10 @@ public class Level1 extends AbstractScreen {
 			cor.dibuixar(batch);
 		}
 
+		clau.moure();
+		clau.updatePosition();
+		clau.dibuixar(batch);
+
 		barra.dibuixar(batch);
 		barra2.dibuixar(batch);
 		barra3.dibuixar(batch);
@@ -450,7 +465,7 @@ public class Level1 extends AbstractScreen {
 		batch.end();
 
 
-        // dibuixar els controls de pantalla
+				// dibuixar els controls de pantalla
 				stage.act();
 				stage.draw();
 
@@ -459,9 +474,14 @@ public class Level1 extends AbstractScreen {
 				JocDeTrons.PIXELS_PER_METRE));
 
 		if (personatge.getPositionBody().x > 96f){
-			joc.setScreen(new NextLevel(joc, personatge, "Nivell 1", labelNomJugador.getText().toString()));//new Level2(joc,vides));
+			if ( personatge.isPassarNivell()) {
+				joc.setScreen(new NextLevel(joc, personatge, "Nivell 1", labelNomJugador.getText().toString()));//new Level2(joc,vides));
+			}else{
+				labelNoPassarNivell.setText("No has recollit la clau!");
+			}
 		}else {
 
+			labelNoPassarNivell.setText("");
 			if (personatge.getPositionBody().y < 0.38) {
 				personatge.setVides(personatge.getVides() - 1);
 				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), personatge.getPathImatgeAtac(), labelNomJugador.getText().toString()));
@@ -498,10 +518,15 @@ public class Level1 extends AbstractScreen {
 		table3.center().top().left();
 		table3.add(labelNomJugador).padTop(5).padLeft(5).row();
 
+		table4.center();
+		table4.add(labelNoPassarNivell).row();
+
 		//cell2 = table.add(title2).padTop(5);
 		table.setFillParent(true);
 		table2.setFillParent(true);
+		table4.setFillParent(true);
 		stage.addActor(table);
 		stage.addActor(table2);
+		stage.addActor(table4);
 	}
 }

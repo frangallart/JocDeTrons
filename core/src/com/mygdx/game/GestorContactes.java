@@ -117,6 +117,13 @@ public class GestorContactes implements ContactListener {
         }else if (fixtureB.getBody().getUserData().equals("Vida") && fixtureA.getBody().getUserData().equals("personatge")){
             bodyDestroyList.add(fixtureB.getBody());
         }
+
+        if (fixtureA.getBody().getUserData().equals("clau") && fixtureB.getBody().getUserData().equals("personatge")) {
+            personatge.setPassarNivell(true);
+            bodyDestroyList.add(fixtureA.getBody());
+        }else if (fixtureB.getBody().getUserData().equals("clau") && fixtureA.getBody().getUserData().equals("personatge")){
+            bodyDestroyList.add(fixtureB.getBody());
+        }
     }
 
     @Override
