@@ -16,34 +16,26 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.JocDeTrons;
-import com.mygdx.game.Personatge;
 
 
 public class PersonatgeSelectionScreen extends AbstractScreen {
 
     private Stage stage;
-    private Table table;
+    private Table table, tableImatges;
 
-    private Skin skin;
+    //private Skin skin;
 
-    private TextButton buttonPlay, buttonExit;
-    private Label namePlayerInfo, escullirPj;
-    private TextField nomPlayer;
     private Texture textureHeroi, textureHeroina;
     private Image imatgeHeroi, imatgeHeroina;
+    private Label  infoEscollir;
 
     /**
      * Constructor
@@ -52,9 +44,10 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
      */
     public PersonatgeSelectionScreen(JocDeTrons joc) {
         super(joc);
-        skin = new Skin(Gdx.files.internal("skins/skin.json"));
+        //skin = new Skin(Gdx.files.internal("skins/skin.json"));
         stage = new Stage();
         table =  new Table();
+        tableImatges = new Table();
 
         // carregar la imatge
         textureHeroi = new Texture(
@@ -97,7 +90,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         });
 
         //namePlayerInfo = new Label("Introdueix el teu nom: ",skin);
-        escullirPj = new Label("Escull el teu heroi: ", skin);
+        infoEscollir = new Label("Escull el teu heroi: ", joc.getSkin());
        // nomPlayer = new TextField("", skin);
        // nomPlayer.setText("Jugador 1");
     }
@@ -106,6 +99,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        calculRedimensionat();
         stage.act();
         stage.draw();
     }
@@ -119,21 +113,13 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
 
-        table.center();
-        table.add(namePlayerInfo);
-        table.add(nomPlayer);
-        table.row().left();
-        table.add(escullirPj);
-        table.row().center();
-        table.add(imatgeHeroi).size(90, 110).center().padTop(15).padRight(50);
-        table.add(imatgeHeroina).size(90,110).center().padTop(15).padRight(130);
 
-        //table.add(buttonPlay).size(150,60).padBottom(20).row();
+        table.add(infoEscollir).padBottom(40 * Gdx.graphics.getDensity()).row();
+        tableImatges.add(imatgeHeroi).size(90 * Gdx.graphics.getDensity(), 110 * Gdx.graphics.getDensity()).padRight(125 * Gdx.graphics.getDensity());
+        tableImatges.add(imatgeHeroina).size(90 * Gdx.graphics.getDensity(), 110 * Gdx.graphics.getDensity());
+        table.add(tableImatges);
         table.setFillParent(true);
-        stage.setKeyboardFocus(nomPlayer);
-
         stage.addActor(table);
-        //stage.addActor(imatgeHeroi);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -155,21 +141,14 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
     }
 
     /**
      * canviar a la següent pantalla
      */
     private void nextScreen(String pathToTexture, String pathToImg, String pathToImgE, String pathToAtac){
-        // la darrera acci� ens porta cap a la seg�ent pantalla
-        //joc.setScreen(new PantallaPrincipal(joc));
+        joc.setScreen(new Level1(getGame(), 3, pathToTexture, pathToImg, pathToImgE, pathToAtac));
 
-        //joc.setScreen(new Level1(getGame(), 3, pathToTexture, pathToImg, pathToImgE, pathToAtac));
-
-        World world = new World(new Vector2(0.0f, -9.8f), true);
-        Personatge persona = new Personatge(world, 3 , 0, pathToTexture, pathToImg, pathToImgE, pathToAtac);
-        joc.setScreen(new Level2(getGame(), persona));
     }
 
 }
