@@ -23,9 +23,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygdx.game.JocDeTrons;
 
 /**
- * Una pantalla del joc: la pantalla de presentaci�
+ * Classe SplashScreen
  * 
- * @author Marc
+ * Aquesta classe ens mostra un Splash Inicial a l'inici de l'aplicació
  *
  */
 public class SplashScreen extends AbstractScreen {

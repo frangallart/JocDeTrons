@@ -25,6 +25,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.JocDeTrons;
 
+/**
+ * Classe Main Menu Screen
+ *  Pantalla principal que ens permet iniciar el joc o en el seu defecte
+ *  Sortir d'ell
+ */
 public class MainMenuScreen extends AbstractScreen {
 
     private Stage stage = new Stage();

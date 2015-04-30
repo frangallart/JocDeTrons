@@ -25,7 +25,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
- * Created by Ruben on 23/4/15.
+ * Classe barra
+ * Ens permet posar objectes del tipus barra
+ * Permetran a l'heroi sobrepassar diversos obstacles que s'anirà trobant
+ * Referències al joc: Nivell 1: 3 barres (1 de "doble" i dues de curtes)
+ *
  */
 public class Barra {
 

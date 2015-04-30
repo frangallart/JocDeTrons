@@ -25,7 +25,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
- * Created by Arnau on 26/04/2015.
+ * Classe Clau
+ *
+ * Aquesta classe ens permet crear objectes del tipus Clau
+ * S'utilitzen per poder passar de nivell
+ * Referencies al Joc: Nivell 1, en el pas del riu de lava
  */
 public class Clau {
     public static final int FRAME_COLS = 8;
