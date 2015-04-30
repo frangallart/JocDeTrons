@@ -1,3 +1,16 @@
+/*************************************************************************************
+ *                                                                                   *
+ *  Joc de Trons por Java Norriors se distribuye bajo una                            *
+ *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ *                                                                                   *
+ *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
+ *                                                                                   *
+ *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
+ *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
+ *                                                                                   *
+/************************************************************************************/
+
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
@@ -12,7 +25,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
- * Created by Arnau on 26/04/2015.
+ * Classe Boles de foc del monstre
+ * Aquesta classe ens permet disparar projectils
+ * Simulant el llençament d'una bola de foc
+ * Pot matar a l'heroi i destruir objectes del mapa
+ * Es poden esquivar però no matar
  */
 public class BolesFocMonstre {
     public static final int FRAME_COLS = 8;

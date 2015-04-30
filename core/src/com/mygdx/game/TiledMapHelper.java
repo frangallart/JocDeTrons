@@ -1,31 +1,18 @@
+/*************************************************************************************
+ *                                                                                   *
+ *  Joc de Trons por Java Norriors se distribuye bajo una                            *
+ *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ *                                                                                   *
+ *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
+ *                                                                                   *
+ *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
+ *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
+ *                                                                                   *
+/************************************************************************************/
+
 package com.mygdx.game;
 
-/**
- *   Copyright 2011 David Kirchner 
- *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
- *   
- * TiledMapHelper can simplify your game's tiled map operations. You can find
- * some sample code using this class at my blog:
- * 
- * http://dpk.net/2011/05/08/libgdx-box2d-tiled-maps-full-working-example-part-2/
- * 
- * Note: This code does have some limitations. It only supports single-layered
- * maps.
- * 
- * This code is based on TiledMapTest.java found at:
- * http://code.google.com/p/libgdx/
- */
 
 
 import com.badlogic.gdx.Gdx;
@@ -37,6 +24,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+/**
+ * Classe TiledMapHelper
+ *
+ */
 
 public class TiledMapHelper {
 	private FileHandle packFileDirectory;

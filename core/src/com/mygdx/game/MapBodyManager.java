@@ -1,6 +1,17 @@
-package com.mygdx.game;
+/*************************************************************************************
+ *                                                                                   *
+ *  Joc de Trons por Java Norriors se distribuye bajo una                            *
+ *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ *                                                                                   *
+ *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
+ *                                                                                   *
+ *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
+ *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
+ *                                                                                   *
+/************************************************************************************/
 
-import java.util.Iterator;
+package com.mygdx.game;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.maps.Map;
@@ -27,26 +38,15 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonValue.JsonIterator;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.JsonValue.JsonIterator;
+
+import java.util.Iterator;
+
 
 /**
- * @author David Saltares M�rquez david.saltares at gmail.com
- * @brief Populates box2D world with static bodies using data from a map object
- * 
- *        It uses a JSON formatted materials file to assign properties to the
- *        static bodies it creates. To assign a material to a shape add a
- *        "material" custom property to the shape in question using your editor
- *        of choice (Tiled, Gleed, Tide...). Such file uses the following
- *        structure:
- * @code [ { "name" : "ice", "density" : 1.0, "restitution" : 0.0, "friction" :
- *       0.1 }, { "name" : "elastic", "density" : 1.0, "restitution" : 0.8,
- *       "friction" : 0.8 } ]
- * @endcode
- * 
- *          In case no material property is found, it'll get a default one.
- * 
+ * Classe Map Body manager
  */
 public class MapBodyManager {
 	private final short CATEGORIA_ESCENA = 0x0016;

@@ -1,3 +1,16 @@
+/*************************************************************************************
+ *                                                                                   *
+ *  Joc de Trons por Java Norriors se distribuye bajo una                            *
+ *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ *                                                                                   *
+ *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
+ *                                                                                   *
+ *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
+ *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
+ *                                                                                   *
+/************************************************************************************/
+
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
@@ -12,7 +25,9 @@ import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.Personatge;
 
 /**
- * Created by Arnau on 25/04/2015.
+ * Classe Next Level
+ * Pantalla  entre nivells que ens mostra la possibilitat de continuar,
+ * de sortir del joc; ademés ens mostra la puntuació i les vides restants
  */
 public class NextLevel extends AbstractScreen {
 
