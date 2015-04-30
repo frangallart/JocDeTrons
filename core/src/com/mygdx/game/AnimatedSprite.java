@@ -130,6 +130,14 @@ public class AnimatedSprite {
         }
     }
 
+    public void draw(SpriteBatch spriteBatch, int destruit) {
+        if (destruit == 1) {
+            spriteBatch.draw(frameE, sprite.getX(), sprite.getY());
+        } else {
+            spriteBatch.draw(frame, sprite.getX(), sprite.getY());
+        }
+    }
+
     public void draw(SpriteBatch spriteBatch, boolean cara, boolean atac) {
         if (atac) {
             stateTime += Gdx.graphics.getDeltaTime() * 2;

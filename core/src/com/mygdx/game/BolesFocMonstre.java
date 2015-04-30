@@ -31,6 +31,11 @@ public class BolesFocMonstre {
     private boolean orientacio;
 
     private World world;                // Refer?ncia al mon on est? definit el personatge
+
+    public Body getCos() {
+        return cos;
+    }
+
     private Body cos;                   // per definir les propietats del cos
     private Sprite spritePersonatge;    // sprite associat al personatge
     private AnimatedSprite spriteAnimat;// animaci? de l'sprite

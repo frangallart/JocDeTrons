@@ -21,6 +21,7 @@ public class GestorContactes implements ContactListener {
     private ArrayList<BolesFocMonstre> boles;
     private ArrayList<Monstre> monstres;
     private ArrayList<MonstreEstatic> monstreEstatic;
+    private ArrayList<Troncs> troncs;
     private Personatge personatge;
 
     public GestorContactes() {
@@ -32,12 +33,13 @@ public class GestorContactes implements ContactListener {
     }
 
     public GestorContactes(ArrayList<Body> bodyDestroyList, Personatge personatge, ArrayList<Monstre> monstres,
-                           ArrayList<MonstreEstatic> monstresLava, ArrayList<BolesFocMonstre> boles) {
+                           ArrayList<MonstreEstatic> monstresLava, ArrayList<BolesFocMonstre> boles, ArrayList<Troncs> troncs) {
         this.bodyDestroyList = bodyDestroyList;
         this.personatge = personatge;
         this.monstres = monstres;
         this.monstreEstatic = monstresLava;
         this.boles = boles;
+        this.troncs = troncs;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class GestorContactes implements ContactListener {
             return;
         }
 
-        if (boles != null) {
+        if (boles != null && troncs == null) {
             for (int i = boles.size() - 1; i >= 0; i--) {
                 if (fixtureA.getBody().getUserData().equals("terraMorir") && fixtureB.getBody().getUserData().equals(boles.get(i).getNom())) {
                     bodyDestroyList.add(fixtureB.getBody());
@@ -98,6 +100,37 @@ public class GestorContactes implements ContactListener {
                     bodyDestroyList.add(fixtureA.getBody());
                 } else {
                     personatge.setVides(personatge.getVides() - 1);
+                }
+            }
+        }
+
+        // TODO
+        if (troncs != null && boles != null) {
+            for (int i = boles.size() - 1; i >= 0; i--) {
+                for (int numTroncs = troncs.size() - 1; numTroncs >= 0; numTroncs--) {
+                    if (fixtureA.getBody().getUserData().equals(troncs.get(numTroncs).getNom()) && fixtureB.getBody().getUserData().equals(boles.get(i).getNom())) {
+                        if (troncs.get(numTroncs).getDestruir() < 2){
+                            troncs.get(numTroncs).setDestruir(troncs.get(numTroncs).getDestruir() + 1);
+                            bodyDestroyList.add(fixtureB.getBody());
+                        }else{
+                            bodyDestroyList.add(fixtureA.getBody());
+                            bodyDestroyList.add(fixtureB.getBody());
+                        }
+                    }else if (fixtureB.getBody().getUserData().equals(troncs.get(numTroncs).getNom()) && fixtureA.getBody().getUserData().equals(boles.get(i).getNom())) {
+                        if (troncs.get(numTroncs).getDestruir() < 2) {
+                            troncs.get(numTroncs).setDestruir(troncs.get(numTroncs).getDestruir() + 1);
+                            bodyDestroyList.add(fixtureA.getBody());
+                        } else {
+                            bodyDestroyList.add(fixtureB.getBody());
+                            bodyDestroyList.add(fixtureA.getBody());
+                        }
+                    }
+                }
+
+                if (fixtureA.getBody().getUserData().equals("terraMorir") && fixtureB.getBody().getUserData().equals(boles.get(i).getNom())) {
+                    bodyDestroyList.add(fixtureB.getBody());
+                }else if (fixtureB.getBody().getUserData().equals("terraMorir") && fixtureA.getBody().getUserData().equals(boles.get(i).getNom())) {
+                    bodyDestroyList.add(fixtureA.getBody());
                 }
             }
         }

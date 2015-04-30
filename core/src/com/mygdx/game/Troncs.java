@@ -21,28 +21,51 @@ public class Troncs {
     /**
      * Detectar el moviment
      */
-    private boolean moureEsquerra, moureDreta;
+    private boolean moureEsquerra;
+    private boolean moureDreta;
+
+    public boolean isDestruit() {
+        return destruit;
+    }
+
+    private boolean destruit;
 
     private World world;                // Referència al mon on està definit el personatge
     private Body cos;                   // per definir les propietats del cos
     private Sprite spriteBarra;    // sprite associat al personatge
     private AnimatedSprite spriteAnimat;// animació de l'sprite
-    private Texture stoppedTexture;     // la seva textura
-    private Texture animatedTexture;
+    private Texture stoppedTexture, stoppedTextureE, animatedTexture;     // la seva textura
     private BodyDef defCos;
     private float posicioX, posicioY;
+
+    public int getDestruir() {
+        return destruir;
+    }
+
+    public void setDestruir(int destruir) {
+        this.destruir = destruir;
+    }
+
     private int destruir;
 
     private String pathImg;
 
+    public String getNom() {
+        return nom;
+    }
 
-    public Troncs(World world, float posicioX, float posicioY, String pathImg) {
+    private String nom;
+
+
+    public Troncs(World world, String nom, float posicioX, float posicioY, String pathImg) {
         moureEsquerra = moureDreta = false;
         this.world = world;
         this.posicioX = posicioX;
         this.posicioY = posicioY;
         this.pathImg = pathImg;
         this.destruir = 0;
+        this.destruit = false;
+        this.nom = nom;
         carregarTextures();
         crearProtagonista();
     }
@@ -53,12 +76,15 @@ public class Troncs {
 
         stoppedTexture = new Texture(Gdx.files.internal(pathImg));
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        stoppedTextureE = new Texture(Gdx.files.internal("imatges/warrior.png"));
+        stoppedTextureE.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
 
     private void crearProtagonista() {
         spriteBarra = new Sprite(animatedTexture);
-        spriteAnimat = new AnimatedSprite(spriteBarra, FRAME_COLS, FRAME_ROWS, stoppedTexture);
+        spriteAnimat = new AnimatedSprite(spriteBarra, FRAME_COLS, FRAME_ROWS, stoppedTexture, stoppedTextureE);
 
         // Definir el tipus de cos i la seva posició
         defCos = new BodyDef();
@@ -66,7 +92,7 @@ public class Troncs {
         defCos.type = BodyDef.BodyType.KinematicBody;
         defCos.position.set(this.posicioX, this.posicioY);
         cos = world.createBody(defCos);
-        cos.setUserData("Barra");
+        cos.setUserData(nom);
         /**
          * Definir les vores de l'sprite
          */
@@ -107,7 +133,8 @@ public class Troncs {
     }
 
     public void dibuixar(SpriteBatch batch) {
-        spriteAnimat.draw(batch);
+
+        spriteAnimat.draw(batch, this.getDestruir());
     }
 
     /**
@@ -120,26 +147,7 @@ public class Troncs {
      * Els impulsos s'apliquen des del centre del protagonista
      */
     public void moure() {
-       /* if (this.getPositionBody().x < this.bloq_dreta) {
-            moureDreta = true;
-            moureEsquerra = false;
-        } else if (this.getPositionBody().x > this.bloq_esquerra) {
-            moureDreta = false;
-            moureEsquerra = true;
-        }
-        if (moureDreta) {
-            cos.setLinearVelocity(1.0f, 0.0f);
-            spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-            spriteBarra.flip(true, false);
-            defCos.gravityScale = 0;
-        } else if (moureEsquerra) {
-            cos.setLinearVelocity(-1.0f, 0.0f);
 
-            spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-
-            spriteBarra.flip(true, false);
-            defCos.gravityScale = 0;
-        }*/
     }
 
     public boolean isMoureEsquerra() {

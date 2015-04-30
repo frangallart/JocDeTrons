@@ -131,20 +131,22 @@ public class Level2 extends AbstractScreen {
         monstres.add(new Monstre(world, "caminant6", 266.66f, 1.0f, 271f, 266.67f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png", 6, 2));
         monstres.add(new Monstre(world, "caminant7", 290.66f, 1.0f, 294f, 290.67f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png", 6, 2));
 
-        drac = new Drac(world, "drac", 301.02f, 1.0f, 310, 301.01f,3f, "imatges/dracVolant.png" ,"imatges/drac.png", 12, 2);
+        drac = new Drac(world, "drac", 301.02f, 1.0f, 310, 301.01f,4f, "imatges/dracVolant.png" ,"imatges/drac.png", 12, 2);
 
         noia = new MonstreEstatic(world, "noia", 332.54f, 6.07f, true, "imatges/noiaNua.png");
 
         bolesDrac = new ArrayList<BolesFocMonstre>();
-        bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 4f, 5f, false));
-
-        world.setContactListener(new GestorContactes(bodyDestroyList, this.personatge, monstres, null, null));
+        bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 3f, 5f, false));
+        bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 3f, 5f, false));
 
         this.vides = personatge.getVides();
 
         troncs = new ArrayList<Troncs>();
-        troncs.add(new Troncs(world, 302.6f, 1.6f, "imatges/barra.png"));
-        troncs.add(new Troncs(world, 303.7f, 1.6f, "imatges/barra.png"));
+        troncs.add(new Troncs(world, "tronc1", 302.6f, 2.6f, "imatges/barra.png"));
+        troncs.add(new Troncs(world, "tronc2", 303.7f, 2.6f, "imatges/barra.png"));
+
+        world.setContactListener(new GestorContactes(bodyDestroyList, this.personatge, monstres, null, bolesDrac, troncs));
+
 
         // objecte que permet debugar les col·lisions
         debugRenderer = new Box2DDebugRenderer();
@@ -351,9 +353,35 @@ public class Level2 extends AbstractScreen {
                     break;
                 }
             }
+
+            for (int j = 0; j < bolesDrac.size(); j++) {
+                if (bodyDestroyList.get(i).getUserData() == bolesDrac.get(j).getNom()) {
+                    bolesDrac.get(j).dispose();
+                    bolesDrac.remove(j);
+                    break;
+                }
+            }
+
+            for (int j = 0; j < troncs.size(); j++) {
+                if (bodyDestroyList.get(i).getUserData() == troncs.get(j).getNom()) {
+                    troncs.get(j).dispose();
+                    troncs.remove(j);
+                    break;
+                }
+            }
+
             world.destroyBody(bodyDestroyList.get(i));
         }
         bodyDestroyList.clear();
+
+        for (int j = 0; j < troncs.size(); j++) {
+            if (troncs.get(j).getDestruir() == 1){
+
+            }
+            if (troncs.get(j).getDestruir() == 2 && !troncs.get(j).isDestruit()) {
+                //troncs.get(j).moure();
+            }
+        }
 
         // Esborrar la pantalla
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -383,7 +411,7 @@ public class Level2 extends AbstractScreen {
 
         for(Iterator<Troncs> i = troncs.iterator(); i.hasNext(); ) {
             Troncs item = i.next();
-            item.moure();
+           // item.moure();
             item.updatePosition();
             item.dibuixar(batch);
         }
@@ -400,16 +428,21 @@ public class Level2 extends AbstractScreen {
 
         if (personatge.getPositionBody().x > 301.02f && personatge.getPositionBody().x < 310f) {
 
-            /*if (bolesDrac.size() < 3) {
-                bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x, drac.getPositionBody().y + 2f, 4f, false));
-            }*/
-
-            for (Iterator<BolesFocMonstre> i = bolesDrac.iterator(); i.hasNext(); ) {
-                BolesFocMonstre items = i.next();
-                items.moure();
-                items.updatePosition();
-                items.dibuixar(batch);
+            for (int i = 0; i < bolesDrac.size(); i++) {
+                if (bolesDrac.get(i).getPositionBody().y > 3.0f) {
+                    bolesDrac.get(i).dispose();
+                    world.destroyBody(bolesDrac.get(i).getCos());
+                    bolesDrac.remove(i);
+                }else{
+                    bolesDrac.get(i).moure();
+                    bolesDrac.get(i).updatePosition();
+                    bolesDrac.get(i).dibuixar(batch);
+                }
             }
+            if (drac.isAtacant() && bolesDrac.size() < 3) {
+                bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x + 1f, drac.getPositionBody().y + 0.7f, 2f, false));
+            }
+            drac.setAtacant(false);
         }
 
         // finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
@@ -423,6 +456,7 @@ public class Level2 extends AbstractScreen {
         debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
                 JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
                 JocDeTrons.PIXELS_PER_METRE));
+
 
         if (this.personatge.getPositionBody().x > 332.1f){
             joc.setScreen(new MainMenuScreen(joc));
@@ -439,7 +473,7 @@ public class Level2 extends AbstractScreen {
                 joc.setScreen(new Level2(joc, this.personatge));
             }
         }
-        System.out.println(personatge.getPositionBody().x);
+       // System.out.println(personatge.getPositionBody().x);
     }
 
     @Override

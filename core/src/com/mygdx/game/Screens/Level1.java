@@ -147,7 +147,7 @@ public class Level1 extends AbstractScreen {
 		clau = new Clau(world, "clau", 58.36f, 3.50f, true, "imatges/clau.png");
 
 		personatge.setVides(vides);
-		world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstresLava, bolesFocMonstres));
+		world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstresLava, bolesFocMonstres , null));
 
 		this.vides = vides;
 

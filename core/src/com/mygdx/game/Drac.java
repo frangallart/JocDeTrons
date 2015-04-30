@@ -19,7 +19,19 @@ public class Drac {
     /**
      * Detectar el moviment
      */
-    private boolean moureEsquerra,moureDreta,personatgeCaraDreta;
+    private boolean moureEsquerra;
+    private boolean moureDreta;
+    private boolean personatgeCaraDreta;
+
+    public boolean isAtacant() {
+        return atacant;
+    }
+
+    public void setAtacant(boolean atacant) {
+        this.atacant = atacant;
+    }
+
+    private boolean atacant;
     private float posX,posY,posMax,posMin, velocitat;
 
     private String nom, pathTextura, pathImg;
@@ -52,6 +64,7 @@ public class Drac {
         this.pathImg = pathImg;
         this.frameCols = frameCols;
         this.frameRows = frameRows;
+        this.atacant = false;
         carregarTextures();
         crearProtagonista();
         inicialitzarMoviments();
@@ -132,17 +145,37 @@ public class Drac {
      */
 
     public void moure(Personatge personatge) {
+        System.out.println(personatge.getPositionBody().x + " " + this.getPositionBody().x);
         if (personatge.getPositionBody().x > 301.02f) {
-            if (this.getPositionBody().x < personatge.getPositionBody().x - 2f) {
+            if (atacant) {
+                spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
+            } else if (this.getPositionBody().x <= personatge.getPositionBody().x) {
+
+
+                if (this.getPositionBody().x < personatge.getPositionBody().x  && this.getPositionBody().x > personatge.getPositionBody().x - 1.5f){
+                    atacant = true;
+                    System.out.println("prova");
+                }else{
+                    cos.setLinearVelocity(this.velocitat, 0.0f);
+                    spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
+                }
+            }
+
+            /*else if (this.getPositionBody().x < personatge.getPositionBody().x - 1.0f && this.getPositionBody().x > personatge.getPositionBody().x - 2.5f) {
+                atacant = true;
+                System.out.println("prova");
+            }
+            else if (this.getPositionBody().x <= personatge.getPositionBody().x - 2.6f && !atacant) {
                 cos.setLinearVelocity(this.velocitat, 0.0f);
                 spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-            } else if (this.getPositionBody().x  > personatge.getPositionBody().x) {
+
+            } else if (this.getPositionBody().x + 1.5f > personatge.getPositionBody().x) {
                 cos.setLinearVelocity(-this.velocitat, 0.0f);
                 spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-            }
-        }else{
-            cos.setLinearVelocity(0.0f, 0.0f);
-            spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
+            }else{
+                System.out.println("ffff");
+                //spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
+            }*/
         }
     }
 
