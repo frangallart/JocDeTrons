@@ -109,7 +109,8 @@ public class GestorContactes implements ContactListener {
             for (int i = boles.size() - 1; i >= 0; i--) {
                 for (int numTroncs = troncs.size() - 1; numTroncs >= 0; numTroncs--) {
                     if (fixtureA.getBody().getUserData().equals(troncs.get(numTroncs).getNom()) && fixtureB.getBody().getUserData().equals(boles.get(i).getNom())) {
-                        if (troncs.get(numTroncs).getDestruir() < 2){
+                       System.out.println(troncs.get(numTroncs).getDestruir());
+                        if (troncs.get(numTroncs).getDestruir() < 4){
                             troncs.get(numTroncs).setDestruir(troncs.get(numTroncs).getDestruir() + 1);
                             bodyDestroyList.add(fixtureB.getBody());
                         }else{
@@ -117,7 +118,9 @@ public class GestorContactes implements ContactListener {
                             bodyDestroyList.add(fixtureB.getBody());
                         }
                     }else if (fixtureB.getBody().getUserData().equals(troncs.get(numTroncs).getNom()) && fixtureA.getBody().getUserData().equals(boles.get(i).getNom())) {
-                        if (troncs.get(numTroncs).getDestruir() < 2) {
+                        System.out.println(troncs.get(numTroncs).getDestruir());
+
+                        if (troncs.get(numTroncs).getDestruir() < 4) {
                             troncs.get(numTroncs).setDestruir(troncs.get(numTroncs).getDestruir() + 1);
                             bodyDestroyList.add(fixtureA.getBody());
                         } else {
@@ -133,6 +136,21 @@ public class GestorContactes implements ContactListener {
                     bodyDestroyList.add(fixtureA.getBody());
                 }
             }
+        }
+
+        if (fixtureA.getBody().getUserData().equals("drac") && fixtureB.getBody().getUserData().equals("tronc1")) {
+            bodyDestroyList.add(fixtureB.getBody());
+        }
+
+        if (fixtureA.getBody().getUserData().equals("drac") && fixtureB.getBody().getUserData().equals("tronc2")) {
+            bodyDestroyList.add(fixtureB.getBody());
+        }
+
+        if (fixtureA.getBody().getUserData().equals("drac") && fixtureB.getBody().getUserData().equals("tronc3")) {
+            bodyDestroyList.add(fixtureB.getBody());
+        }
+        if (fixtureA.getBody().getUserData().equals("drac") && fixtureB.getBody().getUserData().equals("tronc4")) {
+            bodyDestroyList.add(fixtureB.getBody());
         }
 
         if (monstreEstatic != null) {

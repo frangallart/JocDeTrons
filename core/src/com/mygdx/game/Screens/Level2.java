@@ -131,19 +131,21 @@ public class Level2 extends AbstractScreen {
         monstres.add(new Monstre(world, "caminant6", 266.66f, 1.0f, 271f, 266.67f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png", 6, 2));
         monstres.add(new Monstre(world, "caminant7", 290.66f, 1.0f, 294f, 290.67f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png", 6, 2));
 
-        drac = new Drac(world, "drac", 301.02f, 1.0f, 310, 301.01f,4f, "imatges/dracVolant.png" ,"imatges/drac.png", 12, 2);
+        drac = new Drac(world, "drac", 301.02f, 0.3f, 310, 301.01f,2f, "imatges/dracVolant.png" ,"imatges/drac.png", 12, 2);
 
         noia = new MonstreEstatic(world, "noia", 332.54f, 6.07f, true, "imatges/noiaNua.png");
 
         bolesDrac = new ArrayList<BolesFocMonstre>();
-        bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 3f, 5f, false));
-        bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 3f, 5f, false));
+        bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 3f, 4f, false));
+        //bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 3f, 5f, false));
 
         this.vides = personatge.getVides();
 
         troncs = new ArrayList<Troncs>();
-        troncs.add(new Troncs(world, "tronc1", 302.6f, 2.6f, "imatges/barra.png"));
-        troncs.add(new Troncs(world, "tronc2", 303.7f, 2.6f, "imatges/barra.png"));
+        troncs.add(new Troncs(world, "tronc1", 304.6f, 0.7f, "imatges/torreFusta.png"));
+        troncs.add(new Troncs(world, "tronc2", 307.7f, 0.7f, "imatges/torreFusta.png"));
+        troncs.add(new Troncs(world, "tronc3", 310.7f, 0.7f, "imatges/torreFusta.png"));
+        troncs.add(new Troncs(world, "tronc4", 313.7f, 0.7f, "imatges/torreFusta.png"));
 
         world.setContactListener(new GestorContactes(bodyDestroyList, this.personatge, monstres, null, bolesDrac, troncs));
 
@@ -411,7 +413,6 @@ public class Level2 extends AbstractScreen {
 
         for(Iterator<Troncs> i = troncs.iterator(); i.hasNext(); ) {
             Troncs item = i.next();
-           // item.moure();
             item.updatePosition();
             item.dibuixar(batch);
         }
@@ -429,19 +430,19 @@ public class Level2 extends AbstractScreen {
         if (personatge.getPositionBody().x > 301.02f && personatge.getPositionBody().x < 310f) {
 
             for (int i = 0; i < bolesDrac.size(); i++) {
-                if (bolesDrac.get(i).getPositionBody().y > 3.0f) {
+                if (bolesDrac.get(i).getPositionBody().y > 2.0f) {
                     bolesDrac.get(i).dispose();
                     world.destroyBody(bolesDrac.get(i).getCos());
                     bolesDrac.remove(i);
+                    bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x + 1f, drac.getPositionBody().y + 0.7f, 3f, false));
+
                 }else{
                     bolesDrac.get(i).moure();
                     bolesDrac.get(i).updatePosition();
                     bolesDrac.get(i).dibuixar(batch);
                 }
             }
-            if (drac.isAtacant() && bolesDrac.size() < 3) {
-                bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x + 1f, drac.getPositionBody().y + 0.7f, 2f, false));
-            }
+
             drac.setAtacant(false);
         }
 
@@ -473,7 +474,6 @@ public class Level2 extends AbstractScreen {
                 joc.setScreen(new Level2(joc, this.personatge));
             }
         }
-       // System.out.println(personatge.getPositionBody().x);
     }
 
     @Override

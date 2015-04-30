@@ -17,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Troncs {
 
     public static final int FRAME_COLS = 1;
-    public static final int FRAME_ROWS = 2;
+    public static final int FRAME_ROWS = 1;
     /**
      * Detectar el moviment
      */
@@ -66,25 +66,14 @@ public class Troncs {
         this.destruir = 0;
         this.destruit = false;
         this.nom = nom;
-        carregarTextures();
         crearProtagonista();
-    }
-
-    private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal(pathImg));
-        animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-        stoppedTexture = new Texture(Gdx.files.internal(pathImg));
-        stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-        stoppedTextureE = new Texture(Gdx.files.internal("imatges/warrior.png"));
-        stoppedTextureE.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
 
     private void crearProtagonista() {
-        spriteBarra = new Sprite(animatedTexture);
-        spriteAnimat = new AnimatedSprite(spriteBarra, FRAME_COLS, FRAME_ROWS, stoppedTexture, stoppedTextureE);
+        stoppedTexture = new Texture(Gdx.files.internal(pathImg));
+        spriteBarra = new Sprite(stoppedTexture);
+       // spriteAnimat = new AnimatedSprite(stoppedTextureE);
 
         // Definir el tipus de cos i la seva posició
         defCos = new BodyDef();
@@ -114,27 +103,18 @@ public class Troncs {
         requadre.dispose();
     }
 
-    public void inicialitzarMoviments() {
-        setMoureDreta(false);
-        setMoureEsquerra(false);
-        spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
-    }
 
-    /**
-     * Actualitza la posició de l'sprite
-     */
     public void updatePosition() {
         spriteBarra.setPosition(
                 JocDeTrons.PIXELS_PER_METRE * cos.getPosition().x
                         - spriteBarra.getWidth() / FRAME_COLS / 2,
                 JocDeTrons.PIXELS_PER_METRE * cos.getPosition().y
                         - spriteBarra.getHeight() / FRAME_ROWS / 2);
-        spriteAnimat.setPosition(spriteBarra.getX(), spriteBarra.getY());
     }
 
-    public void dibuixar(SpriteBatch batch) {
 
-        spriteAnimat.draw(batch, this.getDestruir());
+    public void dibuixar(SpriteBatch batch) {
+        spriteBarra.draw(batch);
     }
 
     /**
@@ -185,7 +165,6 @@ public class Troncs {
 
 
     public void dispose() {
-        animatedTexture.dispose();
         stoppedTexture.dispose();
     }
 }
