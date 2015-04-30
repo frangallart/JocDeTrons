@@ -86,8 +86,8 @@ public class MainMenuScreen extends AbstractScreen {
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
 
-        table.add(imatgeTitol).size(1024 * Gdx.graphics.getDensity(),
-                133 * Gdx.graphics.getDensity()).padBottom(30*Gdx.graphics.getDensity()).row();
+        table.add(imatgeTitol).size(510 * Gdx.graphics.getDensity(),
+                66.5f * Gdx.graphics.getDensity()).padBottom(30 * Gdx.graphics.getDensity()).row();
         table.add(buttonPlay).size(150 * Gdx.graphics.getDensity(),
                 60 * Gdx.graphics.getDensity()).padBottom(20 * Gdx.graphics.getDensity()).row();
         table.add(buttonExit).size(150 * Gdx.graphics.getDensity(),
@@ -95,7 +95,6 @@ public class MainMenuScreen extends AbstractScreen {
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
-
     }
 
     @Override
