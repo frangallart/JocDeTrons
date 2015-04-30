@@ -20,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.JocDeTrons;
@@ -31,7 +30,6 @@ public class AboutUsScreen extends AbstractScreen {
     private Stage stage;
     private Table table;
 
-    private Skin skin;
     private Image credits;
     private Texture textureCredits;
 
@@ -42,13 +40,12 @@ public class AboutUsScreen extends AbstractScreen {
      */
     public AboutUsScreen(JocDeTrons joc) {
         super(joc);
-        skin = joc.getSkin();
         stage = new Stage();
         table =  new Table();
 
         // carregar la imatge
         textureCredits = new Texture(
-                Gdx.files.internal("imatges/caraHeroi.png"));
+                Gdx.files.internal("imatges/credits.png"));
 
         credits = new Image(textureCredits);
 
@@ -70,6 +67,7 @@ public class AboutUsScreen extends AbstractScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        calculRedimensionat();
         stage.act();
         stage.draw();
     }
@@ -83,9 +81,8 @@ public class AboutUsScreen extends AbstractScreen {
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
 
-        table.center();
-        table.row().center();
-        table.add(credits).size(90, 110).center().padTop(15).padRight(50);
+        table.add(credits).size(280 * Gdx.graphics.getDensity() ,
+                253 * Gdx.graphics.getDensity()).center().row();
 
         table.setFillParent(true);
 
@@ -96,7 +93,6 @@ public class AboutUsScreen extends AbstractScreen {
 
     @Override
     public void hide() {
-
         dispose();
     }
 
@@ -111,7 +107,6 @@ public class AboutUsScreen extends AbstractScreen {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
     }
 
     /**
@@ -119,7 +114,6 @@ public class AboutUsScreen extends AbstractScreen {
      */
     private void nextScreen(){
         joc.setScreen(new MainMenuScreen(joc));
-
     }
 
 }

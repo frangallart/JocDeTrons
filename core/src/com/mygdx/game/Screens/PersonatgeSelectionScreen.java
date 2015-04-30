@@ -21,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.JocDeTrons;
@@ -32,7 +31,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
     private Stage stage;
     private Table table, tableImatges;
 
-    private Skin skin;
+    //private Skin skin;
 
     private Texture textureHeroi, textureHeroina;
     private Image imatgeHeroi, imatgeHeroina;
@@ -45,7 +44,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
      */
     public PersonatgeSelectionScreen(JocDeTrons joc) {
         super(joc);
-        skin = new Skin(Gdx.files.internal("skins/skin.json"));
+        //skin = new Skin(Gdx.files.internal("skins/skin.json"));
         stage = new Stage();
         table =  new Table();
         tableImatges = new Table();
@@ -91,7 +90,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         });
 
         //namePlayerInfo = new Label("Introdueix el teu nom: ",skin);
-        infoEscollir = new Label("Escull el teu heroi: ", skin);
+        infoEscollir = new Label("Escull el teu heroi: ", joc.getSkin());
        // nomPlayer = new TextField("", skin);
        // nomPlayer.setText("Jugador 1");
     }
@@ -142,7 +141,6 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
     }
 
     /**

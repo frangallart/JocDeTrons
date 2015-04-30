@@ -30,7 +30,7 @@ import com.mygdx.game.JocDeTrons;
  *  Pantalla principal que ens permet iniciar el joc o en el seu defecte
  *  Sortir d'ell
  */
-public class MainMenuScreen extends AbstractScreen {
+public class MainMenuScreen extends AbstractScreen{
 
     private Stage stage;
     private Table table;
@@ -39,7 +39,6 @@ public class MainMenuScreen extends AbstractScreen {
     private TextButton buttonPlay, buttonExit, buttonCredits;
     private Texture texturaTitol;
     private Image imatgeTitol;
-
     /**
      * Constructor
      *
@@ -71,7 +70,7 @@ public class MainMenuScreen extends AbstractScreen {
         buttonCredits = new TextButton("Credits", joc.getSkin());
         buttonCredits.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new AboutUsScreen(getGame()));
             }
         });
         texturaTitol = new Texture(
