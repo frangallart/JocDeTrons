@@ -25,7 +25,9 @@ import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.Personatge;
 
 /**
- * Created by Arnau on 25/04/2015.
+ * Classe Next Level
+ * Pantalla  entre nivells que ens mostra la possibilitat de continuar,
+ * de sortir del joc; ademés ens mostra la puntuació i les vides restants
  */
 public class NextLevel extends AbstractScreen {
 

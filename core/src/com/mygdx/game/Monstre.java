@@ -27,7 +27,9 @@ import com.badlogic.gdx.physics.box2d.World;
 /**
  * Classe Monstre
  * Aquesta classe ens permet fer monstres dinàmics (inteligencia artifical)
- * 
+ * Que ens poden matar i nosaltres a ell
+ * Referencies nivell 1: Serp,
+ * Referències nivell 2: Gegant, Caminant
  */
 
 public class Monstre {

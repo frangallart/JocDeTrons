@@ -25,7 +25,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
- * Created by Arnau on 26/04/2015.
+ * Classe Boles de foc del monstre
+ * Aquesta classe ens permet disparar projectils
+ * Simulant el llençament d'una bola de foc
+ * Pot matar a l'heroi i destruir objectes del mapa
+ * Es poden esquivar però no matar
  */
 public class BolesFocMonstre {
     public static final int FRAME_COLS = 8;
