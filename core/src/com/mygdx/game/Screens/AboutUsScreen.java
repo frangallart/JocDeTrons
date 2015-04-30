@@ -20,80 +20,50 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.JocDeTrons;
 
 
-public class PersonatgeSelectionScreen extends AbstractScreen {
+public class AboutUsScreen extends AbstractScreen {
 
     private Stage stage;
-    private Table table, tableImatges;
+    private Table table;
 
     private Skin skin;
-
-    private Texture textureHeroi, textureHeroina;
-    private Image imatgeHeroi, imatgeHeroina;
-    private Label  infoEscollir;
+    private Image credits;
+    private Texture textureCredits;
 
     /**
      * Constructor
      *
      * @param joc Classe principal del joc
      */
-    public PersonatgeSelectionScreen(JocDeTrons joc) {
+    public AboutUsScreen(JocDeTrons joc) {
         super(joc);
-        skin = new Skin(Gdx.files.internal("skins/skin.json"));
+        skin = joc.getSkin();
         stage = new Stage();
         table =  new Table();
-        tableImatges = new Table();
 
         // carregar la imatge
-        textureHeroi = new Texture(
+        textureCredits = new Texture(
                 Gdx.files.internal("imatges/caraHeroi.png"));
 
-        imatgeHeroi = new Image(textureHeroi);
+        credits = new Image(textureCredits);
 
-        // aix� nom�s �s necessari perqu� funcioni correctament l'efecte fade-in
-        // Nom�s fa la imatge completament transparent
-        imatgeHeroi.getColor().a = 0f;
-
-        // configuro l'efecte de fade-in/out de la imatge de splash
-        // sequence indica que es faran de manera consecutiva.
-        imatgeHeroi.addAction(Actions.sequence(Actions.fadeIn(1f)));
-        imatgeHeroi.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                nextScreen("imatges/heroiSpriteSheet.png", "imatges/heroi.png", "imatges/heroiE.png","imatges/heroiSpriteAtacDret.png");
-            }
-        });
-
-
-        textureHeroina = new Texture(
-                Gdx.files.internal("imatges/caraHeroina.png"));
-
-        imatgeHeroina = new Image(textureHeroina);
-
-        // aix� nom�s �s necessari perqu� funcioni correctament l'efecte fade-in
-        // Nom�s fa la imatge completament transparent
-        imatgeHeroina.getColor().a = 0f;
+        // Només fa la imatge completament transparent
+        credits.getColor().a = 0f;
 
         // configuro l'efecte de fade-in/out de la imatge de splash
         // sequence indica que es faran de manera consecutiva.
-        imatgeHeroina.addAction(Actions.sequence(Actions.fadeIn(1f)));
-        imatgeHeroina.addListener(new ClickListener() {
+        credits.addAction(Actions.sequence(Actions.fadeIn(1f)));
+        credits.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                nextScreen("imatges/heroinaSpriteSheet.png", "imatges/heroina.png", "imatges/heroinaE.png", "imatges/heroinaSpriteAtacDret.png");
+                    nextScreen();
             }
         });
-
-        //namePlayerInfo = new Label("Introdueix el teu nom: ",skin);
-        infoEscollir = new Label("Escull el teu heroi: ", skin);
-       // nomPlayer = new TextField("", skin);
-       // nomPlayer.setText("Jugador 1");
     }
 
     @Override
@@ -113,12 +83,12 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
 
+        table.center();
+        table.row().center();
+        table.add(credits).size(90, 110).center().padTop(15).padRight(50);
 
-        table.add(infoEscollir).padBottom(40 * Gdx.graphics.getDensity()).row();
-        tableImatges.add(imatgeHeroi).size(90 * Gdx.graphics.getDensity(), 110 * Gdx.graphics.getDensity()).padRight(125 * Gdx.graphics.getDensity());
-        tableImatges.add(imatgeHeroina).size(90 * Gdx.graphics.getDensity(), 110 * Gdx.graphics.getDensity());
-        table.add(tableImatges);
         table.setFillParent(true);
+
         stage.addActor(table);
 
         Gdx.input.setInputProcessor(stage);
@@ -147,8 +117,8 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
     /**
      * canviar a la següent pantalla
      */
-    private void nextScreen(String pathToTexture, String pathToImg, String pathToImgE, String pathToAtac){
-        joc.setScreen(new Level1(getGame(), 3, pathToTexture, pathToImg, pathToImgE, pathToAtac));
+    private void nextScreen(){
+        joc.setScreen(new MainMenuScreen(joc));
 
     }
 

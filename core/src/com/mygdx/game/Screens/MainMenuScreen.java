@@ -16,9 +16,10 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -31,12 +32,14 @@ import com.mygdx.game.JocDeTrons;
  */
 public class MainMenuScreen extends AbstractScreen {
 
-    private Stage stage = new Stage();
-    private Table table = new Table();
+    private Stage stage;
+    private Table table;
 
 
-    private TextButton buttonPlay, buttonExit;
-    private Label title;
+    private TextButton buttonPlay, buttonExit, buttonCredits;
+    private Texture texturaTitol;
+    private Image imatgeTitol;
+
     /**
      * Constructor
      *
@@ -44,7 +47,8 @@ public class MainMenuScreen extends AbstractScreen {
      */
     public MainMenuScreen(JocDeTrons joc) {
         super(joc);
-
+        stage = new Stage();
+        table =  new Table();
         buttonPlay = new TextButton("Play", joc.getSkin());
         buttonExit = new TextButton("Exit", joc.getSkin());
         buttonPlay.addListener(new ClickListener(){
@@ -63,7 +67,17 @@ public class MainMenuScreen extends AbstractScreen {
                 // or System.exit(0);
             }
         });
-        title = new Label(joc.getTitol(),joc.getSkin());
+
+        buttonCredits = new TextButton("Credits", joc.getSkin());
+        buttonCredits.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+
+            }
+        });
+        texturaTitol = new Texture(
+                Gdx.files.internal("imatges/ImatgeTitol.png"));
+
+        imatgeTitol = new Image(texturaTitol);
     }
 
     @Override
@@ -84,9 +98,14 @@ public class MainMenuScreen extends AbstractScreen {
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
 
-        table.add(title).padBottom(40 * Gdx.graphics.getDensity()).row();
-        table.add(buttonPlay).size(150*Gdx.graphics.getDensity(),60*Gdx.graphics.getDensity()).padBottom(20*Gdx.graphics.getDensity()).row();
-        table.add(buttonExit).size(150*Gdx.graphics.getDensity(), 60*Gdx.graphics.getDensity()).padBottom(20*Gdx.graphics.getDensity()).row();
+        table.add(imatgeTitol).size(510 * Gdx.graphics.getDensity(),
+                66.5f * Gdx.graphics.getDensity()).padBottom(30 * Gdx.graphics.getDensity()).row();
+        table.add(buttonPlay).size(150 * Gdx.graphics.getDensity(),
+                60 * Gdx.graphics.getDensity()).padBottom(20 * Gdx.graphics.getDensity()).row();
+        table.add(buttonExit).size(150 * Gdx.graphics.getDensity(),
+                60 * Gdx.graphics.getDensity()).padBottom(20 * Gdx.graphics.getDensity()).row();
+        table.add(buttonCredits).size(150 * Gdx.graphics.getDensity(),
+                60 * Gdx.graphics.getDensity()).padBottom(20 * Gdx.graphics.getDensity()).row();
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
