@@ -1,3 +1,16 @@
+/*************************************************************************************
+ *                                                                                   *
+ *  Joc de Trons por Java Norriors se distribuye bajo una                            *
+ *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ *                                                                                   *
+ *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
+ *                                                                                   *
+ *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
+ *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
+ *                                                                                   *
+/************************************************************************************/
+
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
@@ -12,7 +25,10 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
- * Created by Arnau on 26/04/2015.
+ * Classe Monstre Estatic
+ * Aquesta classe ens permet crear monstres estatics
+ * Els quals son inmortals(Inmatables)
+ * Fan referència als monstres de lava del nivell 1 (riu de lava)
  */
 public class MonstreEstatic {
     public static final int FRAME_COLS = 4;
