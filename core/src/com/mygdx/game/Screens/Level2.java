@@ -427,23 +427,33 @@ public class Level2 extends AbstractScreen {
 
         ascensor.dibuixar(batch);
 
-        if (personatge.getPositionBody().x > 301.02f && personatge.getPositionBody().x < 310f) {
-
-            for (int i = 0; i < bolesDrac.size(); i++) {
-                if (bolesDrac.get(i).getPositionBody().y > 2.0f) {
-                    bolesDrac.get(i).dispose();
-                    world.destroyBody(bolesDrac.get(i).getCos());
-                    bolesDrac.remove(i);
-                    bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x + 1f, drac.getPositionBody().y + 0.7f, 3f, false));
-
-                }else{
-                    bolesDrac.get(i).moure();
-                    bolesDrac.get(i).updatePosition();
-                    bolesDrac.get(i).dibuixar(batch);
-                }
+        if (personatge.getPositionBody().x > 301.02f && personatge.getPositionBody().x < 315f) {
+            if (drac.isAtacant() && bolesDrac.size() < 3) {
+                System.out.println(bolesDrac.size() + " " + drac.isAtacant());
+                bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x + 2f, drac.getPositionBody().y - 0.3f, 0f, false));
+                bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x + 2f, drac.getPositionBody().y + 0.0f, 0f, false));
+                bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x + 2f, drac.getPositionBody().y + 0.3f, 0f, false));
             }
 
-            drac.setAtacant(false);
+                for (int i = 0; i < bolesDrac.size(); i++) {
+                    if (bolesDrac.get(i).getPositionBody().y > 5.0f) {
+                       /* if (drac.isAtacant()) {
+                            bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x + 2f, drac.getPositionBody().y + 0.0f, 0f, false));
+                        }*/
+
+                        bolesDrac.get(i).dispose();
+                        world.destroyBody(bolesDrac.get(i).getCos());
+                        bolesDrac.remove(i);
+
+                    } else {
+                        bolesDrac.get(i).moure();
+                        bolesDrac.get(i).updatePosition();
+                        bolesDrac.get(i).dibuixar(batch);
+                    }
+                    if (drac.isAtacant()) {
+                    }
+                }
+
         }
 
         // finalitzar el lot: a partir d'aquest moment es dibuixa tot el que

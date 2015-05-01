@@ -228,6 +228,7 @@ public class Drac {
 
     public void moure(Personatge personatge) {
         if (personatge.getPositionBody().x > 303.52f && this.getPositionBody().y < 4f && !torre1) {
+            this.atacant = false;
             cos.setLinearVelocity(2.4f, 3.5f);
             spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
         }else if (this.getPositionBody().y > 4f && !torre1){
@@ -237,6 +238,7 @@ public class Drac {
 
         if (personatge.getPositionBody().x > 306f && this.getPositionBody().x < 307f  && !torre2){
             this.torre1 = true;
+            this.atacant = false;
             cos.setLinearVelocity(2.4f, 0f);
             spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
         }else if (this.getPositionBody().x > 307f && !torre2){

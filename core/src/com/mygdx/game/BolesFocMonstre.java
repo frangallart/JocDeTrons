@@ -154,12 +154,11 @@ public class BolesFocMonstre {
 
         if (this.getNom().equals("Gel")) {
             if (!orientacio) {
-                cos.setLinearVelocity(VELOCITAT, altura);
+                cos.setLinearVelocity(VELOCITAT, -1f);
                 spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
             }else{
-                cos.setLinearVelocity(VELOCITAT, altura);
+                cos.setLinearVelocity(VELOCITAT, -1f);
                 spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-                altura -= 0.002f;
             }
         }
 
