@@ -15,98 +15,94 @@ package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygdx.game.JocDeTrons;
 
-/**
- * Classe SplashScreen
- * 
- * Aquesta classe ens mostra un Splash Inicial a l'inici de l'aplicació
- *
- */
 public class SplashScreen extends AbstractScreen {
+	private Texture texture = new Texture(Gdx.files.internal("imatges/logo.jpg"));
+	private Image splashImage = new Image(texture);
+	private Stage stage = new Stage();
+	private Music musica;
 
-	private Texture splashTexture;
-	private Image splashImage;
-    private Music musica;
 
 	public SplashScreen(JocDeTrons joc) {
 		super(joc);
 	}
 
 	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		stage.act();
+		stage.draw();
+
+	}
+
+	@Override
+	public void resize(int width, int height) {
+	}
+
+	@Override
 	public void show() {
-
-		super.show();
-
 		musica = Gdx.audio.newMusic(Gdx.files
 				.internal("sons/gameOfThrones.mp3"));
 		musica.setLooping(true);
 		musica.setVolume(1f);
 		musica.play();
-
-		// carregar la imatge
-		splashTexture = new Texture(
-				Gdx.files.internal("imatges/logo.jpg"));
-		// seleccionar Linear per millorar l'estirament
-		splashTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
-		splashImage = new Image(splashTexture);
-		splashImage.setFillParent(true);
-
-		// aix� nom�s �s necessari perqu� funcioni correctament l'efecte fade-in
-		// Nom�s fa la imatge completament transparent
-		splashImage.getColor().a = 0f;
-
-		// configuro l'efecte de fade-in/out de la imatge de splash
-		// sequence indica que es faran de manera consecutiva.
-		splashImage.addAction(Actions.sequence(Actions.fadeIn(1f),
-				Actions.delay(4f), Actions.fadeOut(1f), new Action() {
-					@Override
-					public boolean act(float delta) {
-						nextScreen();
-                        return true;
-					}
-				}));
-
-		// finalment afegim l'actor a l'stage
 		stage.addActor(splashImage);
 
+		splashImage.addAction(Actions.sequence(Actions.alpha(0)
+				,Actions.fadeIn(1f),Actions.delay(4f), Actions.fadeOut(1f), Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				nextScreen();
+			}
+		})));
 	}
 
-    /**
-     * canviar a la següent pantalla
-     */
-    private void nextScreen() {
-        musica.stop();
-        // la darrera acci� ens porta cap a la seg�ent pantalla
-        //joc.setScreen(new PantallaPrincipal(joc));
-        joc.setScreen(new MainMenuScreen(joc));
-    }
+	@Override
+	public void hide() {
+		dispose();
+	}
 
-    /**
-     * en aixecar el botó del mouse després de fer clic o bé en aixecar el dit després de fer
-     * touch
-     *
-     * @param screenX
-     * @param screenY
-     * @param pointer
-     * @param button
-     * @return
-     */
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        nextScreen();
-        return true;
-    }
+	@Override
+	public void pause() {
+	}
 
-    @Override
+	@Override
+	public void resume() {
+	}
+
+	@Override
 	public void dispose() {
-		super.dispose();
-		splashTexture.dispose();
+		musica.dispose();
+		texture.dispose();
+		stage.dispose();
+	}
+
+	/**
+	 * en aixecar el botó del mouse després de fer clic o bé en aixecar el dit després de fer
+	 * touch
+	 *
+	 * @param screenX
+	 * @param screenY
+	 * @param pointer
+	 * @param button
+	 * @return
+	 */
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		nextScreen();
+		return true;
+	}
+
+	private void nextScreen() {
+		// la darrera acció ens porta cap a la següent pantalla
+		//joc.setScreen(new PantallaPrincipal(joc));
+		joc.setScreen(new MainMenuScreen(joc));
 	}
 }
