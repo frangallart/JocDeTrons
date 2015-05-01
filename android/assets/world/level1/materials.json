@@ -9,7 +9,7 @@
     "name": "ice",
     "density": 1.0,
     "restitution": 0.0,
-    "friction": 0.039
+    "friction": 0.029
   },
   {
     "name": "elastic",
