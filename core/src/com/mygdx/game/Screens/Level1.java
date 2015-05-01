@@ -332,16 +332,12 @@ public class Level1 extends AbstractScreen {
 		personatge.moure();
 		personatge.updatePosition();
 
-
-		barra.inicialitzarMoviments();
 		barra.moure();
 		barra.updatePosition();
 
-		barra2.inicialitzarMoviments();
 		barra2.moure();
 		barra2.updatePosition();
 
-		barra3.inicialitzarMoviments();
 		barra3.moure();
 		barra3.updatePosition();
 		/**

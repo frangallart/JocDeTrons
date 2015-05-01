@@ -69,15 +69,11 @@ public class Barra {
     private void carregarTextures() {
         animatedTexture = new Texture(Gdx.files.internal(pathImg));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-        stoppedTexture = new Texture(Gdx.files.internal(pathImg));
-        stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
 
     private void crearProtagonista() {
         spriteBarra = new Sprite(animatedTexture);
-        spriteAnimat = new AnimatedSprite(spriteBarra, FRAME_COLS, FRAME_ROWS, stoppedTexture);
 
         // Definir el tipus de cos i la seva posició
         defCos = new BodyDef();
@@ -107,11 +103,11 @@ public class Barra {
         requadre.dispose();
     }
 
-    public void inicialitzarMoviments() {
+    /*public void inicialitzarMoviments() {
         setMoureDreta(false);
         setMoureEsquerra(false);
         spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
-    }
+    }*/
 
     /**
      * Actualitza la posició de l'sprite
@@ -122,11 +118,10 @@ public class Barra {
                         - spriteBarra.getWidth() / FRAME_COLS / 2,
                 JocDeTrons.PIXELS_PER_METRE * cos.getPosition().y
                         - spriteBarra.getHeight() / FRAME_ROWS / 2);
-        spriteAnimat.setPosition(spriteBarra.getX(), spriteBarra.getY());
     }
 
     public void dibuixar(SpriteBatch batch) {
-        spriteAnimat.draw(batch);
+        spriteBarra.draw(batch);
     }
 
     /**
@@ -148,15 +143,9 @@ public class Barra {
             }
             if (moureDreta) {
                 cos.setLinearVelocity(1.0f, 0.0f);
-                spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-                spriteBarra.flip(true, false);
                 defCos.gravityScale = 0;
             } else if (moureEsquerra) {
                 cos.setLinearVelocity(-1.0f, 0.0f);
-
-                spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-
-                spriteBarra.flip(true, false);
                 defCos.gravityScale = 0;
             }
     }
@@ -197,6 +186,5 @@ public class Barra {
 
     public void dispose() {
         animatedTexture.dispose();
-        stoppedTexture.dispose();
     }
 }

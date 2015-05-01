@@ -73,7 +73,7 @@ public class Level2 extends AbstractScreen {
 
     private Table table, table2;
 
-    private int vides;
+    private int vides, numBoles;
 
     private ArrayList<Monstre> monstres;
     private ArrayList<BolesFocMonstre> bolesDrac;
@@ -131,21 +131,23 @@ public class Level2 extends AbstractScreen {
         monstres.add(new Monstre(world, "caminant6", 266.66f, 1.0f, 271f, 266.67f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png", 6, 2));
         monstres.add(new Monstre(world, "caminant7", 290.66f, 1.0f, 294f, 290.67f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png", 6, 2));
 
-        drac = new Drac(world, "drac", 301.02f, 0.3f, 310, 301.01f,2f, "imatges/dracVolant.png" ,"imatges/drac.png", 12, 2);
+        drac = new Drac(world, "drac", 300.8f, 0.3f, 310, 301.01f,2f, "imatges/dracVolant.png" ,"imatges/drac.png", 12, 2);
 
         noia = new MonstreEstatic(world, "noia", 332.54f, 6.07f, true, "imatges/noiaNua.png");
 
         bolesDrac = new ArrayList<BolesFocMonstre>();
-        bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 3f, 4f, false));
+        //bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 3f, 4f, false));
         //bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 3f, 5f, false));
 
         this.vides = personatge.getVides();
 
         troncs = new ArrayList<Troncs>();
-        troncs.add(new Troncs(world, "tronc1", 304.6f, 0.7f, "imatges/torreFusta.png"));
-        troncs.add(new Troncs(world, "tronc2", 307.7f, 0.7f, "imatges/torreFusta.png"));
-        troncs.add(new Troncs(world, "tronc3", 310.7f, 0.7f, "imatges/torreFusta.png"));
-        troncs.add(new Troncs(world, "tronc4", 313.7f, 0.7f, "imatges/torreFusta.png"));
+        troncs.add(new Troncs(world, "tronc1", 304.6f, 0.7f, "imatges/torreFusta.png", "imatges/torreFustaCremada.png"));
+        troncs.add(new Troncs(world, "tronc2", 307.7f, 0.7f, "imatges/torreFusta.png", "imatges/torreFustaCremada.png"));
+        troncs.add(new Troncs(world, "tronc3", 310.7f, 0.7f, "imatges/torreFusta.png", "imatges/torreFustaCremada.png"));
+        troncs.add(new Troncs(world, "tronc4", 313.7f, 0.7f, "imatges/torreFusta.png", "imatges/torreFustaCremada.png"));
+        troncs.add(new Troncs(world, "tronc5", 316.7f, 0.7f, "imatges/torreFusta.png", "imatges/torreFustaCremada.png"));
+        troncs.add(new Troncs(world, "tronc6", 319.7f, 0.7f, "imatges/torreFusta.png", "imatges/torreFustaCremada.png"));
 
         world.setContactListener(new GestorContactes(bodyDestroyList, this.personatge, monstres, null, bolesDrac, troncs));
 
@@ -158,7 +160,7 @@ public class Level2 extends AbstractScreen {
 
         ascensor = new Ascensor(world, 16.62f, 0.8f, 8.5f, 0.9f, "imatges/ascensor.png");
 
-
+        this.numBoles = 0;
     }
 
     /**
@@ -266,7 +268,12 @@ public class Level2 extends AbstractScreen {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             personatge.setFerAtac(true);
         }else{
-            personatge.setFerAtac(false);
+            for (int i = 0; i < 2; i++) {
+                if (Gdx.input.isTouched(i)
+                        && Gdx.input.getY() > Gdx.graphics.getHeight() * 0.80f) {
+                    personatge.setFerAtac(true);
+                }
+            }
         }
     }
 
@@ -320,17 +327,14 @@ public class Level2 extends AbstractScreen {
     // ----------------------------------------------------------------------------------
     // M�TODES SOBREESCRITS DE AbstractScreen
     // ----------------------------------------------------------------------------------
-
+boolean descarrega = false;
     @Override
     public void render(float delta) {
-
         personatge.inicialitzarMoviments();
         tractarEventsEntrada();
         personatge.moure();
         personatge.updatePosition();
 
-
-        ascensor.inicialitzarMoviments();
         ascensor.moure();
         ascensor.updatePosition();
 
@@ -376,15 +380,6 @@ public class Level2 extends AbstractScreen {
         }
         bodyDestroyList.clear();
 
-        for (int j = 0; j < troncs.size(); j++) {
-            if (troncs.get(j).getDestruir() == 1){
-
-            }
-            if (troncs.get(j).getDestruir() == 2 && !troncs.get(j).isDestruit()) {
-                //troncs.get(j).moure();
-            }
-        }
-
         // Esborrar la pantalla
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -417,9 +412,9 @@ public class Level2 extends AbstractScreen {
             item.dibuixar(batch);
         }
 
-        noia.dibuixar(batch);
-        noia.updatePosition();
         noia.moure();
+        noia.updatePosition();
+        noia.dibuixar(batch);
 
         drac.moure(personatge);
         drac.updatePosition();
@@ -427,33 +422,27 @@ public class Level2 extends AbstractScreen {
 
         ascensor.dibuixar(batch);
 
-        if (personatge.getPositionBody().x > 301.02f && personatge.getPositionBody().x < 315f) {
+        if (personatge.getPositionBody().x > 301.02f && personatge.getPositionBody().x < 323f) {
             if (drac.isAtacant() && bolesDrac.size() < 3) {
-                System.out.println(bolesDrac.size() + " " + drac.isAtacant());
-                bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x + 2f, drac.getPositionBody().y - 0.3f, 0f, false));
-                bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x + 2f, drac.getPositionBody().y + 0.0f, 0f, false));
-                bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x + 2f, drac.getPositionBody().y + 0.3f, 0f, false));
+                bolesDrac.add(new BolesFocMonstre(world, "Gel" + numBoles, drac.getPositionBody().x + 1.6f, drac.getPositionBody().y - 0.6f, 0f, false));
+                numBoles++;
+                bolesDrac.add(new BolesFocMonstre(world, "Gel" + numBoles, drac.getPositionBody().x + 1.8f, drac.getPositionBody().y + -0.3f, 0f, false));
+                numBoles++;
+                bolesDrac.add(new BolesFocMonstre(world, "Gel" + numBoles, drac.getPositionBody().x + 1.4f, drac.getPositionBody().y + 0.0f, 0f, false));
+                numBoles++;
             }
 
-                for (int i = 0; i < bolesDrac.size(); i++) {
-                    if (bolesDrac.get(i).getPositionBody().y > 5.0f) {
-                       /* if (drac.isAtacant()) {
-                            bolesDrac.add(new BolesFocMonstre(world, "Gel", drac.getPositionBody().x + 2f, drac.getPositionBody().y + 0.0f, 0f, false));
-                        }*/
-
-                        bolesDrac.get(i).dispose();
-                        world.destroyBody(bolesDrac.get(i).getCos());
-                        bolesDrac.remove(i);
-
-                    } else {
-                        bolesDrac.get(i).moure();
-                        bolesDrac.get(i).updatePosition();
-                        bolesDrac.get(i).dibuixar(batch);
-                    }
-                    if (drac.isAtacant()) {
-                    }
+            for (int i = 0; i < bolesDrac.size(); i++) {
+                if (bolesDrac.get(i).getPositionBody().y > 5.0f) {
+                    bolesDrac.get(i).dispose();
+                    world.destroyBody(bolesDrac.get(i).getCos());
+                    bolesDrac.remove(i);
+                } else {
+                    bolesDrac.get(i).moure();
+                    bolesDrac.get(i).updatePosition();
+                    bolesDrac.get(i).dibuixar(batch);
                 }
-
+            }
         }
 
         // finalitzar el lot: a partir d'aquest moment es dibuixa tot el que

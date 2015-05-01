@@ -35,23 +35,16 @@ public class Vides {
 
     public static final int FRAME_COLS = 2;
     public static final int FRAME_ROWS = 2;
-    private final int PUNTS = 100;
     /**
      * Detectar el moviment
      */
-    private boolean moureEsquerra;
-    private boolean moureDreta;
-    private boolean personatgeCaraDreta;
-    private float posX;
-    private float posY;
-    private float posMax;
-    private float posMin;
+    private float posX, posY;
 
     private String nom;
 
     private World world;                // Refer?ncia al mon on est? definit el personatge
     private Body cos;                   // per definir les propietats del cos
-    private Sprite spritePersonatge;    // sprite associat al personatge
+    private Sprite spriteVida;    // sprite associat al personatge
     private AnimatedSprite spriteAnimat;// animaci? de l'sprite
     private Texture stoppedTexture;     // la seva textura
     private Texture animatedTexture;
@@ -65,8 +58,6 @@ public class Vides {
     }
 
     public Vides(World world,String nom, float posX, float posY){
-        moureEsquerra = false;
-        moureDreta = true;
         this.nom = nom;
         this.world = world;
         this.posX = posX;
@@ -78,16 +69,11 @@ public class Vides {
     private void carregarTextures() {
         animatedTexture = new Texture(Gdx.files.internal("imatges/cor.png"));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-        stoppedTexture = new Texture(Gdx.files.internal("imatges/cor.png"));
-        stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
-
-
     private void crearProtagonista() {
-        spritePersonatge = new Sprite(animatedTexture);
-        spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS, stoppedTexture);
+        spriteVida = new Sprite(animatedTexture);
+        spriteAnimat = new AnimatedSprite(spriteVida, FRAME_COLS, FRAME_ROWS);
 
         // Definir el tipus de cos i la seva posici?
         BodyDef defCos = new BodyDef();
@@ -100,8 +86,8 @@ public class Vides {
          * Definir les vores de l'sprite
          */
         PolygonShape requadre = new PolygonShape();
-        requadre.setAsBox((spritePersonatge.getWidth() / FRAME_COLS) / (2 * JocDeTrons.PIXELS_PER_METRE),
-                (spritePersonatge.getHeight() / FRAME_ROWS) / (2 * JocDeTrons.PIXELS_PER_METRE));
+        requadre.setAsBox((spriteVida.getWidth() / FRAME_COLS) / (2 * JocDeTrons.PIXELS_PER_METRE),
+                (spriteVida.getHeight() / FRAME_ROWS) / (2 * JocDeTrons.PIXELS_PER_METRE));
 
         /**
          * La densitat i fricci? del protagonista. Si es modifiquen aquests
@@ -117,22 +103,15 @@ public class Vides {
         requadre.dispose();
     }
 
-    public void inicialitzarMoviments() {
-        setMoureDreta(false);
-        setMoureEsquerra(false);
-        spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
-    }
-
     /**
      * Actualitza la posici? de l'sprite
      */
     public void updatePosition() {
-        spritePersonatge.setPosition(
+        spriteVida.setPosition(
                 JocDeTrons.PIXELS_PER_METRE * cos.getPosition().x
-                        - spritePersonatge.getWidth() / FRAME_COLS / 2,
+                        - spriteVida.getWidth() / FRAME_COLS / 2,
                 JocDeTrons.PIXELS_PER_METRE * cos.getPosition().y
-                        - spritePersonatge.getHeight() / FRAME_ROWS / 2);
-        spriteAnimat.setPosition(spritePersonatge.getX(), spritePersonatge.getY());
+                        - spriteVida.getHeight() / FRAME_ROWS / 2);
     }
 
     public void dibuixar(SpriteBatch batch) {
@@ -140,36 +119,7 @@ public class Vides {
     }
 
     public void moure() {
-        if (!moureEsquerra) {
-            spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-        }else {
-            spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-        }
-    }
-
-    public boolean isMoureEsquerra() {
-        return moureEsquerra;
-    }
-
-    public void setMoureEsquerra(boolean moureEsquerra) {
-        this.moureEsquerra = moureEsquerra;
-    }
-
-    public boolean isMoureDreta() {
-        return moureDreta;
-    }
-
-    public void setMoureDreta(boolean moureDreta) {
-        this.moureDreta = moureDreta;
-    }
-
-    public boolean isCaraDreta() {
-        return this.personatgeCaraDreta;
-    }
-
-    public void setCaraDreta(boolean caraDreta) {
-        this.personatgeCaraDreta = caraDreta;
-
+        spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
     }
 
     public Vector2 getPositionBody() {
@@ -177,10 +127,9 @@ public class Vides {
     }
 
     public Vector2 getPositionSprite() {
-        return new Vector2().set(this.spritePersonatge.getX(), this.spritePersonatge.getY());
+        return new Vector2().set(this.spriteVida.getX(), this.spriteVida.getY());
     }
-
-
+    
     public Texture getTextura() {
         return stoppedTexture;
     }
@@ -192,6 +141,5 @@ public class Vides {
 
     public void dispose() {
         animatedTexture.dispose();
-        stoppedTexture.dispose();
     }
 }

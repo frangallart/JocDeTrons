@@ -7,31 +7,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 
 public class Drac {
 
     public  int frameCols, frameRows;
-    private final int PUNTS = 100;
     /**
      * Detectar el moviment
      */
-    private boolean moureEsquerra;
-    private boolean moureDreta;
-    private boolean personatgeCaraDreta, torre1, torre2, atac;
+    private boolean atac;
 
-    public boolean isAtacant() {
-        return atacant;
-    }
-
-    public void setAtacant(boolean atacant) {
-        this.atacant = atacant;
-    }
-
-    private boolean atacant;
+    private boolean atacant, tornar;
     private float posX,posY,posMax,posMin, velocitat;
 
     private String nom, pathTextura, pathImg;
@@ -42,9 +29,6 @@ public class Drac {
     private AnimatedSprite spriteAnimat, spriteAtac;// animaci? de l'sprite
     private Texture stoppedTexture,animatedTexture, animatedTextureAtac;
 
-    private FixtureDef propietats = new FixtureDef();
-
-
     public String getNom() {
         return nom;
     }
@@ -54,8 +38,6 @@ public class Drac {
     }
 
     public Drac(World world,String nom, float posX, float posY, float posMax, float posMin, float velocitat, String pathTextura, String pathImg, int frameCols, int frameRows){
-        moureEsquerra = false;
-        moureDreta = true;
         this.nom = nom;
         this.world = world;
         this.posX = posX;
@@ -68,9 +50,8 @@ public class Drac {
         this.frameCols = frameCols;
         this.frameRows = frameRows;
         this.atacant = false;
-        this.torre1 = false;
-        this.torre2 = false;
         this.atac = false;
+        this.tornar = false;
         carregarTextures();
         crearProtagonista();
         inicialitzarMoviments();
@@ -80,7 +61,7 @@ public class Drac {
         animatedTexture = new Texture(Gdx.files.internal(this.pathTextura));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        animatedTextureAtac = new Texture(Gdx.files.internal("imatges/dracAtacant.png"));
+        animatedTextureAtac = new Texture(Gdx.files.internal("imatges/dracAtacantDalt.png"));
         animatedTextureAtac.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         stoppedTexture = new Texture(Gdx.files.internal(this.pathImg));
@@ -97,33 +78,6 @@ public class Drac {
         spriteAnimat = new AnimatedSprite(spritePersonatge, frameCols, frameRows, stoppedTexture);
 
         cos = novesColisions(null);
-
-        // Definir el tipus de cos i la seva posici?
-       /* BodyDef defCos = new BodyDef();
-        defCos.type = BodyDef.BodyType.KinematicBody;
-        defCos.position.set(posX, posY);
-
-        cos = world.createBody(defCos);
-        cos.setUserData(nom);
-        /**
-         * Definir les vores de l'sprite
-         */
-       /* PolygonShape requadre = new PolygonShape();
-        requadre.setAsBox((spritePersonatge.getWidth() / frameCols) / (2 * JocDeTrons.PIXELS_PER_METRE),
-                (spritePersonatge.getHeight() / frameRows) / (2 * JocDeTrons.PIXELS_PER_METRE));*/
-
-        /**
-         * La densitat i fricci? del protagonista. Si es modifiquen aquests
-         * valor anir? m?s r?pid o m?s lent.
-         */
-        /*FixtureDef propietats = new FixtureDef();
-        propietats.shape = requadre;
-        propietats.density = 1.0f;
-        propietats.friction = 3.0f;
-
-        cos.setFixedRotation(true);
-        cos.createFixture(propietats);
-        requadre.dispose();*/
     }
 
     /**
@@ -144,35 +98,12 @@ public class Drac {
             defCos.position.set(posX, posY);
         }
         cos = world.createBody(defCos);
-        cos.setUserData("personatge");
+        cos.setUserData("drac");
 
-        /**
-         * La densitat i fricció del protagonista. Si es modifiquen aquests
-         * valor anirà més ràpid o més lent.
-         */
-
-        if (isAtacant()) {
-            PolygonShape requadre2 = new PolygonShape();
-            requadre2.setAsBox((spritePersonatgeAtac.getWidth() / 4) / (2 * JocDeTrons.PIXELS_PER_METRE),
-                    (spritePersonatgeAtac.getHeight() / frameRows) / (2 * JocDeTrons.PIXELS_PER_METRE));
-            propietats.shape = requadre2;
-        }else{
-            PolygonShape requadre = new PolygonShape();
-            requadre.setAsBox((spritePersonatge.getWidth() / frameCols) / (2 * JocDeTrons.PIXELS_PER_METRE),
-                    (spritePersonatge.getHeight() / frameRows) / (2 * JocDeTrons.PIXELS_PER_METRE));
-            propietats.shape = requadre;
-        }
-        propietats.density = 1.0f;
-        propietats.friction = 3.0f;
-
-        cos.setFixedRotation(true);
-        cos.createFixture(propietats);
         return cos;
     }
 
     public void inicialitzarMoviments() {
-        setMoureDreta(false);
-        setMoureEsquerra(false);
         spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
     }
 
@@ -227,66 +158,39 @@ public class Drac {
      */
 
     public void moure(Personatge personatge) {
-        if (personatge.getPositionBody().x > 303.52f && this.getPositionBody().y < 4f && !torre1) {
-            this.atacant = false;
-            cos.setLinearVelocity(2.4f, 3.5f);
-            spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-        }else if (this.getPositionBody().y > 4f && !torre1){
-            this.atacant = true;
-            cos.setLinearVelocity(0f, 0f);
-        }
-
-        if (personatge.getPositionBody().x > 306f && this.getPositionBody().x < 307f  && !torre2){
-            this.torre1 = true;
-            this.atacant = false;
-            cos.setLinearVelocity(2.4f, 0f);
-            spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-        }else if (this.getPositionBody().x > 307f && !torre2){
-            this.atacant = true;
-            cos.setLinearVelocity(0f, 0f);
-        }
-
-
-            /*else if (this.getPositionBody().x < personatge.getPositionBody().x - 1.0f && this.getPositionBody().x > personatge.getPositionBody().x - 2.5f) {
-                atacant = true;
-                System.out.println("prova");
-            }
-            else if (this.getPositionBody().x <= personatge.getPositionBody().x - 2.6f && !atacant) {
-                cos.setLinearVelocity(this.velocitat, 0.0f);
+        if (personatge.getPositionBody().x < 321) {
+            if (personatge.getPositionBody().x > 301.62f && this.getPositionBody().y < 4f) {
+                this.atacant = false;
+                cos.setLinearVelocity(2.0f, 3.6f);
                 spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
+            } else if (this.getPositionBody().y > 4f) {
+                this.atacant = true;
+                cos.setLinearVelocity(0f, 0f);
+            }
 
-            } else if (this.getPositionBody().x + 1.5f > personatge.getPositionBody().x) {
-                cos.setLinearVelocity(-this.velocitat, 0.0f);
-                spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
+            if ((personatge.getPositionBody().x > 305f && this.getPositionBody().x < 306f)
+                    || (personatge.getPositionBody().x > 308.5f && this.getPositionBody().x < 309f)
+                    || (personatge.getPositionBody().x > 311.5f && this.getPositionBody().x < 312f)
+                    || (personatge.getPositionBody().x > 314.5f && this.getPositionBody().x < 315f)
+                    || (personatge.getPositionBody().x > 317.5f && this.getPositionBody().x < 318f)) {
+                this.atacant = false;
+                cos.setLinearVelocity(4.0f, 0f);
+                spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
+            } else if (this.getPositionBody().x > 306f) {
+                this.atacant = true;
+                cos.setLinearVelocity(0f, 0f);
+            }
+        }else{
+            if (this.getPositionBody().x < 320 && !tornar){
+                this.atacant = false;
+                spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
+                cos.setLinearVelocity(2.4f, 0f);
             }else{
-                System.out.println("ffff");
-                //spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
-            }*/
-    }
-
-    public boolean isMoureEsquerra() {
-        return moureEsquerra;
-    }
-
-    public void setMoureEsquerra(boolean moureEsquerra) {
-        this.moureEsquerra = moureEsquerra;
-    }
-
-    public boolean isMoureDreta() {
-        return moureDreta;
-    }
-
-    public void setMoureDreta(boolean moureDreta) {
-        this.moureDreta = moureDreta;
-    }
-
-    public boolean isCaraDreta() {
-        return this.personatgeCaraDreta;
-    }
-
-    public void setCaraDreta(boolean caraDreta) {
-        this.personatgeCaraDreta = caraDreta;
-
+                tornar = true;
+                spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
+                cos.setLinearVelocity(-2.4f, 0f);
+            }
+        }
     }
 
     public Vector2 getPositionBody() {
@@ -297,7 +201,6 @@ public class Drac {
         return new Vector2().set(this.spritePersonatge.getX(), this.spritePersonatge.getY());
     }
 
-
     public Texture getTextura() {
         return stoppedTexture;
     }
@@ -306,14 +209,13 @@ public class Drac {
         this.stoppedTexture = textura;
     }
 
+    public boolean isAtacant() {
+        return atacant;
+    }
 
     public void dispose() {
         animatedTexture.dispose();
         stoppedTexture.dispose();
-    }
-
-    public int getPUNTS() {
-        return PUNTS;
     }
 }
 

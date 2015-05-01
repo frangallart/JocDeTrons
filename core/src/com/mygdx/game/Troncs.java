@@ -32,9 +32,9 @@ public class Troncs {
 
     private World world;                // Referència al mon on està definit el personatge
     private Body cos;                   // per definir les propietats del cos
-    private Sprite spriteBarra;    // sprite associat al personatge
+    private Sprite spriteBarra, spriteBarra2;    // sprite associat al personatge
     private AnimatedSprite spriteAnimat;// animació de l'sprite
-    private Texture stoppedTexture, stoppedTextureE, animatedTexture;     // la seva textura
+    private Texture stoppedTexture, stoppedTextureCremat;     // la seva textura
     private BodyDef defCos;
     private float posicioX, posicioY;
 
@@ -48,7 +48,7 @@ public class Troncs {
 
     private int destruir;
 
-    private String pathImg;
+    private String pathImg, pathImg2;
 
     public String getNom() {
         return nom;
@@ -57,7 +57,7 @@ public class Troncs {
     private String nom;
 
 
-    public Troncs(World world, String nom, float posicioX, float posicioY, String pathImg) {
+    public Troncs(World world, String nom, float posicioX, float posicioY, String pathImg, String pathImg2) {
         moureEsquerra = moureDreta = false;
         this.world = world;
         this.posicioX = posicioX;
@@ -66,6 +66,7 @@ public class Troncs {
         this.destruir = 0;
         this.destruit = false;
         this.nom = nom;
+        this.pathImg2 = pathImg2;
         crearProtagonista();
     }
 
@@ -73,6 +74,9 @@ public class Troncs {
     private void crearProtagonista() {
         stoppedTexture = new Texture(Gdx.files.internal(pathImg));
         spriteBarra = new Sprite(stoppedTexture);
+
+        stoppedTextureCremat = new Texture(Gdx.files.internal(pathImg2));
+        spriteBarra2 = new Sprite(stoppedTextureCremat);
        // spriteAnimat = new AnimatedSprite(stoppedTextureE);
 
         // Definir el tipus de cos i la seva posició
@@ -105,16 +109,28 @@ public class Troncs {
 
 
     public void updatePosition() {
-        spriteBarra.setPosition(
-                JocDeTrons.PIXELS_PER_METRE * cos.getPosition().x
-                        - spriteBarra.getWidth() / FRAME_COLS / 2,
-                JocDeTrons.PIXELS_PER_METRE * cos.getPosition().y
-                        - spriteBarra.getHeight() / FRAME_ROWS / 2);
+        if (getDestruir()< 1) {
+            spriteBarra.setPosition(
+                    JocDeTrons.PIXELS_PER_METRE * cos.getPosition().x
+                            - spriteBarra.getWidth() / FRAME_COLS / 2,
+                    JocDeTrons.PIXELS_PER_METRE * cos.getPosition().y
+                            - spriteBarra.getHeight() / FRAME_ROWS / 2);
+        }else{
+            spriteBarra2.setPosition(
+                    JocDeTrons.PIXELS_PER_METRE * cos.getPosition().x
+                            - spriteBarra2.getWidth() / FRAME_COLS / 2,
+                    JocDeTrons.PIXELS_PER_METRE * cos.getPosition().y
+                            - spriteBarra2.getHeight() / FRAME_ROWS / 2);
+        }
     }
 
 
     public void dibuixar(SpriteBatch batch) {
-        spriteBarra.draw(batch);
+        if (getDestruir() < 1) {
+            spriteBarra.draw(batch);
+        }else{
+            spriteBarra2.draw(batch);
+        }
     }
 
     /**

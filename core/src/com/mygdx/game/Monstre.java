@@ -103,16 +103,13 @@ public class Monstre {
     private void carregarTextures() {
         animatedTexture = new Texture(Gdx.files.internal(this.pathTextura));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-        stoppedTexture = new Texture(Gdx.files.internal(this.pathImg));
-        stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
 
 
     private void crearProtagonista() {
         spritePersonatge = new Sprite(animatedTexture);
-        spriteAnimat = new AnimatedSprite(spritePersonatge, frameCols, frameRows, stoppedTexture);
+        spriteAnimat = new AnimatedSprite(spritePersonatge, frameCols, frameRows);
 
         // Definir el tipus de cos i la seva posici�
         BodyDef defCos = new BodyDef();
@@ -145,7 +142,7 @@ public class Monstre {
     public void inicialitzarMoviments() {
         setMoureDreta(false);
         setMoureEsquerra(false);
-        spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
+        spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
     }
 
     /**
@@ -238,7 +235,6 @@ public class Monstre {
 
     public void dispose() {
         animatedTexture.dispose();
-        stoppedTexture.dispose();
     }
 
     public int getPUNTS() {

@@ -33,7 +33,6 @@ import com.badlogic.gdx.physics.box2d.World;
 public class MonstreEstatic {
     public static final int FRAME_COLS = 4;
     public static final int FRAME_ROWS = 2;
-    private final int PUNTS = 100;
     /**
      * Detectar el moviment
      */
@@ -74,16 +73,13 @@ public class MonstreEstatic {
     private void carregarTextures() {
         animatedTexture = new Texture(Gdx.files.internal(imatge));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-        stoppedTexture = new Texture(Gdx.files.internal("imatges/warrior.png"));
-        stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
 
 
     private void crearProtagonista() {
         spritePersonatge = new Sprite(animatedTexture);
-        spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS, stoppedTexture);
+        spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS);
 
         // Definir el tipus de cos i la seva posici?
         BodyDef defCos = new BodyDef();
@@ -113,11 +109,6 @@ public class MonstreEstatic {
         requadre.dispose();
     }
 
-    public void inicialitzarMoviments() {
-        setMoureDreta(false);
-        setMoureEsquerra(false);
-        spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
-    }
 
     /**
      * Actualitza la posici? de l'sprite
@@ -198,10 +189,5 @@ public class MonstreEstatic {
 
     public void dispose() {
         animatedTexture.dispose();
-        stoppedTexture.dispose();
-    }
-
-    public int getPUNTS() {
-        return PUNTS;
     }
 }

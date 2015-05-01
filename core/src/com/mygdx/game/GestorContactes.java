@@ -104,13 +104,11 @@ public class GestorContactes implements ContactListener {
             }
         }
 
-        // TODO
         if (troncs != null && boles != null) {
             for (int i = boles.size() - 1; i >= 0; i--) {
                 for (int numTroncs = troncs.size() - 1; numTroncs >= 0; numTroncs--) {
                     if (fixtureA.getBody().getUserData().equals(troncs.get(numTroncs).getNom()) && fixtureB.getBody().getUserData().equals(boles.get(i).getNom())) {
-                       System.out.println(troncs.get(numTroncs).getDestruir());
-                        if (troncs.get(numTroncs).getDestruir() < 4){
+                        if (troncs.get(numTroncs).getDestruir() < 2){
                             troncs.get(numTroncs).setDestruir(troncs.get(numTroncs).getDestruir() + 1);
                             bodyDestroyList.add(fixtureB.getBody());
                         }else{
@@ -118,15 +116,20 @@ public class GestorContactes implements ContactListener {
                             bodyDestroyList.add(fixtureB.getBody());
                         }
                     }else if (fixtureB.getBody().getUserData().equals(troncs.get(numTroncs).getNom()) && fixtureA.getBody().getUserData().equals(boles.get(i).getNom())) {
-                        System.out.println(troncs.get(numTroncs).getDestruir());
-
-                        if (troncs.get(numTroncs).getDestruir() < 4) {
+                        if (troncs.get(numTroncs).getDestruir() < 2) {
                             troncs.get(numTroncs).setDestruir(troncs.get(numTroncs).getDestruir() + 1);
                             bodyDestroyList.add(fixtureA.getBody());
                         } else {
                             bodyDestroyList.add(fixtureB.getBody());
                             bodyDestroyList.add(fixtureA.getBody());
                         }
+                    }else if (fixtureA.getBody().getUserData().equals("personatge") && fixtureB.getBody().getUserData().equals(boles.get(i).getNom())) {
+                        personatge.setVides(personatge.getVides() - 1);
+                        break;
+                    }
+                    else if (fixtureB.getBody().getUserData().equals("personatge") && fixtureA.getBody().getUserData().equals(boles.get(i).getNom())) {
+                        personatge.setVides(personatge.getVides() - 1);
+                        break;
                     }
                 }
 

@@ -85,7 +85,7 @@ public class AnimatedSprite {
             framesRight[j] = tmp[0][j];
         }
 
-        animationAtac = new Animation(0.25f, framesRight);
+        animation = new Animation(0.25f, framesRight);
         stateTime = 0f;
     }
 
@@ -101,17 +101,17 @@ public class AnimatedSprite {
 
         direction = Direction.STOPPED;
 
-        framesAtacLeft = new TextureRegion[textureCols];
+        framesLeft = new TextureRegion[textureCols];
         for (int j = 0; j < textureCols; j++) {
-            framesAtacLeft[j] = tmp[1][j];
+            framesLeft[j] = tmp[1][j];
         }
 
-        framesAtacRight = new TextureRegion[textureCols];
+        framesRight = new TextureRegion[textureCols];
         for (int j = 0; j < textureCols; j++) {
-            framesAtacRight[j] = tmp[0][j];
+            framesRight[j] = tmp[0][j];
         }
 
-        animationAtac = new Animation(0.25f, framesAtacRight);
+        animation = new Animation(0.25f, framesRight);
 
         stateTime = 0f;
     }
@@ -123,31 +123,26 @@ public class AnimatedSprite {
      */
     public void draw(SpriteBatch spriteBatch) {
         if (direction == Direction.STOPPED) {
-            spriteBatch.draw(frame, sprite.getX(), sprite.getY());
+            if (frame != null) {
+                spriteBatch.draw(frame, sprite.getX(), sprite.getY());
+            }
         } else {
             stateTime += Gdx.graphics.getDeltaTime() * 2;
             spriteBatch.draw(animation.getKeyFrame(stateTime, true), sprite.getX(), sprite.getY());
         }
     }
 
-    public void draw(SpriteBatch spriteBatch, int destruit) {
-        if (destruit == 1) {
-            spriteBatch.draw(frameE, sprite.getX(), sprite.getY());
-        } else {
-            spriteBatch.draw(frame, sprite.getX(), sprite.getY());
-        }
-    }
 
     public void draw(SpriteBatch spriteBatch, boolean cara, boolean atac) {
         if (atac) {
             stateTime += Gdx.graphics.getDeltaTime() * 2;
 
             if (cara) {
-                animationAtac = new Animation(0.25f, framesAtacRight);
+                animation = new Animation(0.25f, framesRight);
             }else{
-                animationAtac = new Animation(0.25f, framesAtacLeft);
+                animation = new Animation(0.25f, framesLeft);
             }
-            spriteBatch.draw(animationAtac.getKeyFrame(stateTime, true), sprite.getX(), sprite.getY());
+            spriteBatch.draw(animation.getKeyFrame(stateTime, true), sprite.getX(), sprite.getY());
 
         }else {
             if (direction == Direction.STOPPED) {
@@ -162,7 +157,6 @@ public class AnimatedSprite {
             }
         }
     }
-
 
     public void setPosition(float x, float y) {
         sprite.setPosition(x, y);

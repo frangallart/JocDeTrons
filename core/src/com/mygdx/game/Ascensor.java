@@ -73,7 +73,6 @@ public class Ascensor {
 
     private void crearProtagonista() {
         spriteAscensor = new Sprite(animatedTexture);
-        spriteAnimat = new AnimatedSprite(spriteAscensor, FRAME_COLS, FRAME_ROWS, stoppedTexture);
 
         // Definir el tipus de cos i la seva posició
         defCos = new BodyDef();
@@ -97,16 +96,8 @@ public class Ascensor {
         propietats.shape = requadre;
         propietats.density = 1.0f;
         propietats.friction = 0.1f;
-
-        cos.setFixedRotation(true);
         cos.createFixture(propietats);
         requadre.dispose();
-    }
-
-    public void inicialitzarMoviments() {
-        setmoureAdalt(false);
-        setmoureAbaix(false);
-        spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
     }
 
     /**
@@ -118,11 +109,10 @@ public class Ascensor {
                         - spriteAscensor.getWidth() / FRAME_COLS / 2,
                 JocDeTrons.PIXELS_PER_METRE * cos.getPosition().y
                         - spriteAscensor.getHeight() / FRAME_ROWS / 2);
-        spriteAnimat.setPosition(spriteAscensor.getX(), spriteAscensor.getY());
     }
 
     public void dibuixar(SpriteBatch batch) {
-        spriteAnimat.draw(batch);
+        spriteAscensor.draw(batch);
     }
 
     /**
@@ -145,34 +135,11 @@ public class Ascensor {
             }
             if (moureAdalt) {
                 cos.setLinearVelocity(0.0f, 1.0f);
-                ;
-                spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-                spriteAscensor.flip(true, false);
                 defCos.gravityScale = 0;
             } else if (moureAbaix) {
                 cos.setLinearVelocity(0.0f, -1.0f);
-
-                spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-
-                spriteAscensor.flip(true, false);
                 defCos.gravityScale = 0;
             }
-    }
-
-    public boolean ismoureAbaix() {
-        return moureAbaix;
-    }
-
-    public void setmoureAbaix(boolean moureAbaix) {
-        this.moureAbaix = moureAbaix;
-    }
-
-    public boolean ismoureAdalt() {
-        return moureAdalt;
-    }
-
-    public void setmoureAdalt(boolean moureAdalt) {
-        this.moureAdalt = moureAdalt;
     }
 
     public Vector2 getPositionBody() {

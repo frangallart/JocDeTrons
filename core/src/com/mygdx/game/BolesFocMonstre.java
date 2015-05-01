@@ -75,16 +75,13 @@ public class BolesFocMonstre {
     private void carregarTextures() {
         animatedTexture = new Texture(Gdx.files.internal("imatges/bolaLava.png"));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-        stoppedTexture = new Texture(Gdx.files.internal("imatges/warrior.png"));
-        stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
 
 
     private void crearProtagonista() {
         spritePersonatge = new Sprite(animatedTexture);
-        spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS, stoppedTexture);
+        spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS);
 
         // Definir el tipus de cos i la seva posici?
         BodyDef defCos = new BodyDef();
@@ -152,14 +149,9 @@ public class BolesFocMonstre {
             }
         }
 
-        if (this.getNom().equals("Gel")) {
-            if (!orientacio) {
-                cos.setLinearVelocity(VELOCITAT, -1f);
-                spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-            }else{
-                cos.setLinearVelocity(VELOCITAT, -1f);
+        else if (!this.getNom().equals("Lava1") && !this.getNom().equals("Lava2")) {
+                cos.setLinearVelocity(0f, -1.6f);
                 spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-            }
         }
 
         else if (this.getNom().equals("Lava2")){
@@ -192,6 +184,5 @@ public class BolesFocMonstre {
 
     public void dispose() {
         animatedTexture.dispose();
-        stoppedTexture.dispose();
     }
 }

@@ -38,9 +38,6 @@ public class Clau {
     /**
      * Detectar el moviment
      */
-    private boolean moureEsquerra;
-    private boolean moureDreta;
-    private boolean personatgeCaraDreta;
     private float posX;
     private float posY;
 
@@ -62,7 +59,6 @@ public class Clau {
     }
 
     public Clau(World world, String nom, float posX, float posY, boolean orientacio, String imatge){
-        moureEsquerra = orientacio;
         this.nom = nom;
         this.world = world;
         this.posX = posX;
@@ -75,16 +71,12 @@ public class Clau {
     private void carregarTextures() {
         animatedTexture = new Texture(Gdx.files.internal(imatge));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-        stoppedTexture = new Texture(Gdx.files.internal("imatges/clau.png"));
-        stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
-
 
 
     private void crearProtagonista() {
         spritePersonatge = new Sprite(animatedTexture);
-        spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS, stoppedTexture);
+        spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS);
 
         // Definir el tipus de cos i la seva posici?
         BodyDef defCos = new BodyDef();
@@ -114,12 +106,6 @@ public class Clau {
         requadre.dispose();
     }
 
-    public void inicialitzarMoviments() {
-        setMoureDreta(false);
-        setMoureEsquerra(false);
-        spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
-    }
-
     /**
      * Actualitza la posici? de l'sprite
      */
@@ -145,38 +131,8 @@ public class Clau {
      * <p/>
      * Els impulsos s'apliquen des del centre del protagonista
      */
-
-    public void moure() {
-        if (!moureEsquerra) {
-            spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-        }else {
-            spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-        }
-    }
-
-    public boolean isMoureEsquerra() {
-        return moureEsquerra;
-    }
-
-    public void setMoureEsquerra(boolean moureEsquerra) {
-        this.moureEsquerra = moureEsquerra;
-    }
-
-    public boolean isMoureDreta() {
-        return moureDreta;
-    }
-
-    public void setMoureDreta(boolean moureDreta) {
-        this.moureDreta = moureDreta;
-    }
-
-    public boolean isCaraDreta() {
-        return this.personatgeCaraDreta;
-    }
-
-    public void setCaraDreta(boolean caraDreta) {
-        this.personatgeCaraDreta = caraDreta;
-
+    public void moure(){
+        spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
     }
 
     public Vector2 getPositionBody() {
@@ -200,9 +156,5 @@ public class Clau {
     public void dispose() {
         animatedTexture.dispose();
         stoppedTexture.dispose();
-    }
-
-    public int getPUNTS() {
-        return PUNTS;
     }
 }
