@@ -107,9 +107,9 @@ public class MainMenuScreen extends AbstractScreen{
         table.add(imatgeTitol).size(510 * Gdx.graphics.getDensity(),
                 66.5f * Gdx.graphics.getDensity()).padBottom(35 * Gdx.graphics.getDensity()).row();
         table.add(buttonPlay).padBottom(35 * Gdx.graphics.getDensity()).row();
-        table.add(buttonExit).padBottom(20 * Gdx.graphics.getDensity()).row();
-        table.add(buttonInstruccions).padBottom(20 * Gdx.graphics.getDensity()).row();
-        table.add(buttonCredits).padBottom(20 * Gdx.graphics.getDensity()).row();
+        table.add(buttonExit).padBottom(10 * Gdx.graphics.getDensity()).row();
+        table.add(buttonInstruccions).padBottom(10 * Gdx.graphics.getDensity()).row();
+        table.add(buttonCredits).padBottom(10 * Gdx.graphics.getDensity()).row();
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
