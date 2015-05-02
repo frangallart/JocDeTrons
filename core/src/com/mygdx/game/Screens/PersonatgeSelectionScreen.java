@@ -1,15 +1,18 @@
-/*************************************************************************************
- *                                                                                   *
- *  Joc de Trons por Java Norriors se distribuye bajo una                            *
- *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
- *                                                                                   *
- *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
- *                                                                                   *
- *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
- *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
- *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
- *                                                                                   *
-/************************************************************************************/
+/**
+ * **********************************************************************************
+ * *
+ * Joc de Trons por Java Norriors se distribuye bajo una                            *
+ * Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ * *
+ * http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
+ * *
+ *
+ * @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
+ * @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ * @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
+ * *
+ * /***********************************************************************************
+ */
 
 package com.mygdx.game.Screens;
 
@@ -36,7 +39,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
 
     private Texture textureHeroi, textureHeroina;
     private Image imatgeHeroi, imatgeHeroina;
-    private Label  infoEscollir;
+    private Label infoEscollir;
 
     /**
      * Constructor
@@ -47,7 +50,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         super(joc);
         //skin = new Skin(Gdx.files.internal("skins/skin.json"));
         stage = new Stage();
-        table =  new Table();
+        table = new Table();
         tableImatges = new Table();
 
         // carregar la imatge
@@ -56,8 +59,8 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
 
         imatgeHeroi = new Image(textureHeroi);
 
-        // aix� nom�s �s necessari perqu� funcioni correctament l'efecte fade-in
-        // Nom�s fa la imatge completament transparent
+        // això només és necessari perquè funcioni correctament l'efecte fade-in
+        // Només fa la imatge completament transparent
         imatgeHeroi.getColor().a = 0f;
 
         // configuro l'efecte de fade-in/out de la imatge de splash
@@ -66,7 +69,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         imatgeHeroi.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                nextScreen("imatges/heroiSpriteSheet.png", "imatges/heroi.png", "imatges/heroiE.png","imatges/heroiSpriteAtacDret.png", 0.8f);
+                nextScreen("imatges/heroiSpriteSheet.png", "imatges/heroi.png", "imatges/heroiE.png", "imatges/heroiSpriteAtacDret.png", 0.8f);
             }
         });
 
@@ -76,8 +79,8 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
 
         imatgeHeroina = new Image(textureHeroina);
 
-        // aix� nom�s �s necessari perqu� funcioni correctament l'efecte fade-in
-        // Nom�s fa la imatge completament transparent
+        // això només és necessari perquè funcioni correctament l'efecte fade-in
+        // Només fa la imatge completament transparent
         imatgeHeroina.getColor().a = 0f;
 
         // configuro l'efecte de fade-in/out de la imatge de splash
@@ -86,13 +89,14 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         imatgeHeroina.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                nextScreen("imatges/heroinaSpriteSheet.png", "imatges/heroina.png", "imatges/heroinaE.png", "imatges/heroinaSpriteAtacDret.png", 1.0f);           }
+                nextScreen("imatges/heroinaSpriteSheet.png", "imatges/heroina.png", "imatges/heroinaE.png", "imatges/heroinaSpriteAtacDret.png", 1.0f);
+            }
         });
 
         //namePlayerInfo = new Label("Introdueix el teu nom: ",skin);
         infoEscollir = new Label("Escull el teu heroi: ", joc.getSkin());
-       // nomPlayer = new TextField("", skin);
-       // nomPlayer.setText("Jugador 1");
+        // nomPlayer = new TextField("", skin);
+        // nomPlayer.setText("Jugador 1");
     }
 
     @Override
@@ -146,9 +150,9 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
     /**
      * canviar a la següent pantalla
      */
-    private void nextScreen(String pathToTexture, String pathToImg, String pathToImgE, String pathToAtac, float pes){
-        Personatge persona = new Personatge(3 , 0, pathToTexture, pathToImg, pathToImgE, pathToAtac, 1,5, pes);
-        joc.setScreen(new Level1(getGame(), persona));
+    private void nextScreen(String pathToTexture, String pathToImg, String pathToImgE, String pathToAtac, float pes) {
+        Personatge persona = new Personatge(3, 0, pathToTexture, pathToImg, pathToImgE, pathToAtac, 290, 5, pes);
+        joc.setScreen(new Level2(getGame(), persona));
     }
 
 }

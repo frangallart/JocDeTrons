@@ -36,7 +36,7 @@ public class MainMenuScreen extends AbstractScreen{
     private Table table;
 
 
-    private TextButton buttonPlay, buttonExit, buttonCredits;
+    private TextButton buttonPlay, buttonExit, buttonInstruccions, buttonCredits;
     private Texture texturaTitol;
     private Image imatgeTitol;
     /**
@@ -64,6 +64,13 @@ public class MainMenuScreen extends AbstractScreen{
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
                 // or System.exit(0);
+            }
+        });
+
+        buttonInstruccions = new TextButton("Instruccions", joc.getSkin());
+        buttonInstruccions.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new InstruccionsScreen(getGame()));
             }
         });
 
@@ -101,6 +108,7 @@ public class MainMenuScreen extends AbstractScreen{
                 66.5f * Gdx.graphics.getDensity()).padBottom(35 * Gdx.graphics.getDensity()).row();
         table.add(buttonPlay).padBottom(35 * Gdx.graphics.getDensity()).row();
         table.add(buttonExit).padBottom(20 * Gdx.graphics.getDensity()).row();
+        table.add(buttonInstruccions).padBottom(20 * Gdx.graphics.getDensity()).row();
         table.add(buttonCredits).padBottom(20 * Gdx.graphics.getDensity()).row();
         table.setFillParent(true);
         stage.addActor(table);
