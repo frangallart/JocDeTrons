@@ -394,11 +394,11 @@ boolean descarrega = false;
 
         if (personatge.getPositionBody().x > 301.02f && personatge.getPositionBody().x < 323f) {
             if (drac.isAtacant() && bolesDrac.size() < 3) {
-                bolesDrac.add(new BolesFocMonstre(world, "Gel" + numBoles, drac.getPositionBody().x + 1.6f, drac.getPositionBody().y - 0.6f, 0f, false, "imatges/bolaGel.png"));
+                bolesDrac.add(new BolesFocMonstre(world, "BolaGel" + numBoles, drac.getPositionBody().x + 1.6f, drac.getPositionBody().y - 0.6f, 0f, false, "imatges/bolaGel.png"));
                 numBoles++;
-                bolesDrac.add(new BolesFocMonstre(world, "Gel" + numBoles, drac.getPositionBody().x + 1.8f, drac.getPositionBody().y + -0.3f, 0f, false, "imatges/bolaGel.png"));
+                bolesDrac.add(new BolesFocMonstre(world, "BolaGel" + numBoles, drac.getPositionBody().x + 1.8f, drac.getPositionBody().y + -0.3f, 0f, false, "imatges/bolaGel.png"));
                 numBoles++;
-                bolesDrac.add(new BolesFocMonstre(world, "Gel" + numBoles, drac.getPositionBody().x + 1.4f, drac.getPositionBody().y + 0.0f, 0f, false, "imatges/bolaGel.png"));
+                bolesDrac.add(new BolesFocMonstre(world, "BolaGel" + numBoles, drac.getPositionBody().x + 1.4f, drac.getPositionBody().y + 0.0f, 0f, false, "imatges/bolaGel.png"));
                 numBoles++;
             }
 
