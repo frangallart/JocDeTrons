@@ -147,7 +147,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
      * canviar a la següent pantalla
      */
     private void nextScreen(String pathToTexture, String pathToImg, String pathToImgE, String pathToAtac, float pes){
-        Personatge persona = new Personatge(3 , 0, pathToTexture, pathToImg, pathToImgE, pathToAtac, 1,3, pes);
+        Personatge persona = new Personatge(3 , 0, pathToTexture, pathToImg, pathToImgE, pathToAtac, 1,5, pes);
         joc.setScreen(new Level1(getGame(), persona));
     }
 
