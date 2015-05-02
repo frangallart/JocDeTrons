@@ -32,8 +32,6 @@ import java.util.Iterator;
  */
 public class Level2 extends AbstractScreen {
 
-
-
     /**
      * Variable d'instancia que permet gestionar i pintar el mapa a partir d'un
      * TiledMap (TMX)
@@ -69,11 +67,13 @@ public class Level2 extends AbstractScreen {
     /**
      * Per mostrar el t�tol
      */
-    private Label title, labelVides, labelPunts;
+    private Label title, labelVides, labelPunts, labelPuntControl;
 
-    private Table table, table2;
+    private Table table, table2, table3;
 
     private int vides, numBoles;
+
+    private boolean control1;
 
     private ArrayList<Monstre> monstres;
     private ArrayList<BolesFocMonstre> bolesDrac;
@@ -98,9 +98,11 @@ public class Level2 extends AbstractScreen {
         title = new Label(joc.getTitol(),joc.getSkin());
         labelVides = new Label("",joc.getSkin());
         labelPunts = new Label("",joc.getSkin());
+        labelPuntControl = new Label("",joc.getSkin());
 
         table = new Table();
         table2 = new Table();
+        table3 = new Table();
 		/*
 		 * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
 		 * perqu� indica cap avall
@@ -115,7 +117,7 @@ public class Level2 extends AbstractScreen {
         bodyDestroyList= new ArrayList<Body>();
 
         // crear el personatge
-        this.personatge = new Personatge(world, personatge.getVides(), personatge.getPunts(), personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), personatge.getPathImatgeAtac());
+        this.personatge = new Personatge(world, personatge.getVides(), personatge.getPunts(), personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), personatge.getPathImatgeAtac(), personatge.getPosX(), personatge.getPosY(), personatge.getPes());
 
         monstres = new ArrayList<Monstre>();
         monstres.add(new Monstre(world, "gegant1", 37.0f, 0.66f, 46f, 37.1f, "imatges/gegant.png","imatges/gegant.png", 6, 2));
@@ -136,8 +138,6 @@ public class Level2 extends AbstractScreen {
         noia = new MonstreEstatic(world, "noia", 332.54f, 6.07f, true, "imatges/noiaNua.png");
 
         bolesDrac = new ArrayList<BolesFocMonstre>();
-        //bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 3f, 4f, false));
-        //bolesDrac.add(new BolesFocMonstre(world, "Gel", 301.02f, 3f, 5f, false));
 
         this.vides = personatge.getVides();
 
@@ -161,6 +161,7 @@ public class Level2 extends AbstractScreen {
         ascensor = new Ascensor(world, 16.62f, 0.8f, 8.5f, 0.9f, "imatges/ascensor.png");
 
         this.numBoles = 0;
+        this.control1 = false;
     }
 
     /**
@@ -195,39 +196,8 @@ public class Level2 extends AbstractScreen {
         // actualitzar els nous valors de la c�mera
         tiledMapHelper.getCamera().update();
     }
-/*
-    @Override
-    public boolean keyUp(int keycode) {
-        personatge.inicialitzarMoviments();
-        if(keycode == Input.Keys.DPAD_RIGHT) {
-            personatge.setMoureDreta(true);
-        } else if(keycode == Input.Keys.DPAD_LEFT) {
-            personatge.setMoureEsquerra(true);
-        } else if(keycode == Input.Keys.DPAD_UP) {
-            personatge.setFerSalt(true);
-        }
 
-        //personatge.moure();
-        //personatge.updatePosition();
-        return true;
-    }
 
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        personatge.inicialitzarMoviments();
-
-        if (screenX > Gdx.graphics.getWidth() * 0.80f) {
-            personatge.setMoureDreta(true);
-        } else if(screenX > Gdx.graphics.getWidth() * 0.20f) {
-            personatge.setMoureEsquerra(true);
-        } else if(screenY < Gdx.graphics.getHeight() * 0.20f) {
-            personatge.setFerSalt(true);
-        }
-        //personatge.moure();
-        //personatge.updatePosition();
-        return true;
-    }
-    */
     /**
      * tractar els events de l'entrada
      */
@@ -424,11 +394,11 @@ boolean descarrega = false;
 
         if (personatge.getPositionBody().x > 301.02f && personatge.getPositionBody().x < 323f) {
             if (drac.isAtacant() && bolesDrac.size() < 3) {
-                bolesDrac.add(new BolesFocMonstre(world, "Gel" + numBoles, drac.getPositionBody().x + 1.6f, drac.getPositionBody().y - 0.6f, 0f, false));
+                bolesDrac.add(new BolesFocMonstre(world, "Gel" + numBoles, drac.getPositionBody().x + 1.6f, drac.getPositionBody().y - 0.6f, 0f, false, "imatges/bolaGel.png"));
                 numBoles++;
-                bolesDrac.add(new BolesFocMonstre(world, "Gel" + numBoles, drac.getPositionBody().x + 1.8f, drac.getPositionBody().y + -0.3f, 0f, false));
+                bolesDrac.add(new BolesFocMonstre(world, "Gel" + numBoles, drac.getPositionBody().x + 1.8f, drac.getPositionBody().y + -0.3f, 0f, false, "imatges/bolaGel.png"));
                 numBoles++;
-                bolesDrac.add(new BolesFocMonstre(world, "Gel" + numBoles, drac.getPositionBody().x + 1.4f, drac.getPositionBody().y + 0.0f, 0f, false));
+                bolesDrac.add(new BolesFocMonstre(world, "Gel" + numBoles, drac.getPositionBody().x + 1.4f, drac.getPositionBody().y + 0.0f, 0f, false, "imatges/bolaGel.png"));
                 numBoles++;
             }
 
@@ -457,7 +427,22 @@ boolean descarrega = false;
                 JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
                 JocDeTrons.PIXELS_PER_METRE));
 
+        if (personatge.getPositionBody().x > 69.3f && personatge.getPositionBody().x < 70.5f){
+            labelPuntControl.setText("Punt de control");
+            personatge.setPosX(70f);
+        }else if (personatge.getPositionBody().x > 178f && personatge.getPositionBody().x < 179f){
+            labelPuntControl.setText("Punt de control");
+            personatge.setPosX(178.5f);
+        }
+        else if (personatge.getPositionBody().x > 263.34f && personatge.getPositionBody().x < 264.5f){
+            labelPuntControl.setText("Punt de control");
+            personatge.setPosX(263.9f);
+        }
+        else{
+            labelPuntControl.setText("");
+        }
 
+        System.out.println(personatge.getPositionBody().x);
         if (this.personatge.getPositionBody().x > 332.1f){
             joc.setScreen(new MainMenuScreen(joc));
         }else {
@@ -498,9 +483,14 @@ boolean descarrega = false;
         table2.add(labelPunts).padTop(20).padRight(5).row();
         table2.setFillParent(true);
 
+        table3.center();
+        table3.add(labelPuntControl).row();
+        table3.setFillParent(true);
+
         //cell2 = table.add(title2).padTop(5);
 
         stage.addActor(table);
         stage.addActor(table2);
+        stage.addActor(table3);
     }
 }

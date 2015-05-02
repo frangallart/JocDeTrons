@@ -25,6 +25,7 @@ import com.mygdx.game.Vides;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Una pantalla del joc
@@ -74,7 +75,7 @@ public class Level1 extends AbstractScreen {
 	 */
 	private Label title, labelVides, labelPunts, labelNomJugador, labelNoPassarNivell;
 
-	private Table table, table2, table3, table4;
+	private Table table, table2, table4;
 
 	private int vides;
 
@@ -94,7 +95,7 @@ public class Level1 extends AbstractScreen {
 
 	private boolean vidaVista;
 
-	public Level1(JocDeTrons joc, int vides, String pathTexturaPj, String pathImgPj, String pathImgPjE, String pathImgPjAtac) {
+	public Level1(JocDeTrons joc, Personatge persona){ //int vides, String pathTexturaPj, String pathImgPj, String pathImgPjE, String pathImgPjAtac) {
 		super(joc);
 		// carregar el fitxer d'skins
 		title = new Label(joc.getTitol(),joc.getSkin());
@@ -103,10 +104,10 @@ public class Level1 extends AbstractScreen {
 		//labelNomJugador = new Label(nomJugador, skin, "groc");
 		labelNoPassarNivell = new Label("",joc.getSkin());
 
-		this.pathTexturaPj = pathTexturaPj;
+		/*this.pathTexturaPj = pathTexturaPj;
 		this.pathImgPj = pathImgPj;
 		this.pathImgPjE = pathImgPjE;
-		this.pathImgPjAtac = pathImgPjAtac;
+		this.pathImgPjAtac = pathImgPjAtac;*/
 		this.vidaVista = false;
 
 		table = new Table();
@@ -125,11 +126,9 @@ public class Level1 extends AbstractScreen {
 
 		// --- si es volen destruir objectes, descomentar ---
 		bodyDestroyList= new ArrayList<Body>();
-		//world.setContactListener(new GestorContactes(bodyDestroyList));
-		//world.setContactListener(new GestorContactes());
 
 		// crear el personatge
-		personatge = new Personatge(world, this.pathTexturaPj, this.pathImgPj, this.pathImgPjE, this.pathImgPjAtac);
+		personatge = new Personatge(world, persona.getVides(), persona.getPunts(), persona.getPathTextura(), persona.getPathImatge(), persona.getPathImatgeE(), persona.getPathImatgeAtac(), persona.getPosX(), persona.getPosY(), persona.getPes());
 
 		monstres = new ArrayList<Monstre>();
 		monstres.add(new Monstre(world, "monstre1", 6.0f, 1.33f, 6.6f, 5.45f, "imatges/serp.png", "imatges/serp.png", 4, 2));
@@ -141,15 +140,12 @@ public class Level1 extends AbstractScreen {
 		monstresLava.add(new MonstreEstatic(world, "monstreLava2", 60.15f, 0.64f, true, "imatges/lavaMonster.png"));
 
 		bolesFocMonstres = new ArrayList<BolesFocMonstre>();
-		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 50.44f, 1f, 2f, false));
-		bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 60.15f, 1f, 1.8f, false));
 
 		clau = new Clau(world, "clau", 58.36f, 3.50f, true, "imatges/clau.png");
 
-		personatge.setVides(vides);
-		world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstresLava, bolesFocMonstres , null));
+		world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstresLava, bolesFocMonstres, null));
 
-		this.vides = vides;
+		this.vides = persona.getVides();
 
 		// objecte que permet debugar les col·lisions
 		debugRenderer = new Box2DDebugRenderer();
@@ -324,6 +320,7 @@ public class Level1 extends AbstractScreen {
 	// ----------------------------------------------------------------------------------
 	// MÈTODES SOBREESCRITS DE AbstractScreen
 	// ----------------------------------------------------------------------------------
+	int boles = 0;
 	@Override
 	public void render(float delta) {
 
@@ -367,9 +364,9 @@ public class Level1 extends AbstractScreen {
 				if (bodyDestroyList.get(i).getUserData() == bolesFocMonstres.get(lava).getNom()) {
 					bolesFocMonstres.get(lava).dispose();
 					if (bodyDestroyList.get(i).getUserData().equals("Lava1")) {
-						bolesFocMonstres.add(new BolesFocMonstre(world, bolesFocMonstres.get(lava).getNom(), 50.44f, 1f, 2f, false));
+			//			bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 50.58f, 1.3f, 2f, false, "imatges/bolaLava.png"));
 					} else if (bodyDestroyList.get(i).getUserData().equals("Lava2")) {
-						bolesFocMonstres.add(new BolesFocMonstre(world, bolesFocMonstres.get(lava).getNom(), 60.15f, 1f, 1.8f, false));
+			//			bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 60.15f, 1.3f, 1.8f, false, "imatges/bolaLava.png"));
 					}
 					bolesFocMonstres.remove(lava);
 					break;
@@ -424,7 +421,24 @@ public class Level1 extends AbstractScreen {
 		}
 
 		if (personatge.getPositionBody().x > 49.5f && personatge.getPositionBody().x < 61.5f) {
+			if (bolesFocMonstres.size()< 2) {
+				if (bolesFocMonstres.size() == 1) {
+					Random rand = new Random();
 
+					if (rand.nextInt() % 2 == 0) {
+						bolesFocMonstres.add(new BolesFocMonstre(world, "Dreta" + boles, 50.58f, 1.3f, 2f, false, "imatges/bolaLava.png"));
+						boles++;
+					}else{
+						bolesFocMonstres.add(new BolesFocMonstre(world, "Esque" + boles, 60.15f, 1.3f, 1.8f, false, "imatges/bolaLava.png"));
+						boles++;
+					}
+				}else if (bolesFocMonstres.size() == 0){
+					bolesFocMonstres.add(new BolesFocMonstre(world, "Dreta" + boles, 50.58f, 1.3f, 2f, false, "imatges/bolaLava.png"));
+					boles++;
+					bolesFocMonstres.add(new BolesFocMonstre(world, "Esque" + boles, 60.15f, 1.3f, 1.8f, false, "imatges/bolaLava.png"));
+					boles++;
+				}
+			}
 			for (Iterator<BolesFocMonstre> i = bolesFocMonstres.iterator(); i.hasNext(); ) {
 				BolesFocMonstre items = i.next();
 				items.moure();
@@ -476,14 +490,14 @@ public class Level1 extends AbstractScreen {
 			labelNoPassarNivell.setText("");
 			if (personatge.getPositionBody().y < 0.38) {
 				personatge.setVides(personatge.getVides() - 1);
-				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), personatge.getPathImatgeAtac()));
+				joc.setScreen(new Level1(joc,personatge));
 			}
 
 			if (personatge.getVides() == 0) {
 				joc.setScreen(new MainMenuScreen(joc));
 			} else if (personatge.getVides() < vides) {
 				vides = personatge.getVides();
-				joc.setScreen(new Level1(joc, vides, personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), personatge.getPathImatgeAtac()));
+				joc.setScreen(new Level1(joc,personatge));
 			}
 		}
 	}

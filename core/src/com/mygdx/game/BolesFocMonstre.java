@@ -44,7 +44,7 @@ public class BolesFocMonstre {
     private float posMax;
     private float altura;
 
-    private String nom;
+    private String nom, imatge;
     private boolean orientacio;
 
     private World world;                // Refer?ncia al mon on est? definit el personatge
@@ -60,7 +60,7 @@ public class BolesFocMonstre {
     private Texture animatedTexture;
 
 
-    public BolesFocMonstre(World world,String nom, float posX, float posY, float posMax, boolean orientacio){
+    public BolesFocMonstre(World world,String nom, float posX, float posY, float posMax, boolean orientacio, String imatge){
         this.nom = nom;
         this.world = world;
         this.posX = posX;
@@ -68,12 +68,13 @@ public class BolesFocMonstre {
         this.posMax = posMax;
         this.orientacio = orientacio;
         this.altura = 0.6f;
+        this.imatge = imatge;
         carregarTextures();
         crearProtagonista();
     }
 
     private void carregarTextures() {
-        animatedTexture = new Texture(Gdx.files.internal("imatges/bolaLava.png"));
+        animatedTexture = new Texture(Gdx.files.internal(imatge));
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
@@ -138,7 +139,7 @@ public class BolesFocMonstre {
      */
 
     public void moure() {
-        if (this.getNom().equals("Lava1")) {
+        if (this.getNom().substring(0,5).equals("Dreta")) {
             if (!orientacio) {
                 cos.setLinearVelocity(VELOCITAT, altura);
                 spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
@@ -149,12 +150,12 @@ public class BolesFocMonstre {
             }
         }
 
-        else if (!this.getNom().equals("Lava1") && !this.getNom().equals("Lava2")) {
+        else if (!this.getNom().substring(0,5).equals("Dreta") && !this.getNom().substring(0,5).equals("Esque")) {
                 cos.setLinearVelocity(0f, -1.6f);
                 spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
         }
 
-        else if (this.getNom().equals("Lava2")){
+        else if (this.getNom().substring(0,5).equals("Esque")){
             if (!orientacio) {
                 cos.setLinearVelocity(-VELOCITAT, altura);
                 spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);

@@ -35,9 +35,8 @@ public class Personatge {
      * Detectar el moviment
      */
     private boolean moureDreta, moureEsquerra, personatgeCaraDreta, ferSalt, ferAtac, atac, passarNivell;
-    private float velocitat;
-    private int vides;
-    private int punts;
+    private float posX, posY, pes;
+    private int vides, punts;
 
     private World world;                // Referència al mon on està definit el personatge
     private Body cos, cosAtac;                   // per definir les propietats del cos
@@ -56,26 +55,8 @@ public class Personatge {
     }
 
 
-    public Personatge(World world, String pathTextura, String pathImatge, String pathImatgeE, String pathImatgeAtac) {
+    public Personatge(World world, int vides, int punts, String pathTextura, String pathImatge, String pathImatgeE, String pathImatgeAtac, float posX, float posY, float pes) {
         moureEsquerra = moureDreta = ferSalt = ferAtac = atac = false;
-        this.velocitat = 0.1f;
-        this.world = world;
-        this.vides = 3;
-        this.punts = 0;
-        this.pathTextura = pathTextura;
-        this.pathImatge = pathImatge;
-        this.pathImatgeE = pathImatgeE;
-        this.personatgeCaraDreta = true;
-        this.pathImatgeAtac = pathImatgeAtac;
-        this.passarNivell = false;
-        carregarTextures();
-        carregarSons();
-        crearProtagonista();
-    }
-
-    public Personatge(World world, int vides, int punts, String pathTextura, String pathImatge, String pathImatgeE, String pathImatgeAtac) {
-        moureEsquerra = moureDreta = ferSalt = ferAtac = atac = false;
-        this.velocitat = 0.1f;
         this.world = world;
         this.vides = vides;
         this.punts = punts;
@@ -85,10 +66,29 @@ public class Personatge {
         this.personatgeCaraDreta = true;
         this.pathImatgeAtac = pathImatgeAtac;
         this.passarNivell = false;
+        this.posX = posX;
+        this.posY = posY;
+        this.pes = pes;
         carregarTextures();
         carregarSons();
         crearProtagonista();
     }
+
+    public Personatge(int vides, int punts, String pathTextura, String pathImatge, String pathImatgeE, String pathImatgeAtac, float posX, float posY, float pes) {
+        moureEsquerra = moureDreta = ferSalt = ferAtac = atac = false;
+        this.vides = vides;
+        this.punts = punts;
+        this.pathTextura = pathTextura;
+        this.pathImatge = pathImatge;
+        this.pathImatgeE = pathImatgeE;
+        this.personatgeCaraDreta = true;
+        this.pathImatgeAtac = pathImatgeAtac;
+        this.passarNivell = false;
+        this.posX = posX;
+        this.posY = posY;
+        this.pes = pes;
+    }
+
 
 
     private void carregarTextures() {
@@ -173,7 +173,7 @@ public class Personatge {
         if (cos != null) {
             defCos.position.set(this.getPositionBody().x, this.getPositionBody().y);
         }else{
-            defCos.position.set(290.0f, 6.0f);
+            defCos.position.set(posX, posY);
         }
         cos = world.createBody(defCos);
         cos.setUserData("personatge");
@@ -194,7 +194,7 @@ public class Personatge {
                     (spritePersonatge.getHeight() / FRAME_ROWS) / (2 * JocDeTrons.PIXELS_PER_METRE));
             propietats.shape = requadre;
         }
-        propietats.density = 1.0f;
+        propietats.density = pes;
         propietats.friction = 3.0f;
 
         cos.setFixedRotation(true);
@@ -366,6 +366,26 @@ public class Personatge {
 
     public void setPassarNivell(boolean passarNivell) {
         this.passarNivell = passarNivell;
+    }
+
+    public float getPosX() {
+        return posX;
+    }
+
+    public void setPosX(float posX) {
+        this.posX = posX;
+    }
+
+    public float getPosY() {
+        return posY;
+    }
+
+    public void setPosY(float posY) {
+        this.posY = posY;
+    }
+
+    public float getPes() {
+        return pes;
     }
 
     public void dispose() {

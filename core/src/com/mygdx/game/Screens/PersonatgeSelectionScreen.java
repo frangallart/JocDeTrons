@@ -16,8 +16,6 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -68,7 +66,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         imatgeHeroi.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                nextScreen("imatges/heroiSpriteSheet.png", "imatges/heroi.png", "imatges/heroiE.png","imatges/heroiSpriteAtacDret.png");
+                nextScreen("imatges/heroiSpriteSheet.png", "imatges/heroi.png", "imatges/heroiE.png","imatges/heroiSpriteAtacDret.png", 0.8f);
             }
         });
 
@@ -88,8 +86,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
         imatgeHeroina.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                nextScreen("imatges/heroinaSpriteSheet.png", "imatges/heroina.png", "imatges/heroinaE.png", "imatges/heroinaSpriteAtacDret.png");
-            }
+                nextScreen("imatges/heroinaSpriteSheet.png", "imatges/heroina.png", "imatges/heroinaE.png", "imatges/heroinaSpriteAtacDret.png", 1.0f);           }
         });
 
         //namePlayerInfo = new Label("Introdueix el teu nom: ",skin);
@@ -149,13 +146,9 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
     /**
      * canviar a la següent pantalla
      */
-    private void nextScreen(String pathToTexture, String pathToImg, String pathToImgE, String pathToAtac){
-        //joc.setScreen(new Level1(getGame(), 3, pathToTexture, pathToImg, pathToImgE, pathToAtac));
-
-        World world = new World(new Vector2(0.0f, -9.8f), true);
-        Personatge persona = new Personatge(world, 3 , 0, pathToTexture, pathToImg, pathToImgE, pathToAtac);
-        joc.setScreen(new Level2(getGame(), persona));
-
+    private void nextScreen(String pathToTexture, String pathToImg, String pathToImgE, String pathToAtac, float pes){
+        Personatge persona = new Personatge(3 , 0, pathToTexture, pathToImg, pathToImgE, pathToAtac, 70,3, pes);
+        joc.setScreen(new Level1(getGame(), persona));
     }
 
 }
