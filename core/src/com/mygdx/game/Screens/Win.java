@@ -39,6 +39,7 @@ public class Win extends AbstractScreen {
     private TextButton buttonPlay, buttonExit;
     private Label labelNivell;
     private Label labelPuntuacio;
+
     /**
      * Constructor
      *
