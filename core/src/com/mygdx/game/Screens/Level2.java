@@ -4,15 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.Ascensor;
+import com.mygdx.game.Barra;
 import com.mygdx.game.BolesFocMonstre;
 import com.mygdx.game.Drac;
 import com.mygdx.game.GestorContactes;
@@ -73,17 +72,14 @@ public class Level2 extends AbstractScreen {
 
     private int vides, numBoles;
 
-    private boolean control1;
-
     private ArrayList<Monstre> monstres;
     private ArrayList<BolesFocMonstre> bolesDrac;
     private ArrayList<Troncs> troncs;
 
-    private Texture splashTexture;
-    private Image splashImage;
     private Personatge personatge;
     private MonstreEstatic noia;
     private Drac drac;
+    private Barra barra;
 
     /**
      * per indicar quins cossos s'han de destruir
@@ -137,6 +133,8 @@ public class Level2 extends AbstractScreen {
 
         noia = new MonstreEstatic(world, "noia", 332.54f, 6.07f, true, "imatges/noiaNua.png");
 
+        barra = new Barra(world, 52.52f, 2.95f, 55.44f, 52.53f, "imatges/barra.png");
+
         bolesDrac = new ArrayList<BolesFocMonstre>();
 
         this.vides = personatge.getVides();
@@ -161,7 +159,6 @@ public class Level2 extends AbstractScreen {
         ascensor = new Ascensor(world, 16.62f, 0.8f, 8.5f, 0.9f, "imatges/ascensor.png");
 
         this.numBoles = 0;
-        this.control1 = false;
     }
 
     /**
@@ -392,8 +389,9 @@ boolean descarrega = false;
 
         ascensor.dibuixar(batch);
 
-        if (personatge.getPositionBody().x > 301.02f && personatge.getPositionBody().x < 323f) {
+        if (personatge.getPositionBody().x > 301.02f && personatge.getPositionBody().x < 323.3f) {
             if (drac.isAtacant() && bolesDrac.size() < 3) {
+                drac.getFoc().play();
                 bolesDrac.add(new BolesFocMonstre(world, "BolaGel" + numBoles, drac.getPositionBody().x + 1.6f, drac.getPositionBody().y - 0.6f, 0f, false, "imatges/bolaGel.png"));
                 numBoles++;
                 bolesDrac.add(new BolesFocMonstre(world, "BolaGel" + numBoles, drac.getPositionBody().x + 1.8f, drac.getPositionBody().y + -0.3f, 0f, false, "imatges/bolaGel.png"));
@@ -414,6 +412,10 @@ boolean descarrega = false;
                 }
             }
         }
+
+        barra.moure();
+        barra.updatePosition();
+        barra.dibuixar(batch);
 
         // finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
         // s'ha indicat entre begin i end
@@ -442,9 +444,8 @@ boolean descarrega = false;
             labelPuntControl.setText("");
         }
 
-        System.out.println(personatge.getPositionBody().x);
-        if (this.personatge.getPositionBody().x > 332.1f){
-            joc.setScreen(new MainMenuScreen(joc));
+        if (this.personatge.getPositionBody().x > 332.08f){
+            joc.setScreen(new Win(joc, personatge));
         }else {
             if (personatge.getPositionBody().y < 0.38){
                 personatge.setVides(personatge.getVides()-1);
@@ -452,7 +453,7 @@ boolean descarrega = false;
             }
 
             if (this.personatge.getVides() == 0) {
-                joc.setScreen(new MainMenuScreen(joc));
+                joc.setScreen(new GameOver(joc, personatge));
             } else if (this.personatge.getVides() != vides) {
                 vides = this.personatge.getVides();
                 joc.setScreen(new Level2(joc, this.personatge));
@@ -473,8 +474,8 @@ boolean descarrega = false;
         // El primer apareix a la part superior, el darrer a la part inferior.
 
 
-        table.center().top();
-        table.add(title).padTop(5);
+        table.left().top();
+        table.add(title).padTop(5).padLeft(15);
         table.setFillParent(true);
 
 

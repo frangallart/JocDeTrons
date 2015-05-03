@@ -31,6 +31,8 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Personatge {
     public static final int FRAME_COLS = 8;
     public static final int FRAME_ROWS = 2;
+    public static final float POS_INICIAL_X = 1f;
+    public static final float POS_INICIAL_Y = 5f;
     /**
      * Detectar el moviment
      */
@@ -42,7 +44,7 @@ public class Personatge {
     private Body cos, cosAtac;                   // per definir les propietats del cos
     private Sprite spritePersonatge, spritePersonatgeAtac;    // sprite associat al personatge
     private AnimatedSprite spriteAnimat, spriteAtac;// animació de l'sprite
-    private Sound soSalt;               // el so que reprodueix en saltar
+    private Sound soSalt, soAplastar, soEspasa;               // el so que reprodueix en saltar
     private Texture animatedTexture, animatedTextureAtac, stoppedTexture, stoppedTextureE;     // la seva textura
 
     private FixtureDef propietats = new FixtureDef();
@@ -110,6 +112,8 @@ public class Personatge {
      */
     private void carregarSons() {
         soSalt = Gdx.audio.newSound(Gdx.files.internal("sons/salt.mp3"));
+        soAplastar = Gdx.audio.newSound(Gdx.files.internal("sons/aplastar.mp3"));
+        soEspasa = Gdx.audio.newSound(Gdx.files.internal("sons/espases.mp3"));
     }
 
     public void crearProtagonista() {
@@ -204,6 +208,8 @@ public class Personatge {
 
     public void dibuixar(SpriteBatch batch) {
         if (this.isFerAtac()) {
+            this.soEspasa.stop();
+            this.soEspasa.play();
             spriteAtac.draw(batch, this.isCaraDreta(), isFerAtac());
         }else{
             spriteAnimat.draw(batch, this.isCaraDreta(), isFerAtac());
@@ -386,6 +392,10 @@ public class Personatge {
 
     public float getPes() {
         return pes;
+    }
+
+    public Sound getSoAplastar() {
+        return soAplastar;
     }
 
     public void dispose() {

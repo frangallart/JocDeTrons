@@ -14,22 +14,13 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.JocDeTrons;
 
 
 public class AboutUsScreen extends AbstractScreen {
-
-    private Stage stage;
-    private Table table;
-
     private Image credits;
     private Texture textureCredits;
 
@@ -40,36 +31,6 @@ public class AboutUsScreen extends AbstractScreen {
      */
     public AboutUsScreen(JocDeTrons joc) {
         super(joc);
-        stage = new Stage();
-        table =  new Table();
-
-        // carregar la imatge
-        textureCredits = new Texture(
-                Gdx.files.internal("imatges/credits.png"));
-
-        credits = new Image(textureCredits);
-
-        // Només fa la imatge completament transparent
-        credits.getColor().a = 0f;
-
-        // configuro l'efecte de fade-in/out de la imatge de splash
-        // sequence indica que es faran de manera consecutiva.
-        credits.addAction(Actions.sequence(Actions.fadeIn(1f)));
-        credits.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                    nextScreen();
-            }
-        });
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        calculRedimensionat();
-        stage.act();
-        stage.draw();
     }
 
     @Override
@@ -81,14 +42,40 @@ public class AboutUsScreen extends AbstractScreen {
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
 
-        table.add(credits).size(280 * Gdx.graphics.getDensity() ,
-                253 * Gdx.graphics.getDensity()).center().row();
+        // carregar la imatge
+        textureCredits = new Texture(
+                Gdx.files.internal("imatges/credits.png"));
 
-        table.setFillParent(true);
+        textureCredits.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        stage.addActor(table);
+        credits = new Image(textureCredits);
 
-        Gdx.input.setInputProcessor(stage);
+        credits.setFillParent(true);
+
+
+        // Només fa la imatge completament transparent
+        credits.getColor().a = 0f;
+
+        // configuro l'efecte de fade-in/out de la imatge de splash
+        // sequence indica que es faran de manera consecutiva.
+        credits.addAction(Actions.sequence(Actions.fadeIn(1f)));
+        stage.addActor(credits);
+    }
+
+    /**
+     * en aixecar el botó del mouse després de fer clic o bé en aixecar el dit després de fer
+     * touch
+     *
+     * @param screenX
+     * @param screenY
+     * @param pointer
+     * @param button
+     * @return
+     */
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        nextScreen();
+        return true;
     }
 
     @Override

@@ -73,7 +73,7 @@ public class Level1 extends AbstractScreen {
 	/**
 	 * Per mostrar el títol
 	 */
-	private Label title, labelVides, labelPunts, labelNomJugador, labelNoPassarNivell;
+	private Label title, labelVides, labelPunts, labelNoPassarNivell;
 
 	private Table table, table2, table4;
 
@@ -85,8 +85,6 @@ public class Level1 extends AbstractScreen {
 	private Vides cor;
 	private Clau clau;
 
-	private String pathTexturaPj, pathImgPj, pathImgPjE, pathImgPjAtac;
-
 	/**
 	 * per indicar quins cossos s'han de destruir
 	 * @param joc
@@ -95,24 +93,18 @@ public class Level1 extends AbstractScreen {
 
 	private boolean vidaVista;
 
-	public Level1(JocDeTrons joc, Personatge persona){ //int vides, String pathTexturaPj, String pathImgPj, String pathImgPjE, String pathImgPjAtac) {
+	public Level1(JocDeTrons joc, Personatge persona){
 		super(joc);
 		// carregar el fitxer d'skins
 		title = new Label(joc.getTitol(),joc.getSkin());
 		labelVides = new Label("",joc.getSkin());
 		labelPunts = new Label("",joc.getSkin());
-		//labelNomJugador = new Label(nomJugador, skin, "groc");
 		labelNoPassarNivell = new Label("",joc.getSkin());
 
-		/*this.pathTexturaPj = pathTexturaPj;
-		this.pathImgPj = pathImgPj;
-		this.pathImgPjE = pathImgPjE;
-		this.pathImgPjAtac = pathImgPjAtac;*/
 		this.vidaVista = false;
 
 		table = new Table();
 		table2 = new Table();
-		//table3 = new Table();
 		table4 = new Table();
       /*
        * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
@@ -188,42 +180,11 @@ public class Level1 extends AbstractScreen {
 		// actualitzar els nous valors de la càmera
 		tiledMapHelper.getCamera().update();
 	}
-/*
-    @Override
-    public boolean keyUp(int keycode) {
-        personatge.inicialitzarMoviments();
-        if(keycode == Input.Keys.DPAD_RIGHT) {
-            personatge.setMoureDreta(true);
-        } else if(keycode == Input.Keys.DPAD_LEFT) {
-            personatge.setMoureEsquerra(true);
-        } else if(keycode == Input.Keys.DPAD_UP) {
-            personatge.setFerSalt(true);
-        }
 
-        //personatge.moure();
-        //personatge.updatePosition();
-        return true;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        personatge.inicialitzarMoviments();
-
-        if (screenX > Gdx.graphics.getWidth() * 0.80f) {
-            personatge.setMoureDreta(true);
-        } else if(screenX > Gdx.graphics.getWidth() * 0.20f) {
-            personatge.setMoureEsquerra(true);
-        } else if(screenY < Gdx.graphics.getHeight() * 0.20f) {
-            personatge.setFerSalt(true);
-        }
-        //personatge.moure();
-        //personatge.updatePosition();
-        return true;
-    }
-    */
 	/**
 	 * tractar els events de l'entrada
 	 */
+	int prova = 0;
 	private void tractarEventsEntrada() {
 		if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT)) {
 			personatge.setMoureDreta(true);
@@ -262,9 +223,12 @@ public class Level1 extends AbstractScreen {
 			personatge.setFerAtac(true);
 		}else{
 			for (int i = 0; i < 2; i++) {
+
 				if (Gdx.input.isTouched(i)
-						&& Gdx.input.getY() > Gdx.graphics.getHeight() * 0.80f) {
+						&& Gdx.input.getY() > Gdx.graphics.getHeight() * 0.80f && prova == 0) {
 					personatge.setFerAtac(true);
+				}else{
+					prova = 0;
 				}
 			}
 		}
@@ -479,22 +443,32 @@ public class Level1 extends AbstractScreen {
 				JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
 				JocDeTrons.PIXELS_PER_METRE));
 
+		if (personatge.getPositionBody().x > 46f && personatge.getPositionBody().x < 47f){
+			labelNoPassarNivell.setText("Punt de control");
+			personatge.setPosX(46.5f);
+		}
+		else{
+			labelNoPassarNivell.setText("");
+		}
+
 		if (personatge.getPositionBody().x > 96f){
 			if ( personatge.isPassarNivell()) {
+				personatge.setPosX(Personatge.POS_INICIAL_X);
+				personatge.setPosY(Personatge.POS_INICIAL_Y);
 				joc.setScreen(new NextLevel(joc, personatge, "Nivell 1"));//new Level2(joc,vides));
 			}else{
 				labelNoPassarNivell.setText("No has recollit la clau!");
 			}
 		}else {
 
-			labelNoPassarNivell.setText("");
+			//labelNoPassarNivell.setText("");
 			if (personatge.getPositionBody().y < 0.38) {
 				personatge.setVides(personatge.getVides() - 1);
 				joc.setScreen(new Level1(joc,personatge));
 			}
 
 			if (personatge.getVides() == 0) {
-				joc.setScreen(new MainMenuScreen(joc));
+				joc.setScreen(new GameOver(joc, personatge));
 			} else if (personatge.getVides() < vides) {
 				vides = personatge.getVides();
 				joc.setScreen(new Level1(joc,personatge));
@@ -516,18 +490,13 @@ public class Level1 extends AbstractScreen {
 
 		table2.center().top().right();
 		table.left().top();
-		table.add(title).padTop(5);
+		table.add(title).padTop(5).padLeft(15);
 		table2.add(labelVides).padTop(5).padRight(5).row();
 		table2.add(labelPunts).padTop(20).padRight(5).row();
-
-
-		//table3.center().top().left();
-		//table3.add(labelNomJugador).padTop(5).padLeft(5).row();
 
 		table4.center();
 		table4.add(labelNoPassarNivell).row();
 
-		//cell2 = table.add(title2).padTop(5);
 		table.setFillParent(true);
 		table2.setFillParent(true);
 		table4.setFillParent(true);

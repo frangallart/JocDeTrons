@@ -13,77 +13,62 @@
 
 package com.mygdx.game.Screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.JocDeTrons;
+import com.mygdx.game.Personatge;
 
 /**
- * Classe Main Menu Screen
- *  Pantalla principal que ens permet iniciar el joc o en el seu defecte
- *  Sortir d'ell
+ * Classe Next Level
+ * Pantalla  entre nivells que ens mostra la possibilitat de continuar,
+ * de sortir del joc; ademés ens mostra la puntuació i les vides restants
  */
-public class MainMenuScreen extends AbstractScreen{
+public class Win extends AbstractScreen {
 
-    private Stage stage;
-    private Table table;
+    private Personatge jugador;
 
+    private Stage stage = new Stage();
+    private Table table = new Table();
 
-    private TextButton buttonPlay, buttonExit, buttonInstruccions, buttonCredits;
-    private Texture texturaTitol;
-    private Image imatgeTitol;
+    private TextButton buttonPlay, buttonExit;
+    private Label labelNivell;
+    private Label labelPuntuacio;
     /**
      * Constructor
      *
      * @param joc Classe principal del joc
      */
-    public MainMenuScreen(JocDeTrons joc) {
+    public Win(final JocDeTrons joc, final Personatge jugador) {
         super(joc);
-        stage = new Stage();
-        table =  new Table();
-        buttonPlay = new TextButton("Jugar", joc.getSkin());
-        buttonExit = new TextButton("Sortir", joc.getSkin());
+        this.jugador = jugador;
+        buttonPlay = new TextButton("Reiniciar partida", joc.getSkin());
+        buttonExit = new TextButton("Menu", joc.getSkin());
         buttonPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Same way we moved here from the Splash Screen
                 //We set it to new Splash because we got no other screens
                 //otherwise you put the screen there where you want to go
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new PersonatgeSelectionScreen(getGame()));
+                Personatge persona = new Personatge(3, 0, jugador.getPathTextura(), jugador.getPathImatge(), jugador.getPathImatgeE(), jugador.getPathImatgeAtac(), 1f, 5f, jugador.getPes());
+                joc.setScreen(new Level1(getGame(), persona));
             }
         });
         buttonExit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                joc.setScreen(new MainMenuScreen(joc));
+                //Gdx.app.exit();
                 // or System.exit(0);
             }
         });
-
-        buttonInstruccions = new TextButton("Instruccions", joc.getSkin());
-        buttonInstruccions.addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y){
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new InstruccionsScreen(getGame()));
-            }
-        });
-
-        buttonCredits = new TextButton("Creadors", joc.getSkin());
-        buttonCredits.addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y){
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new AboutUsScreen(getGame()));
-            }
-        });
-        texturaTitol = new Texture(
-                Gdx.files.internal("imatges/ImatgeTitol.png"));
-
-        imatgeTitol = new Image(texturaTitol);
+        labelNivell = new Label("Enhorabona t'has passat el joc", joc.getSkin());
+        labelPuntuacio = new Label("Punts: " + String.valueOf(jugador.getPunts()), joc.getSkin());
     }
 
     @Override
@@ -103,17 +88,14 @@ public class MainMenuScreen extends AbstractScreen{
     public void show() {
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
-
-        table.add(imatgeTitol).size(510 * Gdx.graphics.getDensity(),
-                66.5f * Gdx.graphics.getDensity()).padTop(15 * Gdx.graphics.getDensity()).row();
-        table.add(buttonPlay).padTop(20 * Gdx.graphics.getDensity()).row();
-        table.add(buttonExit).padTop(35 * Gdx.graphics.getDensity()).row();
-        table.add(buttonInstruccions).padTop(10 * Gdx.graphics.getDensity()).row();
-        table.add(buttonCredits).padTop(10 * Gdx.graphics.getDensity()).row();
+        table.add(labelNivell).padBottom(40).row();
+        table.add(labelPuntuacio).padBottom(40).row();
+        table.add(buttonPlay).size(150,60).padBottom(20).row();
+        table.add(buttonExit).size(150, 60).padBottom(20).row();
         table.setFillParent(true);
         stage.addActor(table);
-        Gdx.input.setInputProcessor(stage);
 
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -134,5 +116,4 @@ public class MainMenuScreen extends AbstractScreen{
     public void dispose() {
         stage.dispose();
     }
-
 }

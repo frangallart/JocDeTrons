@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,12 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Drac {
 
     public  int frameCols, frameRows;
-    /**
-     * Detectar el moviment
-     */
-    private boolean atac;
-
-    private boolean atacant, tornar;
+    private boolean atacant, tornar, soDrac, atac;
     private float posX,posY,posMax,posMin, velocitat;
 
     private String nom, pathTextura, pathImg;
@@ -29,13 +25,7 @@ public class Drac {
     private AnimatedSprite spriteAnimat, spriteAtac;// animaci? de l'sprite
     private Texture stoppedTexture,animatedTexture, animatedTextureAtac;
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+    private Sound drac, foc;
 
     public Drac(World world,String nom, float posX, float posY, float posMax, float posMin, float velocitat, String pathTextura, String pathImg, int frameCols, int frameRows){
         this.nom = nom;
@@ -52,9 +42,11 @@ public class Drac {
         this.atacant = false;
         this.atac = false;
         this.tornar = false;
+        this.soDrac = false;
         carregarTextures();
         crearProtagonista();
         inicialitzarMoviments();
+        carregarSons();
     }
 
     private void carregarTextures() {
@@ -68,7 +60,13 @@ public class Drac {
         stoppedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
-
+    /**
+     * Carregar els arxius de so
+     */
+    private void carregarSons() {
+        drac = Gdx.audio.newSound(Gdx.files.internal("sons/dracIntro.mp3"));
+        foc = Gdx.audio.newSound(Gdx.files.internal("sons/foc.mp3"));
+    }
 
     private void crearProtagonista() {
         spritePersonatge = new Sprite(animatedTexture);
@@ -81,8 +79,8 @@ public class Drac {
     }
 
     /**
-     * Mètode que crea les colisions dels personatges segons estiguin en posició
-     * d'atacar o en posició normal.
+     * MÃ¨tode que crea les colisions dels personatges segons estiguin en posiciÃ³
+     * d'atacar o en posiciÃ³ normal.
      */
     private Body novesColisions(Body cos) {
         if (cos != null){
@@ -155,40 +153,55 @@ public class Drac {
      * al mateix temps..
      * <p/>
      * Els impulsos s'apliquen des del centre del protagonista
-     */
+
+    boolean foc = false; */
 
     public void moure(Personatge personatge) {
-        if (personatge.getPositionBody().x < 321) {
-            if (personatge.getPositionBody().x > 301.62f && this.getPositionBody().y < 4f) {
-                this.atacant = false;
-                cos.setLinearVelocity(2.0f, 3.6f);
-                spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-            } else if (this.getPositionBody().y > 4f) {
-                this.atacant = true;
-                cos.setLinearVelocity(0f, 0f);
-            }
+        if (personatge.getPositionBody().x < 323.3f && personatge.getPositionBody().x > 301f) {
 
-            if ((personatge.getPositionBody().x > 305f && this.getPositionBody().x < 306f)
-                    || (personatge.getPositionBody().x > 308.5f && this.getPositionBody().x < 309f)
-                    || (personatge.getPositionBody().x > 311.5f && this.getPositionBody().x < 312f)
-                    || (personatge.getPositionBody().x > 314.5f && this.getPositionBody().x < 315f)
-                    || (personatge.getPositionBody().x > 317.5f && this.getPositionBody().x < 318f)) {
-                this.atacant = false;
-                cos.setLinearVelocity(4.0f, 0f);
-                spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-            } else if (this.getPositionBody().x > 306f) {
-                this.atacant = true;
-                cos.setLinearVelocity(0f, 0f);
-            }
-        }else{
-            if (this.getPositionBody().x < 320 && !tornar){
-                this.atacant = false;
-                spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
-                cos.setLinearVelocity(2.4f, 0f);
-            }else{
-                tornar = true;
-                spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
-                cos.setLinearVelocity(-2.4f, 0f);
+            if (personatge.getPositionBody().x < 321f) {
+                if (!soDrac) {
+                    soDrac = true;
+                    drac.play();
+                }
+
+                if (personatge.getPositionBody().x > 301.62f && this.getPositionBody().y < 4f) {
+                    this.atacant = false;
+                    cos.setLinearVelocity(2.0f, 3.6f);
+                    spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
+                } else if (this.getPositionBody().y > 4f) {
+                    this.atacant = true;
+                    cos.setLinearVelocity(0f, 0f);
+                }
+
+                if ((personatge.getPositionBody().x > 305f && this.getPositionBody().x < 306f)
+                        || (personatge.getPositionBody().x > 308.5f && this.getPositionBody().x < 309f)
+                        || (personatge.getPositionBody().x > 311.5f && this.getPositionBody().x < 312f)
+                        || (personatge.getPositionBody().x > 314.5f && this.getPositionBody().x < 315f)
+                        || (personatge.getPositionBody().x > 317.5f && this.getPositionBody().x < 318f)) {
+                    this.atacant = false;
+                    cos.setLinearVelocity(4.0f, 0f);
+                    spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
+                } else if (this.getPositionBody().x > 306f) {
+                    this.atacant = true;
+                    cos.setLinearVelocity(0f, 0f);
+                }
+            } else {
+                if (this.getPositionBody().x < 320 && !tornar) {
+                    this.atacant = false;
+                    this.soDrac = false;
+                    spriteAnimat.setDirection(AnimatedSprite.Direction.RIGHT);
+                    cos.setLinearVelocity(2.4f, 0f);
+                } else {
+                    tornar = true;
+                    spriteAnimat.setDirection(AnimatedSprite.Direction.LEFT);
+                    cos.setLinearVelocity(-2.4f, 0f);
+
+                    if (!soDrac) {
+                        soDrac = true;
+                        drac.play();
+                    }
+                }
             }
         }
     }
@@ -211,6 +224,10 @@ public class Drac {
 
     public boolean isAtacant() {
         return atacant;
+    }
+
+    public Sound getFoc() {
+        return foc;
     }
 
     public void dispose() {
