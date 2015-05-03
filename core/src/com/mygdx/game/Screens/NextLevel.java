@@ -62,7 +62,7 @@ public class NextLevel extends AbstractScreen {
                 // or System.exit(0);
             }
         });
-        labelNivell = new Label("Enhorabona t'has passat el " + nivell, joc.getSkin());
+        labelNivell = new Label(nivell + " completat!", joc.getSkin());
         labelPuntuacio = new Label("Punts: " + String.valueOf(jugador.getPunts()), joc.getSkin());
         labelVides = new Label("Vides: " + String.valueOf(jugador.getVides()),joc.getSkin());
     }

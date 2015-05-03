@@ -18,10 +18,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.Barra;
@@ -85,17 +87,18 @@ public class Level1 extends AbstractScreen {
 	 */
 	private Label title, labelVides, labelPunts, labelNoPassarNivell;
 
-	private Table table, table2, table4;
+	private Table table, table2, table3, table4;
 
-	private int vides;
+	private Texture textVida;
+
+	private int vides, punts;
+	private boolean calculVides;
 
 	private ArrayList<Monstre> monstres;
 	private ArrayList<MonstreEstatic> monstresLava;
 	private ArrayList<BolesFocMonstre> bolesFocMonstres;
 	private Vides cor;
 	private Clau clau;
-
-	private int punts;
 
 	/**
 	 * per indicar quins cossos s'han de destruir
@@ -114,10 +117,14 @@ public class Level1 extends AbstractScreen {
 		labelPunts = new Label("",joc.getSkin());
 		labelNoPassarNivell = new Label("",joc.getSkin());
 
+		textVida = new Texture(
+				Gdx.files.internal("imatges/corSol.png"));
+
 		this.vidaVista = false;
 
 		table = new Table();
 		table2 = new Table();
+		table3 = new Table();
 		table4 = new Table();
       /*
        * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
@@ -156,6 +163,7 @@ public class Level1 extends AbstractScreen {
 
 		this.vides = persona.getVides();
 		this.punts = 0;
+		this.calculVides = true;
 
 		// objecte que permet debugar les col·lisions
 		//debugRenderer = new Box2DDebugRenderer();
@@ -345,6 +353,7 @@ public class Level1 extends AbstractScreen {
 			if (bodyDestroyList.get(i).getUserData().equals("Vida")) {
 				cor = null;
 				personatge.setVides(personatge.getVides() + 1);
+				calculVides = true;
 				this.vides = personatge.getVides();
 			}
 
@@ -448,6 +457,14 @@ public class Level1 extends AbstractScreen {
 				JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
 				JocDeTrons.PIXELS_PER_METRE));*/
 
+		if (calculVides) {
+			table2.clear();
+			for (int vides = 0; vides < personatge.getVides(); vides++) {
+				table2.add(new Image(textVida)).padTop(5).padRight(5);
+			}
+			calculVides = false;
+		}
+
 		if (personatge.getPositionBody().x > 46f && personatge.getPositionBody().x < 47f){
 			labelNoPassarNivell.setText("Punt de control");
 			personatge.setPosX(46.5f);
@@ -494,20 +511,25 @@ public class Level1 extends AbstractScreen {
 		// Els elements es mostren en l'ordre que s'afegeixen.
 		// El primer apareix a la part superior, el darrer a la part inferior.
 
-		table2.center().top().right();
 		table.left().top();
 		table.add(title).padTop(5).padLeft(15);
-		table2.add(labelVides).padTop(5).padRight(5).row();
-		table2.add(labelPunts).padTop(20).padRight(5).row();
+		//table2.add(labelVides).padTop(5).padRight(5).row();
+
+		table2.top().right().padTop(10);
+
+		table3.top().right().padTop(30);
+		table3.add(labelPunts).padTop(30).padRight(5);
 
 		table4.center();
 		table4.add(labelNoPassarNivell).row();
 
 		table.setFillParent(true);
 		table2.setFillParent(true);
+		table3.setFillParent(true);
 		table4.setFillParent(true);
 		stage.addActor(table);
 		stage.addActor(table2);
+		stage.addActor(table3);
 		stage.addActor(table4);
 	}
 }

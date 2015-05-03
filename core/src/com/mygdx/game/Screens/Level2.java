@@ -17,9 +17,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.game.Ascensor;
@@ -79,9 +81,12 @@ public class Level2 extends AbstractScreen {
      */
     private Label title, labelVides, labelPunts, labelPuntControl;
 
-    private Table table, table2, table3;
+    private Table table, table2, table3, table4;
 
     private int vides, numBoles, punts;
+    private boolean calculVides;
+
+    private Texture textVida;
 
     private ArrayList<Monstre> monstres;
     private ArrayList<BolesFocMonstre> bolesDrac;
@@ -108,9 +113,13 @@ public class Level2 extends AbstractScreen {
         labelPunts = new Label("",joc.getSkin());
         labelPuntControl = new Label("",joc.getSkin());
 
+        textVida = new Texture(
+                Gdx.files.internal("imatges/corSol.png"));
+
         table = new Table();
         table2 = new Table();
         table3 = new Table();
+        table4 = new Table();
 		/*
 		 * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
 		 * perquè indica cap avall
@@ -172,6 +181,7 @@ public class Level2 extends AbstractScreen {
         ascensor = new Ascensor(world, 16.62f, 8.6f, 8.5f, 0.9f, "imatges/ascensor.png");
 
         this.numBoles = 0;
+        this.calculVides = true;
     }
 
     /**
@@ -358,11 +368,13 @@ public class Level2 extends AbstractScreen {
             if (bodyDestroyList.get(i).getUserData().equals("Vida1")) {
                 cor1 = null;
                 personatge.setVides(personatge.getVides() + 1);
+                calculVides = true;
                 this.vides = personatge.getVides();
             }
             if (bodyDestroyList.get(i).getUserData().equals("Vida2")) {
                 cor2 = null;
                 personatge.setVides(personatge.getVides() + 1);
+                calculVides = true;
                 this.vides = personatge.getVides();
             }
 
@@ -465,6 +477,14 @@ public class Level2 extends AbstractScreen {
                 JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
                 JocDeTrons.PIXELS_PER_METRE));*/
 
+        if (calculVides) {
+            table4.clear();
+            for (int vides = 0; vides < personatge.getVides(); vides++) {
+                table4.add(new Image(textVida)).padTop(5).padRight(5);
+            }
+            calculVides = false;
+        }
+
         if (personatge.getPositionBody().x > 69.3f && personatge.getPositionBody().x < 70.5f){
             labelPuntControl.setText("Punt de control");
             personatge.setPosX(70f);
@@ -516,17 +536,20 @@ public class Level2 extends AbstractScreen {
         table.add(title).padTop(5).padLeft(15);
         table.setFillParent(true);
 
-        table2.center().top().right();
-        table2.add(labelVides).padTop(5).padRight(5).row();
-        table2.add(labelPunts).padTop(20).padRight(5).row();
+        table4.top().right().padTop(10);
+
+        table2.center().top().right().padTop(30);
+        table2.add(labelPunts).padTop(30).padRight(5);
         table2.setFillParent(true);
 
         table3.center();
         table3.add(labelPuntControl).row();
         table3.setFillParent(true);
+        table4.setFillParent(true);
 
         stage.addActor(table);
         stage.addActor(table2);
         stage.addActor(table3);
+        stage.addActor(table4);
     }
 }
