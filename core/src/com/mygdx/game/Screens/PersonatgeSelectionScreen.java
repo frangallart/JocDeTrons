@@ -1,26 +1,21 @@
-/**
- * **********************************************************************************
- * *
- * Joc de Trons por Java Norriors se distribuye bajo una                            *
- * Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
- * *
- * http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
- * *
- *
- * @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
- * @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
- * @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
- * *
- * /***********************************************************************************
- */
+/*************************************************************************************
+ *                                                                                   *
+ *  Joc de Trons por Java Norriors se distribuye bajo una                            *
+ *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ *                                                                                   *
+ *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
+ *                                                                                   *
+ *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
+ *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
+ *                                                                                   *
+/************************************************************************************/
 
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -32,24 +27,14 @@ import com.mygdx.game.Personatge;
 
 public class PersonatgeSelectionScreen extends AbstractScreen {
 
-    private Stage stage;
     private Table table, tableImatges;
-
-    //private Skin skin;
 
     private Texture textureHeroi, textureHeroina;
     private Image imatgeHeroi, imatgeHeroina;
     private Label infoEscollir;
 
-    /**
-     * Constructor
-     *
-     * @param joc Classe principal del joc
-     */
     public PersonatgeSelectionScreen(JocDeTrons joc) {
         super(joc);
-        //skin = new Skin(Gdx.files.internal("skins/skin.json"));
-        stage = new Stage();
         table = new Table();
         tableImatges = new Table();
 
@@ -93,20 +78,9 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
             }
         });
 
-        //namePlayerInfo = new Label("Introdueix el teu nom: ",skin);
         infoEscollir = new Label("Escull el teu heroi: ", joc.getSkin());
-        // nomPlayer = new TextField("", skin);
-        // nomPlayer.setText("Jugador 1");
     }
 
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        calculRedimensionat();
-        stage.act();
-        stage.draw();
-    }
 
     @Override
     public void resize(int width, int height) {
@@ -116,7 +90,6 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
     public void show() {
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
-
 
         table.add(infoEscollir).padBottom(40 * Gdx.graphics.getDensity()).row();
         tableImatges.add(imatgeHeroi).size(90 * Gdx.graphics.getDensity(), 110 * Gdx.graphics.getDensity()).padRight(125 * Gdx.graphics.getDensity());
@@ -152,7 +125,7 @@ public class PersonatgeSelectionScreen extends AbstractScreen {
      */
     private void nextScreen(String pathToTexture, String pathToImg, String pathToImgE, String pathToAtac, float pes) {
         Personatge persona = new Personatge(3, 0, pathToTexture, pathToImg, pathToImgE, pathToAtac, Personatge.POS_INICIAL_X, Personatge.POS_INICIAL_Y, pes);
-        joc.setScreen(new Level2(getGame(), persona));
+        joc.setScreen(new Level1(getGame(), persona));
     }
 
 }

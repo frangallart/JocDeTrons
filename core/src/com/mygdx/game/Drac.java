@@ -1,3 +1,16 @@
+/*************************************************************************************
+ *                                                                                   *
+ *  Joc de Trons por Java Norriors se distribuye bajo una                            *
+ *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ *                                                                                   *
+ *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
+ *                                                                                   *
+ *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
+ *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
+ *                                                                                   *
+/************************************************************************************/
+
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
@@ -15,26 +28,23 @@ public class Drac {
 
     public  int frameCols, frameRows;
     private boolean atacant, tornar, soDrac, atac;
-    private float posX,posY,posMax,posMin, velocitat;
+    private float posX,posY;
 
     private String nom, pathTextura, pathImg;
 
-    private World world;                // Refer?ncia al mon on est? definit el personatge
-    private Body cos, cosAtac;                   // per definir les propietats del cos
-    private Sprite spritePersonatge, spritePersonatgeAtac;    // sprite associat al personatge
-    private AnimatedSprite spriteAnimat, spriteAtac;// animaci? de l'sprite
+    private World world;                                    // Referència al mon on est? definit el personatge
+    private Body cos, cosAtac;                              // per definir les propietats del cos
+    private Sprite spritePersonatge, spritePersonatgeAtac;  // sprite associat al personatge
+    private AnimatedSprite spriteAnimat, spriteAtac;        // animació de l'sprite
     private Texture stoppedTexture,animatedTexture, animatedTextureAtac;
 
     private Sound drac, foc;
 
-    public Drac(World world,String nom, float posX, float posY, float posMax, float posMin, float velocitat, String pathTextura, String pathImg, int frameCols, int frameRows){
+    public Drac(World world,String nom, float posX, float posY, String pathTextura, String pathImg, int frameCols, int frameRows){
         this.nom = nom;
         this.world = world;
         this.posX = posX;
         this.posY = posY;
-        this.posMax = posMax;
-        this.posMin = posMin;
-        this.velocitat = velocitat;
         this.pathTextura = pathTextura;
         this.pathImg = pathImg;
         this.frameCols = frameCols;
@@ -106,7 +116,7 @@ public class Drac {
     }
 
     /**
-     * Actualitza la posici? de l'sprite
+     * Actualitza la posició de l'sprite
      */
     public void updatePosition() {
 
@@ -146,15 +156,8 @@ public class Drac {
     }
 
     /**
-     * Fer que el personatge es mogui
-     * <p/>
-     * Canvia la posici? del protagonista
-     * Es tracta de forma separada el salt perqu? es vol que es pugui moure si salta
-     * al mateix temps..
-     * <p/>
-     * Els impulsos s'apliquen des del centre del protagonista
-
-    boolean foc = false; */
+     * Fer que el drac es mogui i vagi atacant al personatge
+     */
 
     public void moure(Personatge personatge) {
         if (personatge.getPositionBody().x < 323.3f && personatge.getPositionBody().x > 301f) {

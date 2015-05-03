@@ -1,3 +1,16 @@
+/*************************************************************************************
+ *                                                                                   *
+ *  Joc de Trons por Java Norriors se distribuye bajo una                            *
+ *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ *                                                                                   *
+ *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
+ *                                                                                   *
+ *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
+ *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
+ *                                                                                   *
+/************************************************************************************/
+
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
@@ -6,7 +19,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -22,13 +34,11 @@ import com.mygdx.game.MonstreEstatic;
 import com.mygdx.game.Personatge;
 import com.mygdx.game.TiledMapHelper;
 import com.mygdx.game.Troncs;
+import com.mygdx.game.Vides;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-/**
- * Created by Arnau on 25/04/2015.
- */
 public class Level2 extends AbstractScreen {
 
     /**
@@ -39,38 +49,39 @@ public class Level2 extends AbstractScreen {
 
 
     private Ascensor ascensor;
+
     /**
-     * Objecte que cont? tots els cossos del joc als quals els aplica la
-     * simulaci?
+     * Objecte que conté tots els cossos del joc als quals els aplica la
+     * simulació
      */
     private World world;
 
     /**
      * Objecte que dibuixa elements per debugar. Dibuixa linies al voltant dels
-     * l?mits de les col?lisions. Va molt b? per comprovar que les
-     * col?lisions s?n les que desitgem. Cal tenir present, pe`ro, que ?s
-     * m?s lent. Nom?s s'ha d'utitilitzar per debugar.
+     * límits de les col·lisions. Va molt bé per comprovar que les
+     * col·lisions són les que desitgem. Cal tenir present, però, que és
+     * més lent. Només s'ha d'utitilitzar per debugar.
      */
-    private Box2DDebugRenderer debugRenderer;
+    //private Box2DDebugRenderer debugRenderer;
 
     /**
-     * Musica i sons
+     * Música i sons
      */
     private Music musica;
 
     /**
-     * Per debugar les col�lisions
+     * Per debugar les col·lisions
      */
-    private Box2DDebugRenderer box2DRenderer;
+    //private Box2DDebugRenderer box2DRenderer;
 
     /**
-     * Per mostrar el t�tol
+     * Per mostrar el títol
      */
     private Label title, labelVides, labelPunts, labelPuntControl;
 
     private Table table, table2, table3;
 
-    private int vides, numBoles;
+    private int vides, numBoles, punts;
 
     private ArrayList<Monstre> monstres;
     private ArrayList<BolesFocMonstre> bolesDrac;
@@ -80,6 +91,7 @@ public class Level2 extends AbstractScreen {
     private MonstreEstatic noia;
     private Drac drac;
     private Barra barra;
+    private Vides cor1, cor2;
 
     /**
      * per indicar quins cossos s'han de destruir
@@ -101,7 +113,7 @@ public class Level2 extends AbstractScreen {
         table3 = new Table();
 		/*
 		 * Crear el mon on es desenvolupa el joc. S'indica la gravetat: negativa
-		 * perqu� indica cap avall
+		 * perquè indica cap avall
 		 */
         world = new World(new Vector2(0.0f, -9.8f), true);
         comprovarMidesPantalla();
@@ -116,28 +128,32 @@ public class Level2 extends AbstractScreen {
         this.personatge = new Personatge(world, personatge.getVides(), personatge.getPunts(), personatge.getPathTextura(), personatge.getPathImatge(), personatge.getPathImatgeE(), personatge.getPathImatgeAtac(), personatge.getPosX(), personatge.getPosY(), personatge.getPes());
 
         monstres = new ArrayList<Monstre>();
-        monstres.add(new Monstre(world, "gegant1", 37.0f, 0.66f, 46f, 37.1f, "imatges/gegant.png","imatges/gegant.png", 6, 2));
-        monstres.add(new Monstre(world, "gegant2", 72.66f, 0.66f, 77.66f, 72.67f,"imatges/whiteWalker.png", "imatges/gegant.png", 6, 2));
-        monstres.add(new Monstre(world, "gegant3", 109f, 0.66f, 111f, 109.1f, "imatges/whiteWalker.png" , "imatges/gegant.png", 6, 2));
-        monstres.add(new Monstre(world, "gegant4", 144.33f, 1.0f, 147f, 144.34f, "imatges/whiteWalker.png", "imatges/gegant.png", 6, 2));
-        monstres.add(new Monstre(world, "gegant5", 156.33f, 1.66f, 160.33f, 156.34f, "imatges/gegant.png", "imatges/gegant.png", 6, 2));
-        monstres.add(new Monstre(world, "caminant1", 122f, 2.33f, 127.33f, 122.1f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
-        monstres.add(new Monstre(world, "caminant2", 169.33f, 1.0f, 172.33f, 169.34f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
-        monstres.add(new Monstre(world, "caminant3", 203.33f, 1.33f, 210f, 203.34f, 1.5f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
-        monstres.add(new Monstre(world, "caminant4", 236.33f, 1.33f, 240f, 236.34f, 1.5f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
-        monstres.add(new Monstre(world, "caminant5", 249.66f, 2.66f, 252.33f, 249.67f, "imatges/whiteWalker.png", "imatges/whiteWalker.png", 6, 2));
-        monstres.add(new Monstre(world, "caminant6", 266.66f, 1.0f, 271f, 266.67f, "imatges/whiteWalker.png" , "imatges/whiteWalker.png", 6, 2));
-        monstres.add(new Monstre(world, "caminant7", 290.66f, 1.0f, 294f, 290.67f, "imatges/whiteWalker.png" ,"imatges/whiteWalker.png", 6, 2));
+        monstres.add(new Monstre(world, "gegant1", 37.0f, 0.66f, 46f, 37.1f, "imatges/gegant.png", 6, 2, 150));
+        monstres.add(new Monstre(world, "gegant2", 72.66f, 0.66f, 77.66f, 72.67f,"imatges/gegant.png", 6, 2, 150));
+        monstres.add(new Monstre(world, "gegant3", 109f, 0.66f, 111f, 109.1f, "imatges/gegant.png", 6, 2, 150));
+        monstres.add(new Monstre(world, "gegant4", 144.33f, 1.0f, 147f, 144.34f, "imatges/gegant.png", 6, 2, 150));
+        monstres.add(new Monstre(world, "gegant5", 156.33f, 1.66f, 160.33f, 156.34f, "imatges/gegant.png", 6, 2, 150));
+        monstres.add(new Monstre(world, "caminant1", 122f, 2.33f, 127.33f, 122.1f, "imatges/whiteWalker.png", 6, 2, 100));
+        monstres.add(new Monstre(world, "caminant2", 169.33f, 1.0f, 172.33f, 169.34f, "imatges/whiteWalker.png", 6, 2, 100));
+        monstres.add(new Monstre(world, "caminant3", 203.33f, 1.33f, 210f, 203.34f, 1.5f, "imatges/whiteWalker.png", 6, 2, 100));
+        monstres.add(new Monstre(world, "caminant4", 236.33f, 1.33f, 240f, 236.34f, 1.5f, "imatges/whiteWalker.png", 6, 2, 100));
+        monstres.add(new Monstre(world, "caminant5", 249.66f, 2.66f, 252.33f, 249.67f, "imatges/whiteWalker.png", 6, 2, 100));
+        monstres.add(new Monstre(world, "caminant6", 266.66f, 1.0f, 271f, 266.67f, "imatges/whiteWalker.png", 6, 2, 100));
+        monstres.add(new Monstre(world, "caminant7", 290.66f, 1.0f, 294f, 290.67f, "imatges/whiteWalker.png", 6, 2, 100));
 
-        drac = new Drac(world, "drac", 300.8f, 0.3f, 310, 301.01f,2f, "imatges/dracVolant.png" ,"imatges/drac.png", 12, 2);
+        drac = new Drac(world, "drac", 300.8f, 0.3f, "imatges/dracVolant.png" ,"imatges/drac.png", 12, 2);
 
         noia = new MonstreEstatic(world, "noia", 332.54f, 6.07f, true, "imatges/noiaNua.png");
 
         barra = new Barra(world, 52.52f, 2.95f, 55.44f, 52.53f, "imatges/barra.png");
 
+        cor1 = new Vides(world, "Vida1", 130.51f, 3.0f);
+        cor2 = new Vides(world, "Vida2", 296.50f, 3.0f);
+
         bolesDrac = new ArrayList<BolesFocMonstre>();
 
         this.vides = personatge.getVides();
+        this.punts = personatge.getPunts();
 
         troncs = new ArrayList<Troncs>();
         troncs.add(new Troncs(world, "tronc1", 304.6f, 0.7f, "imatges/torreFusta.png", "imatges/torreFustaCremada.png"));
@@ -151,18 +167,15 @@ public class Level2 extends AbstractScreen {
 
 
         // objecte que permet debugar les col·lisions
-        debugRenderer = new Box2DDebugRenderer();
+        //debugRenderer = new Box2DDebugRenderer();
 
-        /// Horitzontal: 49
-        /// Vertical: 27 Arriba fins 5 1.66f
-
-        ascensor = new Ascensor(world, 16.62f, 0.8f, 8.5f, 0.9f, "imatges/ascensor.png");
+        ascensor = new Ascensor(world, 16.62f, 8.6f, 8.5f, 0.9f, "imatges/ascensor.png");
 
         this.numBoles = 0;
     }
 
     /**
-     * Moure la c�mera en funci� de la posici� del personatge
+     * Moure la càmera en funció de la posició del personatge
      */
     private void moureCamera() {
         // Posicionem la camera centran-la on hi hagi l'sprite del protagonista
@@ -249,7 +262,7 @@ public class Level2 extends AbstractScreen {
      */
     private void comprovarMidesPantalla() {
         /**
-         * Si la mida de la finestra de dibuix no est� definida, la
+         * Si la mida de la finestra de dibuix no està definida, la
          * inicialitzem
          */
         if (joc.getScreenWidth() == -1) {
@@ -271,7 +284,7 @@ public class Level2 extends AbstractScreen {
     }
 
     /**
-     * Carregar i reproduir l'arxiu de m�sica de fons
+     * Carregar i reproduir l'arxiu de música de fons
      */
     public void carregarMusica() {
         musica = Gdx.audio.newMusic(Gdx.files
@@ -282,7 +295,7 @@ public class Level2 extends AbstractScreen {
     }
 
     /**
-     * C�rrega dels objectes que defineixen les col�lisions
+     * Càrrega dels objectes que defineixen les col·lisions
      */
     private void carregarObjectes() {
         MapBodyManager mapBodyManager = new MapBodyManager(world,
@@ -292,9 +305,8 @@ public class Level2 extends AbstractScreen {
     }
 
     // ----------------------------------------------------------------------------------
-    // M�TODES SOBREESCRITS DE AbstractScreen
+    // MèTODES SOBREESCRITS DE AbstractScreen
     // ----------------------------------------------------------------------------------
-boolean descarrega = false;
     @Override
     public void render(float delta) {
         personatge.inicialitzarMoviments();
@@ -307,10 +319,10 @@ boolean descarrega = false;
 
         /**
          * Cal actualitzar les posicions i velocitats de tots els objectes. El
-         * primer par�metre �s la quanitat de frames/segon que dibuixar�
-         * El segon i tercer par�metres indiquen la quantitat d'iteracions per
-         * la velocitat i per tractar la posici�. Un valor alt �s m�s
-         * prec�s per� m�s lent.
+         * primer paràmetre és la quanitat de frames/segon que dibuixaré
+         * El segon i tercer paràmetres indiquen la quantitat d'iteracions per
+         * la velocitat i per tractar la posició. Un valor alt és més
+         * precís però més lent.
          */
         world.step(Gdx.app.getGraphics().getDeltaTime(), 6, 2);
 
@@ -321,7 +333,7 @@ boolean descarrega = false;
             for (int j = 0; j < monstres.size(); j++) {
                 if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()) {
                     monstres.get(j).dispose();
-                    personatge.setPunts(personatge.getPunts() + monstres.get(j).getPUNTS());
+                    personatge.setPunts(personatge.getPunts() + monstres.get(j).getPunts());
                     monstres.remove(j);
                     break;
                 }
@@ -341,6 +353,17 @@ boolean descarrega = false;
                     troncs.remove(j);
                     break;
                 }
+            }
+
+            if (bodyDestroyList.get(i).getUserData().equals("Vida1")) {
+                cor1 = null;
+                personatge.setVides(personatge.getVides() + 1);
+                this.vides = personatge.getVides();
+            }
+            if (bodyDestroyList.get(i).getUserData().equals("Vida2")) {
+                cor2 = null;
+                personatge.setVides(personatge.getVides() + 1);
+                this.vides = personatge.getVides();
             }
 
             world.destroyBody(bodyDestroyList.get(i));
@@ -415,6 +438,19 @@ boolean descarrega = false;
 
         barra.moure();
         barra.updatePosition();
+
+        if (cor1 != null) {
+            cor1.moure();
+            cor1.updatePosition();
+            cor1.dibuixar(batch);
+        }
+
+        if (cor2 != null) {
+            cor2.moure();
+            cor2.updatePosition();
+            cor2.dibuixar(batch);
+        }
+
         barra.dibuixar(batch);
 
         // finalitzar el lot: a partir d'aquest moment es dibuixa tot el que
@@ -425,20 +461,22 @@ boolean descarrega = false;
         stage.act();
         stage.draw();
 
-        debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
+        /*debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
                 JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
-                JocDeTrons.PIXELS_PER_METRE));
+                JocDeTrons.PIXELS_PER_METRE));*/
 
         if (personatge.getPositionBody().x > 69.3f && personatge.getPositionBody().x < 70.5f){
             labelPuntControl.setText("Punt de control");
             personatge.setPosX(70f);
+            this.punts = personatge.getPunts();
         }else if (personatge.getPositionBody().x > 178f && personatge.getPositionBody().x < 179f){
             labelPuntControl.setText("Punt de control");
             personatge.setPosX(178.5f);
-        }
-        else if (personatge.getPositionBody().x > 263.34f && personatge.getPositionBody().x < 264.5f){
+            this.punts = personatge.getPunts();
+        }else if (personatge.getPositionBody().x > 263.34f && personatge.getPositionBody().x < 264.5f){
             labelPuntControl.setText("Punt de control");
             personatge.setPosX(263.9f);
+            this.punts = personatge.getPunts();
         }
         else{
             labelPuntControl.setText("");
@@ -449,6 +487,7 @@ boolean descarrega = false;
         }else {
             if (personatge.getPositionBody().y < 0.38){
                 personatge.setVides(personatge.getVides()-1);
+                personatge.setPunts(punts);
                 joc.setScreen(new Level2(joc, personatge));
             }
 
@@ -456,6 +495,7 @@ boolean descarrega = false;
                 joc.setScreen(new GameOver(joc, personatge));
             } else if (this.personatge.getVides() != vides) {
                 vides = this.personatge.getVides();
+                personatge.setPunts(punts);
                 joc.setScreen(new Level2(joc, this.personatge));
             }
         }
@@ -472,12 +512,9 @@ boolean descarrega = false;
     public void show() {
         // Els elements es mostren en l'ordre que s'afegeixen.
         // El primer apareix a la part superior, el darrer a la part inferior.
-
-
         table.left().top();
         table.add(title).padTop(5).padLeft(15);
         table.setFillParent(true);
-
 
         table2.center().top().right();
         table2.add(labelVides).padTop(5).padRight(5).row();
@@ -487,8 +524,6 @@ boolean descarrega = false;
         table3.center();
         table3.add(labelPuntControl).row();
         table3.setFillParent(true);
-
-        //cell2 = table.add(title2).padTop(5);
 
         stage.addActor(table);
         stage.addActor(table2);

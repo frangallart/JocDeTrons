@@ -34,36 +34,25 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Monstre {
 
-    public  int frameCols, frameRows;
-    private final int PUNTS = 100;
-    /**
-     * Detectar el moviment
-     */
+    public  int frameCols, frameRows, punts;
     private boolean moureEsquerra,moureDreta,personatgeCaraDreta;
     private float posX,posY,posMax,posMin, velocitat;
 
-    private String nom, pathTextura, pathImg;
+    private String nom, pathTextura;
 
-    private World world;                // Refer�ncia al mon on est� definit el personatge
+    private World world;                // Referència al mon on està definit el personatge
     private Body cos;                   // per definir les propietats del cos
     private Sprite spritePersonatge;    // sprite associat al personatge
-    private AnimatedSprite spriteAnimat;// animaci� de l'sprite
+    private AnimatedSprite spriteAnimat;// animació de l'sprite
     private Texture stoppedTexture,animatedTexture;
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 
     //SERPS: COLS: 4 ROWS: 2
     //Caminants: COLS 6: ROWS :2
     //Gegants : COLS: 8 ROWS: 2
     //Putilla: COLS 4: ROWS 2
 
-    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin, String pathTextura, String pathImg, int frameCols, int frameRows){
+    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin, String pathTextura, int frameCols, int frameRows, int punts){
         moureEsquerra = false;
         moureDreta = true;
         this.nom = nom;
@@ -74,14 +63,29 @@ public class Monstre {
         this.posMin = posMin;
         this.velocitat = 1f;
         this.pathTextura = pathTextura;
-        this.pathImg = pathImg;
         this.frameCols = frameCols;
         this.frameRows = frameRows;
+        this.punts = punts;
         carregarTextures();
         crearProtagonista();
+        inicialitzarMoviments();
     }
 
-    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin, float velocitat, String pathTextura, String pathImg, int frameCols, int frameRows){
+    /**
+     * Constructor amb velocitat pasada per paràmetre
+     * @param world
+     * @param nom
+     * @param posX
+     * @param posY
+     * @param posMax
+     * @param posMin
+     * @param velocitat
+     * @param pathTextura
+     * @param frameCols
+     * @param frameRows
+     * @param punts
+     */
+    public Monstre(World world,String nom, float posX, float posY, float posMax, float posMin, float velocitat, String pathTextura, int frameCols, int frameRows, int punts){
         moureEsquerra = false;
         moureDreta = true;
         this.nom = nom;
@@ -92,12 +96,11 @@ public class Monstre {
         this.posMin = posMin;
         this.velocitat = velocitat;
         this.pathTextura = pathTextura;
-        this.pathImg = pathImg;
         this.frameCols = frameCols;
         this.frameRows = frameRows;
+        this.punts = punts;
         carregarTextures();
         crearProtagonista();
-        inicialitzarMoviments();
     }
 
     private void carregarTextures() {
@@ -105,19 +108,18 @@ public class Monstre {
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
-
-
     private void crearProtagonista() {
         spritePersonatge = new Sprite(animatedTexture);
         spriteAnimat = new AnimatedSprite(spritePersonatge, frameCols, frameRows);
 
-        // Definir el tipus de cos i la seva posici�
+        // Definir el tipus de cos i la seva posició
         BodyDef defCos = new BodyDef();
         defCos.type = BodyDef.BodyType.DynamicBody;
         defCos.position.set(posX, posY);
 
         cos = world.createBody(defCos);
         cos.setUserData(nom);
+
         /**
          * Definir les vores de l'sprite
          */
@@ -126,8 +128,8 @@ public class Monstre {
                 (spritePersonatge.getHeight() / frameRows) / (2 * JocDeTrons.PIXELS_PER_METRE));
 
         /**
-         * La densitat i fricci� del protagonista. Si es modifiquen aquests
-         * valor anir� m�s r�pid o m�s lent.
+         * La densitat i fricció del protagonista. Si es modifiquen aquests
+         * valor anirà més ràpid o més lent.
          */
         FixtureDef propietats = new FixtureDef();
         propietats.shape = requadre;
@@ -146,7 +148,7 @@ public class Monstre {
     }
 
     /**
-     * Actualitza la posici� de l'sprite
+     * Actualitza la posició de l'sprite
      */
     public void updatePosition() {
         spritePersonatge.setPosition(
@@ -162,13 +164,7 @@ public class Monstre {
     }
 
     /**
-     * Fer que el personatge es mogui
-     * <p/>
-     * Canvia la posici� del protagonista
-     * Es tracta de forma separada el salt perqu� es vol que es pugui moure si salta
-     * al mateix temps..
-     * <p/>
-     * Els impulsos s'apliquen des del centre del protagonista
+     * Fer que els monstres es moguin de dreta a esquerra i al revés
      */
 
     public void moure() {
@@ -223,7 +219,6 @@ public class Monstre {
         return new Vector2().set(this.spritePersonatge.getX(), this.spritePersonatge.getY());
     }
 
-
     public Texture getTextura() {
         return stoppedTexture;
     }
@@ -232,12 +227,15 @@ public class Monstre {
         this.stoppedTexture = textura;
     }
 
-
     public void dispose() {
         animatedTexture.dispose();
     }
 
-    public int getPUNTS() {
-        return PUNTS;
+    public int getPunts() {
+        return punts;
+    }
+
+    public String getNom() {
+        return nom;
     }
 }

@@ -24,9 +24,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-/**
- * Created by Ruben on 23/4/15.
- */
 public class Ascensor {
 
     public static final int FRAME_COLS = 1;
@@ -43,10 +40,7 @@ public class Ascensor {
     private Texture stoppedTexture;     // la seva textura
     private Texture animatedTexture;
     private BodyDef defCos;
-    private float posicioX, posicioY;
-
-    private float bloq_adalt;
-    private float bloq_abaix;
+    private float posicioX, posicioY, bloq_adalt, bloq_abaix;
     private String pathImg;
 
 
@@ -81,6 +75,7 @@ public class Ascensor {
         defCos.position.set(this.posicioX, this.posicioY);
         cos = world.createBody(defCos);
         cos.setUserData("Ascensor");
+
         /**
          * Definir les vores de l'sprite
          */
@@ -116,13 +111,7 @@ public class Ascensor {
     }
 
     /**
-     * Fer que el personatge es mogui
-     * <p/>
-     * Canvia la posició del protagonista
-     * Es tracta de forma separada el salt perquè es vol que es pugui moure si salta
-     * al mateix temps..
-     * <p/>
-     * Els impulsos s'apliquen des del centre del protagonista
+     * Mètode que mou l'ascensor amunt i avall
      */
     public void moure() {
 
@@ -135,10 +124,8 @@ public class Ascensor {
             }
             if (moureAdalt) {
                 cos.setLinearVelocity(0.0f, 1.0f);
-                defCos.gravityScale = 0;
             } else if (moureAbaix) {
                 cos.setLinearVelocity(0.0f, -1.0f);
-                defCos.gravityScale = 0;
             }
     }
 

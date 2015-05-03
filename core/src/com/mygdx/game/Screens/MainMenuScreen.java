@@ -15,10 +15,8 @@ package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -32,9 +30,7 @@ import com.mygdx.game.JocDeTrons;
  */
 public class MainMenuScreen extends AbstractScreen{
 
-    private Stage stage;
     private Table table;
-
 
     private TextButton buttonPlay, buttonExit, buttonInstruccions, buttonCredits;
     private Texture texturaTitol;
@@ -46,7 +42,6 @@ public class MainMenuScreen extends AbstractScreen{
      */
     public MainMenuScreen(JocDeTrons joc) {
         super(joc);
-        stage = new Stage();
         table =  new Table();
         buttonPlay = new TextButton("Jugar", joc.getSkin());
         buttonExit = new TextButton("Sortir", joc.getSkin());
@@ -86,14 +81,6 @@ public class MainMenuScreen extends AbstractScreen{
         imatgeTitol = new Image(texturaTitol);
     }
 
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        calculRedimensionat();
-        stage.act();
-        stage.draw();
-    }
 
     @Override
     public void resize(int width, int height) {

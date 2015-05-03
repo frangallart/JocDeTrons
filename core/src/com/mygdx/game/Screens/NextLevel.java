@@ -14,9 +14,7 @@
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -27,25 +25,20 @@ import com.mygdx.game.Personatge;
 /**
  * Classe Next Level
  * Pantalla  entre nivells que ens mostra la possibilitat de continuar,
- * de sortir del joc; ademés ens mostra la puntuació i les vides restants
+ * de sortir del joc; a més, ens mostra la puntuació i les vides restants
  */
 public class NextLevel extends AbstractScreen {
 
     private Personatge jugador;
     private String nivell;
 
-    private Stage stage = new Stage();
     private Table table = new Table();
 
     private TextButton buttonPlay, buttonExit;
     private Label labelNivell;
     private Label labelPuntuacio;
     private Label labelVides;
-    /**
-     * Constructor
-     *
-     * @param joc Classe principal del joc
-     */
+
     public NextLevel(final JocDeTrons joc, final Personatge jugador, String nivell) {
         super(joc);
         this.jugador = jugador;
@@ -74,14 +67,6 @@ public class NextLevel extends AbstractScreen {
         labelVides = new Label("Vides: " + String.valueOf(jugador.getVides()),joc.getSkin());
     }
 
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        calculRedimensionat();
-        stage.act();
-        stage.draw();
-    }
 
     @Override
     public void resize(int width, int height) {
@@ -105,7 +90,6 @@ public class NextLevel extends AbstractScreen {
 
     @Override
     public void hide() {
-
         dispose();
     }
 

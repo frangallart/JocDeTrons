@@ -1,3 +1,16 @@
+/*************************************************************************************
+ *                                                                                   *
+ *  Joc de Trons por Java Norriors se distribuye bajo una                            *
+ *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ *                                                                                   *
+ *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
+ *                                                                                   *
+ *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
+ *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
+ *                                                                                   *
+/************************************************************************************/
+
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
@@ -184,6 +197,14 @@ public class GestorContactes implements ContactListener {
             bodyDestroyList.add(fixtureA.getBody());
         }else if (fixtureB.getBody().getUserData().equals("Vida") && fixtureA.getBody().getUserData().equals("personatge")){
             bodyDestroyList.add(fixtureB.getBody());
+        }else if (fixtureB.getBody().getUserData().equals("Vida1") && fixtureA.getBody().getUserData().equals("personatge")){
+            bodyDestroyList.add(fixtureB.getBody());
+        }else if (fixtureA.getBody().getUserData().equals("Vida1") && fixtureB.getBody().getUserData().equals("personatge")){
+            bodyDestroyList.add(fixtureA.getBody());
+        }else if (fixtureB.getBody().getUserData().equals("Vida2") && fixtureA.getBody().getUserData().equals("personatge")){
+            bodyDestroyList.add(fixtureB.getBody());
+        }else if (fixtureA.getBody().getUserData().equals("Vida2") && fixtureB.getBody().getUserData().equals("personatge")){
+            bodyDestroyList.add(fixtureA.getBody());
         }
 
         if (fixtureA.getBody().getUserData().equals("clau") && fixtureB.getBody().getUserData().equals("personatge")) {

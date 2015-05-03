@@ -40,11 +40,11 @@ public class Personatge {
     private float posX, posY, pes;
     private int vides, punts;
 
-    private World world;                // Referència al mon on està definit el personatge
-    private Body cos, cosAtac;                   // per definir les propietats del cos
-    private Sprite spritePersonatge, spritePersonatgeAtac;    // sprite associat al personatge
-    private AnimatedSprite spriteAnimat, spriteAtac;// animació de l'sprite
-    private Sound soSalt, soAplastar, soEspasa;               // el so que reprodueix en saltar
+    private World world;                                        // Referència al mon on està definit el personatge
+    private Body cos, cosAtac;                                  // per definir les propietats del cos
+    private Sprite spritePersonatge, spritePersonatgeAtac;      // sprite associat al personatge
+    private AnimatedSprite spriteAnimat, spriteAtac;            // animació de l'sprite
+    private Sound soSalt, soAplastar, soEspasa;                 // el so que reprodueix en saltar
     private Texture animatedTexture, animatedTextureAtac, stoppedTexture, stoppedTextureE;     // la seva textura
 
     private FixtureDef propietats = new FixtureDef();
@@ -90,8 +90,6 @@ public class Personatge {
         this.posY = posY;
         this.pes = pes;
     }
-
-
 
     private void carregarTextures() {
         animatedTexture = new Texture(Gdx.files.internal(this.pathTextura));
@@ -218,11 +216,9 @@ public class Personatge {
 
     /**
      * Fer que el personatge es mogui
-     * <p/>
      * Canvia la posició del protagonista
      * Es tracta de forma separada el salt perquè es vol que es pugui moure si salta
      * al mateix temps..
-     * <p/>
      * Els impulsos s'apliquen des del centre del protagonista
      */
     public void moure() {

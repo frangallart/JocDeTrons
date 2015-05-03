@@ -25,7 +25,7 @@ public class JocDeTrons extends Game {
 	
 	/**
 	 * Box2D treballa millor amb valors petits. NO s'han d'utilitzar unitats de
-	 * p�xels. Es recomana utilitzar una constant per convertir p�xels a metres
+	 * píxels. Es recomana utilitzar una constant per convertir píxels a metres
 	 * i a la inversa
 	 */
 	public static final float PIXELS_PER_METRE = 96.0f;
@@ -33,7 +33,7 @@ public class JocDeTrons extends Game {
 	public static final int WIDTH = 900;
 	public static final int HEIGHT = 620;
 
-	// cont� el t�tol del joc
+	// conté el títol del joc
 	private String titol;
 	// skin utilitzat en el joc
 	private Skin skin;
@@ -47,7 +47,7 @@ public class JocDeTrons extends Game {
 	}
 
 	/**
-	 * Mides de la pantalla en p�xels
+	 * Mides de la pantalla en píxels
 	 */
 	private int screenWidth;
 	private int screenHeight;
@@ -63,12 +63,12 @@ public class JocDeTrons extends Game {
 	}
 
 	/**
-	 * Constructor amb par�metres
+	 * Constructor amb paràmetres
 	 * 
 	 * @param width
 	 *            Amplada de la finestra
 	 * @param height
-	 *            Al�ada de la finestra
+	 *            Alçada de la finestra
 	 */
 	public JocDeTrons(int width, int height, String titol) {
 		this(titol);
@@ -81,8 +81,6 @@ public class JocDeTrons extends Game {
 		this.setTitol(titol);
 	}
 
-
-
 	@Override
 	public void create() {
 		// càrrega de l'skin
@@ -90,7 +88,6 @@ public class JocDeTrons extends Game {
 		// si està en un dispositiu Android, escalar la font segons la densitat de pantalla
 		if(Gdx.app.getType() == Application.ApplicationType.Android) {
 			skin.getFont("default-font").setScale(Gdx.graphics.getDensity(), Gdx.graphics.getDensity());
-			//skin.getFont("groc").setScale(Gdx.graphics.getDensity(), Gdx.graphics.getDensity());
 		}
 		// començar el joc amb la SplashScreen
 		setScreen(new SplashScreen(this));
@@ -113,8 +110,6 @@ public class JocDeTrons extends Game {
 
 	}
 
-
-
 	@Override
 	public void resize(int width, int height) {
 
@@ -123,7 +118,6 @@ public class JocDeTrons extends Game {
 	@Override
 	public void pause() {
 	}
-
 
 	public String getTitol() {
 		return titol;

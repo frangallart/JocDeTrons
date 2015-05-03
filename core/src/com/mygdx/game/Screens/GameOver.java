@@ -1,9 +1,20 @@
+/*************************************************************************************
+ *                                                                                   *
+ *  Joc de Trons por Java Norriors se distribuye bajo una                            *
+ *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ *                                                                                   *
+ *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
+ *                                                                                   *
+ *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
+ *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
+ *                                                                                   *
+/************************************************************************************/
+
 package com.mygdx.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -12,23 +23,19 @@ import com.mygdx.game.JocDeTrons;
 import com.mygdx.game.Personatge;
 
 /**
- * Created by Arnau on 24/04/2015.
+ * Classe que mostra la pantalla de game over
  */
 public class GameOver extends AbstractScreen {
 
     private Personatge jugador;
 
-    private Stage stage = new Stage();
     private Table table = new Table();
 
     private TextButton buttonPlay, buttonExit;
     private Label labelNivell;
     private Label labelPuntuacio;
-    /**
-     * Constructor
-     *
-     * @param joc Classe principal del joc
-     */
+
+
     public GameOver(final JocDeTrons joc, final Personatge jugador) {
         super(joc);
         this.jugador = jugador;
@@ -48,21 +55,10 @@ public class GameOver extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 joc.setScreen(new MainMenuScreen(joc));
-                //Gdx.app.exit();
-                // or System.exit(0);
             }
         });
         labelNivell = new Label("Game Over", joc.getSkin());
         labelPuntuacio = new Label("Punts: " + String.valueOf(jugador.getPunts()), joc.getSkin());
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        calculRedimensionat();
-        stage.act();
-        stage.draw();
     }
 
     @Override

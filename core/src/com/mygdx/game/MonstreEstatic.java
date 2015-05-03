@@ -44,23 +44,16 @@ public class MonstreEstatic {
 
     private String nom, imatge;
 
-    private World world;                // Refer?ncia al mon on est? definit el personatge
+    private World world;                // Referència al mon on està definit el personatge
     private Body cos;                   // per definir les propietats del cos
     private Sprite spritePersonatge;    // sprite associat al personatge
-    private AnimatedSprite spriteAnimat;// animaci? de l'sprite
+    private AnimatedSprite spriteAnimat;// animació de l'sprite
     private Texture stoppedTexture;     // la seva textura
     private Texture animatedTexture;
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 
     public MonstreEstatic(World world, String nom, float posX, float posY, boolean orientacio, String imatge){
-        moureEsquerra = orientacio;
+        this.moureEsquerra = orientacio;
         this.nom = nom;
         this.world = world;
         this.posX = posX;
@@ -75,19 +68,18 @@ public class MonstreEstatic {
         animatedTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
-
-
     private void crearProtagonista() {
         spritePersonatge = new Sprite(animatedTexture);
         spriteAnimat = new AnimatedSprite(spritePersonatge, FRAME_COLS, FRAME_ROWS);
 
-        // Definir el tipus de cos i la seva posici?
+        // Definir el tipus de cos i la seva posició
         BodyDef defCos = new BodyDef();
         defCos.type = BodyDef.BodyType.StaticBody;
         defCos.position.set(posX, posY);
 
         cos = world.createBody(defCos);
         cos.setUserData(nom);
+
         /**
          * Definir les vores de l'sprite
          */
@@ -111,7 +103,7 @@ public class MonstreEstatic {
 
 
     /**
-     * Actualitza la posici? de l'sprite
+     * Actualitza la posició de l'sprite
      */
     public void updatePosition() {
         spritePersonatge.setPosition(
@@ -127,13 +119,8 @@ public class MonstreEstatic {
     }
 
     /**
-     * Fer que el personatge es mogui
-     * <p/>
-     * Canvia la posici? del protagonista
-     * Es tracta de forma separada el salt perqu? es vol que es pugui moure si salta
-     * al mateix temps..
-     * <p/>
-     * Els impulsos s'apliquen des del centre del protagonista
+     * Fer que el monstre executi l'animació de la dreta o l'esquerra segons
+     * la posició on estigui
      */
 
     public void moure() {
@@ -144,30 +131,6 @@ public class MonstreEstatic {
         }
     }
 
-    public boolean isMoureEsquerra() {
-        return moureEsquerra;
-    }
-
-    public void setMoureEsquerra(boolean moureEsquerra) {
-        this.moureEsquerra = moureEsquerra;
-    }
-
-    public boolean isMoureDreta() {
-        return moureDreta;
-    }
-
-    public void setMoureDreta(boolean moureDreta) {
-        this.moureDreta = moureDreta;
-    }
-
-    public boolean isCaraDreta() {
-        return this.personatgeCaraDreta;
-    }
-
-    public void setCaraDreta(boolean caraDreta) {
-        this.personatgeCaraDreta = caraDreta;
-
-    }
 
     public Vector2 getPositionBody() {
         return this.cos.getPosition();
@@ -177,7 +140,6 @@ public class MonstreEstatic {
         return new Vector2().set(this.spritePersonatge.getX(), this.spritePersonatge.getY());
     }
 
-
     public Texture getTextura() {
         return stoppedTexture;
     }
@@ -186,6 +148,13 @@ public class MonstreEstatic {
         this.stoppedTexture = textura;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 
     public void dispose() {
         animatedTexture.dispose();

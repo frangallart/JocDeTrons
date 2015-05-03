@@ -1,12 +1,12 @@
 /*************************************************************************************
  *                                                                                   *
  *  Joc de Trons por Java Norriors se distribuye bajo una                            *
- *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ *  Licencia Creative Commons Atribuciï¿½n-NoComercial-SinDerivar 4.0 Internacional.   *
  *                                                                                   *
  *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
  *                                                                                   *
  *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
- *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ *  @author: RubÃ©n Garcia Torres - rgarcia@infobosccoma.net                          *
  *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
  *                                                                                   *
 /************************************************************************************/
@@ -27,11 +27,7 @@ public class InstruccionsScreen extends AbstractScreen {
     private Image instruccions;
     private Texture textureInstruccions;
 
-    /**
-     * Constructor
-     *
-     * @param joc Classe principal del joc
-     */
+
     public InstruccionsScreen(JocDeTrons joc) {
         super(joc);
     }
@@ -54,7 +50,7 @@ public class InstruccionsScreen extends AbstractScreen {
         instruccions.setFillParent(true);
 
 
-        // Només fa la imatge completament transparent
+        // NomÃ©s fa la imatge completament transparent
         instruccions.getColor().a = 0f;
 
         // configuro l'efecte de fade-in/out de la imatge de splash
@@ -64,7 +60,7 @@ public class InstruccionsScreen extends AbstractScreen {
     }
 
     /**
-     * en aixecar el botó del mouse després de fer clic o bé en aixecar el dit després de fer
+     * en aixecar el botÃ³ del mouse desprÃ©s de fer clic o bÃ© en aixecar el dit desprÃ©s de fer
      * touch
      *
      * @param screenX
@@ -98,7 +94,7 @@ public class InstruccionsScreen extends AbstractScreen {
     }
 
     /**
-     * canviar a la següent pantalla
+     * canviar a la segÃ¼ent pantalla
      */
     private void nextScreen(){
         joc.setScreen(new MainMenuScreen(joc));

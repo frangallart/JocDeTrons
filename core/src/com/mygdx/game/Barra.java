@@ -35,9 +35,7 @@ public class Barra {
 
     public static final int FRAME_COLS = 1;
     public static final int FRAME_ROWS = 2;
-    /**
-     * Detectar el moviment
-     */
+
     private boolean moureEsquerra, moureDreta;
 
     private World world;                // Referència al mon on està definit el personatge
@@ -47,10 +45,7 @@ public class Barra {
     private Texture stoppedTexture;     // la seva textura
     private Texture animatedTexture;
     private BodyDef defCos;
-    private float posicioX, posicioY;
-
-    private float bloq_esquerra;
-    private float bloq_dreta;
+    private float posicioX, posicioY, bloq_esquerra, bloq_dreta;
     private String pathImg;
 
 
@@ -82,6 +77,7 @@ public class Barra {
         defCos.position.set(this.posicioX, this.posicioY);
         cos = world.createBody(defCos);
         cos.setUserData("Barra");
+
         /**
          * Definir les vores de l'sprite
          */
@@ -103,12 +99,6 @@ public class Barra {
         requadre.dispose();
     }
 
-    /*public void inicialitzarMoviments() {
-        setMoureDreta(false);
-        setMoureEsquerra(false);
-        spriteAnimat.setDirection(AnimatedSprite.Direction.STOPPED);
-    }*/
-
     /**
      * Actualitza la posició de l'sprite
      */
@@ -125,13 +115,7 @@ public class Barra {
     }
 
     /**
-     * Fer que el personatge es mogui
-     * <p/>
-     * Canvia la posició del protagonista
-     * Es tracta de forma separada el salt perquè es vol que es pugui moure si salta
-     * al mateix temps..
-     * <p/>
-     * Els impulsos s'apliquen des del centre del protagonista
+     * Fer que les barres es moguin de costat
      */
     public void moure() {
             if (this.getPositionBody().x < this.bloq_dreta) {
@@ -150,22 +134,6 @@ public class Barra {
             }
     }
 
-    public boolean isMoureEsquerra() {
-        return moureEsquerra;
-    }
-
-    public void setMoureEsquerra(boolean moureEsquerra) {
-        this.moureEsquerra = moureEsquerra;
-    }
-
-    public boolean isMoureDreta() {
-        return moureDreta;
-    }
-
-    public void setMoureDreta(boolean moureDreta) {
-        this.moureDreta = moureDreta;
-    }
-
     public Vector2 getPositionBody() {
         return this.cos.getPosition();
     }
@@ -173,7 +141,6 @@ public class Barra {
     public Vector2 getPositionSprite() {
         return new Vector2().set(this.spriteBarra.getX(), this.spriteBarra.getY());
     }
-
 
     public Texture getTextura() {
         return stoppedTexture;

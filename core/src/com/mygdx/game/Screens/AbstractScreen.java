@@ -24,14 +24,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.JocDeTrons;
 
-;
-
-
 /**
- * Classe que abstreu les caracter�stiques b�siques d'una pantalla del joc
- *
- * @author Marc
- *
+ * Classe que abstreu les característiques bàsiques d'una pantalla del joc
  */
 public class AbstractScreen implements Screen, InputProcessor {
     // atributs
@@ -57,7 +51,7 @@ public class AbstractScreen implements Screen, InputProcessor {
     public AbstractScreen(JocDeTrons joc) {
         this.joc= joc;
         this.batch = new SpriteBatch();
-        // definim l'stage amb un viewport de mida 0x0px i que mantingui la relaci� d'aspecte
+        // definim l'stage amb un viewport de mida 0x0px i que mantingui la relació d'aspecte
         this.stage = new Stage(); //0, 0, true);
         Gdx.input.setInputProcessor(this);
 
@@ -131,7 +125,7 @@ public class AbstractScreen implements Screen, InputProcessor {
     public void hide() {
 
         // dispose de la pantalla quan deixem la pantalla.
-        // Aquest m�tode no es crida autom�ticament.
+        // Aquest mètode no es crida automàticament.
         dispose();
     }
 

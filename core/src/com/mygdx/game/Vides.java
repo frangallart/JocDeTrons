@@ -35,27 +35,16 @@ public class Vides {
 
     public static final int FRAME_COLS = 2;
     public static final int FRAME_ROWS = 2;
-    /**
-     * Detectar el moviment
-     */
-    private float posX, posY;
 
+    private float posX, posY;
     private String nom;
 
     private World world;                // Refer?ncia al mon on est? definit el personatge
     private Body cos;                   // per definir les propietats del cos
     private Sprite spriteVida;    // sprite associat al personatge
     private AnimatedSprite spriteAnimat;// animaci? de l'sprite
-    private Texture stoppedTexture;     // la seva textura
     private Texture animatedTexture;
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 
     public Vides(World world,String nom, float posX, float posY){
         this.nom = nom;
@@ -75,13 +64,14 @@ public class Vides {
         spriteVida = new Sprite(animatedTexture);
         spriteAnimat = new AnimatedSprite(spriteVida, FRAME_COLS, FRAME_ROWS);
 
-        // Definir el tipus de cos i la seva posici?
+        // Definir el tipus de cos i la seva posició
         BodyDef defCos = new BodyDef();
         defCos.type = BodyDef.BodyType.DynamicBody;
         defCos.position.set(posX, posY);
 
         cos = world.createBody(defCos);
         cos.setUserData(nom);
+
         /**
          * Definir les vores de l'sprite
          */
@@ -90,8 +80,8 @@ public class Vides {
                 (spriteVida.getHeight() / FRAME_ROWS) / (2 * JocDeTrons.PIXELS_PER_METRE));
 
         /**
-         * La densitat i fricci? del protagonista. Si es modifiquen aquests
-         * valor anir? m?s r?pid o m?s lent.
+         * La densitat i fricció del protagonista. Si es modifiquen aquests
+         * valor anirà més ràpid o més lent.
          */
         FixtureDef propietats = new FixtureDef();
         propietats.shape = requadre;
@@ -104,7 +94,7 @@ public class Vides {
     }
 
     /**
-     * Actualitza la posici? de l'sprite
+     * Actualitza la posició de l'sprite
      */
     public void updatePosition() {
         spriteVida.setPosition(
@@ -129,15 +119,6 @@ public class Vides {
     public Vector2 getPositionSprite() {
         return new Vector2().set(this.spriteVida.getX(), this.spriteVida.getY());
     }
-    
-    public Texture getTextura() {
-        return stoppedTexture;
-    }
-
-    public void setTextura(Texture textura) {
-        this.stoppedTexture = textura;
-    }
-
 
     public void dispose() {
         animatedTexture.dispose();

@@ -34,7 +34,6 @@ public class SplashScreen extends AbstractScreen {
 
 	@Override
 	public void show() {
-
 		super.show();
 
 		musica = Gdx.audio.newMusic(Gdx.files
@@ -52,8 +51,8 @@ public class SplashScreen extends AbstractScreen {
 		splashImage = new Image(splashTexture);
 		splashImage.setFillParent(true);
 
-		// aix� nom�s �s necessari perqu� funcioni correctament l'efecte fade-in
-		// Nom�s fa la imatge completament transparent
+		// això només és necessari perquè funcioni correctament l'efecte fade-in
+		// Només fa la imatge completament transparent
 		splashImage.getColor().a = 0f;
 
 		// configuro l'efecte de fade-in/out de la imatge de splash
@@ -77,8 +76,7 @@ public class SplashScreen extends AbstractScreen {
 	 */
 	private void nextScreen() {
 		musica.stop();
-		// la darrera acci� ens porta cap a la seg�ent pantalla
-		//joc.setScreen(new PantallaPrincipal(joc));
+		// la darrera acció ens porta cap a la següent pantalla
 		joc.setScreen(new MainMenuScreen(joc));
 	}
 

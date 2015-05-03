@@ -1,3 +1,16 @@
+/*************************************************************************************
+ *                                                                                   *
+ *  Joc de Trons por Java Norriors se distribuye bajo una                            *
+ *  Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional.   *
+ *                                                                                   *
+ *  http://creativecommons.org/licenses/by-nc-nd/4.0/                                *
+ *                                                                                   *
+ *  @author: Arnau Roma Vidal  - aroma@infoboscoma.net                               *
+ *  @author: Rubén Garcia Torres - rgarcia@infobosccoma.net                          *
+ *  @author: Francesc Gallart Vila - fgallart@infobosccoma.net                       *
+ *                                                                                   *
+/************************************************************************************/
+
 package com.mygdx.game.Screens;
 
 
@@ -28,10 +41,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * Una pantalla del joc
- *
- * @author Marc
- *
+ * Primer nivell del joc
  */
 public class Level1 extends AbstractScreen {
 
@@ -45,20 +55,20 @@ public class Level1 extends AbstractScreen {
 	// ---->private PersonatgeBackup personatge;
 	private Personatge personatge;
 
-	Barra barra, barra2, barra3;
+	private Barra barra, barra2, barra3;
 	/**
-	 * Objecte que cont� tots els cossos del joc als quals els aplica la
-	 * simulaci�
+	 * Objecte que conté tots els cossos del joc als quals els aplica la
+	 * simulació
 	 */
 	private World world;
 
 	/**
 	 * Objecte que dibuixa elements per debugar. Dibuixa linies al voltant dels
-	 * l�mits de les col�lisions. Va molt b� per comprovar que les
-	 * col�lisions s�n les que desitgem. Cal tenir present, pe`ro, que �s
-	 * m�s lent. Nom�s s'ha d'utitilitzar per debugar.
+	 * límits de les col·lisions. Va molt bé per comprovar que les
+	 * col·lisions són les que desitgem. Cal tenir present, però, que és
+	 * més lent. Només s'ha d'utitilitzar per debugar.
 	 */
-	private Box2DDebugRenderer debugRenderer;
+	//private Box2DDebugRenderer debugRenderer;
 
 	/**
 	 * Musica i sons
@@ -85,6 +95,8 @@ public class Level1 extends AbstractScreen {
 	private Vides cor;
 	private Clau clau;
 
+	private int punts;
+
 	/**
 	 * per indicar quins cossos s'han de destruir
 	 * @param joc
@@ -95,6 +107,7 @@ public class Level1 extends AbstractScreen {
 
 	public Level1(JocDeTrons joc, Personatge persona){
 		super(joc);
+
 		// carregar el fitxer d'skins
 		title = new Label(joc.getTitol(),joc.getSkin());
 		labelVides = new Label("",joc.getSkin());
@@ -123,9 +136,9 @@ public class Level1 extends AbstractScreen {
 		personatge = new Personatge(world, persona.getVides(), persona.getPunts(), persona.getPathTextura(), persona.getPathImatge(), persona.getPathImatgeE(), persona.getPathImatgeAtac(), persona.getPosX(), persona.getPosY(), persona.getPes());
 
 		monstres = new ArrayList<Monstre>();
-		monstres.add(new Monstre(world, "monstre1", 6.0f, 1.33f, 6.6f, 5.45f, "imatges/serp.png", "imatges/serp.png", 4, 2));
-		monstres.add(new Monstre(world, "monstre2", 17.0f, 2.0f, 17.2f, 15.8f, "imatges/serp.png" ,"imatges/serp.png", 4, 2));
-		monstres.add(new Monstre(world, "monstre3", 81.5f, 2.0f, 85.3f, 80.46f,2.5f, "imatges/serp.png" ,"imatges/serp.png", 4, 2));
+		monstres.add(new Monstre(world, "monstre1", 6.0f, 1.33f, 6.6f, 5.45f, "imatges/serp.png", 4, 2, 50));
+		monstres.add(new Monstre(world, "monstre2", 17.0f, 2.0f, 17.2f, 15.8f, "imatges/serp.png", 4, 2, 50));
+		monstres.add(new Monstre(world, "monstre3", 81.5f, 2.0f, 85.3f, 80.46f,2.5f, "imatges/serp.png", 4, 2, 50));
 
 		monstresLava = new ArrayList<MonstreEstatic>();
 		monstresLava.add(new MonstreEstatic(world, "monstreLava1", 50.64f, 0.64f, false, "imatges/lavaMonster.png"));
@@ -133,19 +146,19 @@ public class Level1 extends AbstractScreen {
 
 		bolesFocMonstres = new ArrayList<BolesFocMonstre>();
 
-		clau = new Clau(world, "clau", 58.36f, 3.50f, true, "imatges/clau.png");
+		clau = new Clau(world, "clau", 58.36f, 3.50f, "imatges/clau.png");
+
+		barra = new Barra(world, 12.6f, 1.3f,15.15f, 12.85f, "imatges/barra.png");
+		barra2 = new Barra(world, 50.69f, 2.16f, 55.3f, 50.7f, "imatges/barraDoble.png");
+		barra3 = new Barra(world,  60.41f, 2.16f, 60.40f, 55.8f, "imatges/barraDoble.png");
 
 		world.setContactListener(new GestorContactes(bodyDestroyList, personatge, monstres, monstresLava, bolesFocMonstres, null));
 
 		this.vides = persona.getVides();
+		this.punts = 0;
 
 		// objecte que permet debugar les col·lisions
-		debugRenderer = new Box2DDebugRenderer();
-
-		barra = new Barra(world, 12.6f, 1.3f,15.0f, 12.7f, "imatges/barra.png");
-		barra2 = new Barra(world, 50.69f, 2.16f, 55.3f, 50.7f, "imatges/barraDoble.png");
-		barra3 = new Barra(world,  60.41f, 2.16f, 60.40f, 55.8f, "imatges/barraDoble.png");
-
+		//debugRenderer = new Box2DDebugRenderer();
 	}
 
 	/**
@@ -184,7 +197,6 @@ public class Level1 extends AbstractScreen {
 	/**
 	 * tractar els events de l'entrada
 	 */
-	int prova = 0;
 	private void tractarEventsEntrada() {
 		if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT)) {
 			personatge.setMoureDreta(true);
@@ -225,10 +237,8 @@ public class Level1 extends AbstractScreen {
 			for (int i = 0; i < 2; i++) {
 
 				if (Gdx.input.isTouched(i)
-						&& Gdx.input.getY() > Gdx.graphics.getHeight() * 0.80f && prova == 0) {
+						&& Gdx.input.getY() > Gdx.graphics.getHeight() * 0.80f) {
 					personatge.setFerAtac(true);
-				}else{
-					prova = 0;
 				}
 			}
 		}
@@ -318,7 +328,7 @@ public class Level1 extends AbstractScreen {
 			for (int j = 0; j < monstres.size(); j++) {
 				if (bodyDestroyList.get(i).getUserData() == monstres.get(j).getNom()) {
 					monstres.get(j).dispose();
-					personatge.setPunts(personatge.getPunts() + monstres.get(j).getPUNTS());
+					personatge.setPunts(personatge.getPunts() + monstres.get(j).getPunts());
 					monstres.remove(j);
 					break;
 				}
@@ -327,11 +337,6 @@ public class Level1 extends AbstractScreen {
 			for (int lava = 0; lava < bolesFocMonstres.size(); lava++) {
 				if (bodyDestroyList.get(i).getUserData() == bolesFocMonstres.get(lava).getNom()) {
 					bolesFocMonstres.get(lava).dispose();
-					if (bodyDestroyList.get(i).getUserData().equals("Lava1")) {
-			//			bolesFocMonstres.add(new BolesFocMonstre(world, "Lava1", 50.58f, 1.3f, 2f, false, "imatges/bolaLava.png"));
-					} else if (bodyDestroyList.get(i).getUserData().equals("Lava2")) {
-			//			bolesFocMonstres.add(new BolesFocMonstre(world, "Lava2", 60.15f, 1.3f, 1.8f, false, "imatges/bolaLava.png"));
-					}
 					bolesFocMonstres.remove(lava);
 					break;
 				}
@@ -439,13 +444,14 @@ public class Level1 extends AbstractScreen {
 		stage.act();
 		stage.draw();
 
-		debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
+		/*debugRenderer.render(world, tiledMapHelper.getCamera().combined.scale(
 				JocDeTrons.PIXELS_PER_METRE, JocDeTrons.PIXELS_PER_METRE,
-				JocDeTrons.PIXELS_PER_METRE));
+				JocDeTrons.PIXELS_PER_METRE));*/
 
 		if (personatge.getPositionBody().x > 46f && personatge.getPositionBody().x < 47f){
 			labelNoPassarNivell.setText("Punt de control");
 			personatge.setPosX(46.5f);
+			this.punts = personatge.getPunts();
 		}
 		else{
 			labelNoPassarNivell.setText("");
@@ -460,10 +466,9 @@ public class Level1 extends AbstractScreen {
 				labelNoPassarNivell.setText("No has recollit la clau!");
 			}
 		}else {
-
-			//labelNoPassarNivell.setText("");
 			if (personatge.getPositionBody().y < 0.38) {
 				personatge.setVides(personatge.getVides() - 1);
+				personatge.setPunts(punts);
 				joc.setScreen(new Level1(joc,personatge));
 			}
 
@@ -471,6 +476,7 @@ public class Level1 extends AbstractScreen {
 				joc.setScreen(new GameOver(joc, personatge));
 			} else if (personatge.getVides() < vides) {
 				vides = personatge.getVides();
+				personatge.setPunts(punts);
 				joc.setScreen(new Level1(joc,personatge));
 			}
 		}
